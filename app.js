@@ -28,7 +28,6 @@ app.use(session({
     saveUninitialized: true,   //强制将未初始化的 session 存储。  默认值是true  建议设置成true
     cookie: {
         maxAge: 1000 * 30 * 60    /*过期时间*/
-
     },   /* secure:true  https这样的情况才可以访问cookie */
     rolling: true, //在每次请求时强行设置 cookie，这将重置 cookie 过期时间（默认：false）
     store: new MongoStore({
@@ -73,8 +72,8 @@ app.post("/profile", profile.update);
 app.get("/profile/settings", profile.settings);
 app.post("/profile/settings", profile.updateSettings);
 
-app.listen(12345, () => {
-  console.log(`Example app listening at http://localhost:12345`)
+app.listen(80, () => {
+    console.log(`Example app listening at http://localhost:80`)
 })
 
 // catch 404 and forward to error handler
