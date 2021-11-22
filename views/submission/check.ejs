@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" class="page--scoreboard">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <title>Check Submission Status - TankWar Lab</title>
+</head>
+<body>
+<nav class="nav">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li>
+                    <a href="/" class="nav__logo">TankWarJudge</a>
+                </li>
+                <li>
+                    <a href="/" class="nav__item">Scoreboard</a>
+                </li>
+                <li>
+                    <a href="/submission" class="nav__item active">Submission</a>
+                </li>
+                <li>
+                    <a href="/match" class="nav__item">Match</a>
+                </li>
+                <li>
+                    <a href="/rules" class="nav__item">Rules</a>
+                </li>
+            </ol>
+            <ol class="nav__container-item">
+                <li id="signin">
+                    <a href="/profile" class="nav__item"><%= realName %></a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel" id="panel">
+    <div class="main">
+
+        <div class="row" data-sticky-parent="">
+            <div class="medium-9 columns">
+
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">View Submission:</h1>
+                        <span class="icon submission-status--icon <%= ["pending", "effective", "inactive", "ce"][submission.status + 1]%>"></span>
+                        <span class="submission-status--text"><%= ["Pending", "Effective", "Inactive", "Compile Error"][submission.status + 1]%></span>
+                    </div>
+                    <div class="section__body" id="errorMsg">
+                        <% if (submission.status !== 2) { %>
+                            There is no related data to this submission.
+                        <% } else {%>
+                            <% submission.stack.split("\n").forEach((line) => {%>
+                                <%= line%> <br/>
+                            <% }) %>
+                        <% } %>
+                    </div>
+                </div>
+
+            </div>
+            <div class="medium-3 columns">
+                <div data-sticky="medium" class="" style="">
+                    <div class="side section">
+                        <div class="section__header">
+                            <h1 class="section__title">Submission Info</h1>
+                        </div>
+                        <div class="section__body typo">
+                            <dl class="large horizontal">
+                                <dt>Status</dt>
+                                <dd data-id="submission_status">
+                                    <span class="icon submission-status--icon <%= ["pending", "effective", "inactive", "ce"][submission.status + 1]%>">
+                                    </span>
+                                    <span class="submission-status--text">
+                                        <%= ["Pending", "Effective", "Inactive", "Compile Error"][submission.status + 1]%>
+                                     </span>
+                                </dd>
+                                <dt>Submit At</dt>
+                                <dd>
+                                    <span class="time"><%= (new Date(submission.time)).toLocaleDateString()%></span>
+                                </dd>
+                                <dt>Compiler</dt>
+                                <dd id="compiler"></dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="section side">
+                        <div class="section__header">
+                            <h1 class="section__title">Submission</h1>
+                        </div>
+                        <ol class="menu">
+                            <li class="menu__item">
+                                <a href="/submission/" class="menu__link">
+                                    <span class="icon icon-flag"></span>
+                                    My Submissions
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="/submission/O1" class="menu__link">
+                                    <span class="icon icon-flag"></span>
+                                    O1 Submission
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="/submission/submit" class="menu__link">
+                                    <span class="icon icon-send"></span>
+                                    Submit New Brain
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+</div>
+<script src="/js/jQuery.js"></script>
+</body>
+</html>

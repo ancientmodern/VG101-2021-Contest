@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" class="page--scoreboard">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <title>My Submissions - TankWar Lab</title>
+</head>
+<body>
+<nav class="nav">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li>
+                    <a href="/" class="nav__logo">TankWarJudge</a>
+                </li>
+                <li>
+                    <a href="/" class="nav__item">Scoreboard</a>
+                </li>
+                <li>
+                    <a href="/submission" class="nav__item active">Submission</a>
+                </li>
+                <li>
+                    <a href="/match" class="nav__item">Match</a>
+                </li>
+                <li>
+                    <a href="/rules" class="nav__item">Rules</a>
+                </li>
+            </ol>
+            <ol class="nav__container-item">
+                <li id="signin">
+                    <a href="/profile" class="nav__item"><%= realName%></a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel" id="panel">
+    <div class="main">
+        <div class="row">
+            <div class="medium-9 columns">
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">
+                            <span class="icon icon-warning text-red"></span>
+                            Version 1.0.0
+                        </h1>
+                    </div>
+                    <div class="section__body">
+                        <p>Happy VG101 Lab6!</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">My Submissions</h1>
+                    </div>
+                    <div class="section__body no-padding">
+                        <div class="section__table-container">
+                            <table class="data-table submissions-table section__table-header">
+                                <colgroup>
+                                    <col class="col--status submission-status--border">
+                                    <col class="col--time">
+                                    <col class="col--by">
+                                    <col class="col--compiler">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th class="col--status submission-status--border">Status</th>
+                                    <th class="col--time">At</th>
+                                    <th class="col--by">By</th>
+                                    <th class="col--compiler">Compiler</th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <table class="data-table submissions-table">
+                                <colgroup>
+                                    <col class="col--status submission-status--border">
+                                    <col class="col--time">
+                                    <col class="col--by">
+                                    <col class="col--compiler">
+                                </colgroup>
+                                <tbody id="datagrid">
+                                    <% submissions.forEach((submission) => {%>
+                                <tr>
+                                    <td class="col--status submission-status--border <%= ["pending", "effective", "inactive", "ce"][submission.status + 1] %>">
+                                        <span class="icon submission-status--icon <%= ["pending", "effective", "inactive", "ce"][submission.status + 1] %>"></span>
+                                        <a href="/submission/check/<%= submission._id%>"><%= ["Pending", "Effective", "Inactive", "Compile Error"][submission.status + 1] %></a>
+                                    </td>
+                                    <td class="col--time"><%= (new Date(submission.time)).toLocaleDateString()%></td>
+                                    <td class="col--by"><%= realName%></td>
+                                    <td class="col--compiler"><%= submission.compiler%></td>
+                                </tr>
+                                    <% }); %>
+                                    <% if (submissions.length === 0) {%>
+                                        <h2>No Submission.</h2>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="medium-3 columns">
+                <div data-sticky="medium">
+                    <div class="section side">
+                        <div class="section__header">
+                            <h1 class="section__title">Submission</h1>
+                        </div>
+                        <ol class="menu">
+                            <li class="menu__item">
+                                <a href="/submission" class="menu__link active">
+                                    <span class="icon icon-flag"></span>
+                                    My Submissions
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="/submission/O1" class="menu__link">
+                                    <span class="icon icon-flag"></span>
+                                    O1 Submission
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="/submission/submit" class="menu__link">
+                                    <span class="icon icon-send"></span>
+                                    Submit New Brain
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+</div>
+<script src="/js/jsUtils/jsUtils.js"></script>
+</body>
+</html>

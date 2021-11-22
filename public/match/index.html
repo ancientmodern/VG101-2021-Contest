@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" class="layout--basic page--match_list hasjs">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <title>List all matches - TankWar Lab</title>
+</head>
+<body>
+<nav class="nav">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li>
+                    <a href="/" class="nav__logo">TankWarJudge</a>
+                </li>
+                <li>
+                    <a href="/" class="nav__item">Scoreboard</a>
+                </li>
+                <li>
+                    <a href="/submission" class="nav__item">Submission</a>
+                </li>
+                <li>
+                    <a href="/match" class="nav__item active">Match</a>
+                </li>
+                <li>
+                    <a href="/rules" class="nav__item">Rules</a>
+                </li>
+            </ol>
+            <ol class="nav__container-item">
+                <li id="signin">
+                    <a href="/oauth" class="nav__item">Login</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel" id="panel">
+    <div class="main">
+        <div class="row">
+            <div class="columns">
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">
+                            <span class="icon icon-warning text-red"></span>
+                            Version 1.0.0
+                        </h1>
+                    </div>
+                    <div class="section__body">
+                        <p>Happy VG101 Lab6!</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">Current Matches</h1>
+                        <div class="section__tools">Update at:
+                            <span id="refreshTime"></span>
+                            (refresh per minute)
+                        </div>
+                    </div>
+                    <div class="section__body">
+                        <input type="checkbox" id="filter"> Only show my own matches
+                    </div>
+                    <div class="section__body no-padding">
+                        <div class="section__table-container">
+                            <table class="data-table section__table-header" style="">
+                                <colgroup>
+                                    <col class="col--status match-status--border">
+                                    <col class="col--challenger">
+                                    <col class="col--rating">
+                                    <col class="col--challengee">
+                                    <col class="col--rating">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th class="col--status match-status--border">Status</th>
+                                    <th class="col--challenger">P1</th>
+                                    <th class="col--rating">Rating</th>
+                                    <th class="col--challengee">P2</th>
+                                    <th class="col--rating">Rating</th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <table class="data-table submissions-table">
+                                <colgroup>
+                                    <col class="col--status match-status--border">
+                                    <col class="col--challenger">
+                                    <col class="col--rating">
+                                    <col class="col--challengee">
+                                    <col class="col--rating">
+                                </colgroup>
+                                <tbody id="datagrid">
+                                </tbody>
+                            </table>
+                        </div>
+                        <ul class="pager">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+</div>
+<script src="/js/jsUtils/jsUtils.js"></script>
+<script src="/js/matchList.js"></script>
+</body>
+</html>
