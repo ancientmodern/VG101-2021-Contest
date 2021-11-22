@@ -39,17 +39,17 @@
     <div class="main">
         <div class="row">
             <div class="columns">
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">
-                            <span class="icon icon-warning text-red"></span>
-                            Version 1.0.0
-                        </h1>
-                    </div>
-                    <div class="section__body">
-                        <p>Happy VG101 Lab6!</p>
-                    </div>
-                </div>
+<!--                <div class="section">-->
+<!--                    <div class="section__header">-->
+<!--                        <h1 class="section__title">-->
+<!--                            <span class="icon icon-warning text-red"></span>-->
+<!--                            Version 0.0.1-->
+<!--                        </h1>-->
+<!--                    </div>-->
+<!--                    <div class="section__body">-->
+<!--                        <p>Good morning, and in case I don't see ya: Good afternoon, good evening, and good night!</p>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="section">
                     <div class="section__header">
                         <h1 class="section__title">Game between <%= p1 %> and <%= p2 %></h1>
@@ -64,7 +64,7 @@
                                         <% if (winner === 0) { %>
                                             <%= p1 %><% } else { %>
                                             <%= p2 %><% } %>
-                                        <div class="field-icon field--<%= (winner === 0) ? 'black' : 'white' %>"></div>
+                                        <div class="field-icon field--<%= (winner === 0) ? 'white' : 'black' %>"></div>
                                 </span>
                             </li>
                             <li><span class="round-status--text lose">
@@ -76,7 +76,7 @@
                                     <% } else { %>
                                         <%= p2 %>
                                     <% } %>
-                                    <div class="field-icon field--<%= (winner === 1) ? 'black' : 'white' %>"></div>
+                                    <div class="field-icon field--<%= (winner === 1) ? 'white' : 'black' %>"></div>
             </span>
                             </li>
                         </ol>
@@ -87,7 +87,7 @@
               Draw
               :
                 <%= p1 %>
-              <div class="field-icon field--black"></div>
+              <div class="field-icon field--white"></div>
             </span>
                                 </li>
                                 <li><span class="round-status--text draw">
@@ -95,7 +95,7 @@
               Draw
               :
                 <%= p2 %>
-              <div class="field-icon field--white"></div>
+              <div class="field-icon field--black"></div>
             </span>
                                 </li>
                             </ol>
@@ -119,11 +119,15 @@
                             <button class="primary button" name="step-go">Apply</button>
                         </div>
                     </div>
+<!--                    <div class="section__body">-->
+<!--                        <div control="animation"> Tank A's Life Points: 5 </div>-->
+<!--                        <div control="animation"> Tank B's Life Points: 5 </div>-->
+<!--                    </div>-->
                     <div class="section__body">
                         <div class="board-container">
                         </div>
                         <div class="row std" style="display: none;">
-                            <div class="columns medium-6" style="width: 50%" >
+                            <div class="columns medium-6" style="width: 50%">
                                 <div class="section visible" id="stdout">
                                     <div class="section__header">
                                         <h1 class="section__title">
@@ -160,11 +164,11 @@
                                     <div class="section__header">
                                         <h1 class="section__title">
                                             <span class="icon submission-status--icon pending"></span>
-                                            <span class="submission-status--text pending">STDERR B</span>
+                                            <span class="submission-status--text pending">STDERR A</span>
                                         </h1>
                                     </div>
                                     <div class="section__body">
-                                        <pre class="compiler-text" data="stderr-B">
+                                        <pre class="compiler-text" data="stderr-A">
 
                                         </pre>
                                     </div>
@@ -175,11 +179,11 @@
                                     <div class="section__header">
                                         <h1 class="section__title">
                                             <span class="icon submission-status--icon pending"></span>
-                                            <span class="submission-status--text pending">STDERR A</span>
+                                            <span class="submission-status--text pending">STDERR B</span>
                                         </h1>
                                     </div>
                                     <div class="section__body">
-                                        <pre class="compiler-text" data="stderr-A">
+                                        <pre class="compiler-text" data="stderr-B">
 
                                         </pre>
                                     </div>

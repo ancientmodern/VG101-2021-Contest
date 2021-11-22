@@ -69,11 +69,18 @@ module.exports = {
         let page = 1;
         if (req.query.hasOwnProperty("page")) page = parseInt(req.query.page);
 
-        let filterCondition = {};
-        if (req.query.hasOwnProperty("filter") && req.session.uid) filterCondition = {$or: [{p1: ObjectID(req.session.uid)}, {p2: ObjectID(req.session.uid)}]};
-
         let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
         let db = client.db(config.db.db);
+
+        let filterCondition = {};
+        if (req.query.hasOwnProperty("filter")) {
+            if (parseInt(req.query.filter) !== 1) {
+                let user = (await db.collection("user").find({dispName: req.query.filter}).toArray())[0]._id;
+                filterCondition = {$or: [{p1: user}, {p2: user}]};
+            } else if (req.session.uid) {
+                filterCondition = {$or: [{p1: ObjectID(req.session.uid)}, {p2: ObjectID(req.session.uid)}]};
+            }
+        }
 
         let count = await db.collection("match").find(filterCondition).count();
         let record = await db.collection("match").find(filterCondition).sort([["_id", -1]]).skip(config.display.pager * (page - 1)).limit(config.display.pager).toArray();
@@ -111,7 +118,7 @@ module.exports = {
 
         try {
             id = ObjectID(id);
-        } catch(e) {
+        } catch (e) {
             res.redirect("/match")
             return;
         }
@@ -138,7 +145,7 @@ module.exports = {
 
         try {
             id = ObjectID(id);
-        } catch(e) {
+        } catch (e) {
             res.status(404);
             return;
         }
@@ -147,9 +154,21 @@ module.exports = {
         let db = client.db(config.db.db);
 
         let rec = (await db.collection("match").find({_id: id}).toArray())[0];
+        let p1 = (await db.collection("user").find({_id: rec.p1}).toArray())[0];
+        let p2 = (await db.collection("user").find({_id: rec.p2}).toArray())[0];
 
         await client.close();
 
-        res.end(JSON.stringify({record: rec.record, A: rec.A || {stdout: "No Record", stderr: "No Record"}, B: rec.B || {stdout: "No Record", stderr: "No Record"}}));
+        res.end(JSON.stringify({
+            record: rec.record,
+            A: rec.A || {stdout: "No Record", stderr: "No Record"},
+            B: rec.B || {stdout: "No Record", stderr: "No Record"},
+            p1: p1.dispName,
+            p2: p2.dispName,
+            ts1: p1.tankSkin,
+            ts2: p2.tankSkin,
+            bs1: p1.bulletSkin,
+            bs2: p2.bulletSkin
+        }));
     }
 }

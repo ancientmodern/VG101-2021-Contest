@@ -19,15 +19,16 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
         return "P2 Win";
     }
 
-    function getQueryVariable(variable)
-    {
-           var query = window.location.search.substring(1);
-           var vars = query.split("&");
-           for (var i=0;i<vars.length;i++) {
-                   var pair = vars[i].split("=");
-                   if(pair[0] === variable){return pair[1];}
-           }
-           return false;
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] === variable) {
+                return pair[1];
+            }
+        }
+        return false;
     }
 
     function refreshList() {
@@ -37,7 +38,11 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
             listQuery += "&page=" + page.toString();
         }
         if ($("#filter").is(":checked")) {
-            listQuery += "&filter=1";
+            if ($("#search_name").val()) {
+                listQuery += "&filter=" + $("#search_name").val().toString();
+            } else {
+                listQuery += "&filter=1";
+            }
         }
 
         $.get(listQuery, function (result) {
@@ -48,10 +53,10 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
 
             result.data.forEach(function (match) {
                 var tr = $("<tr>\n" +
-                "<td class='col--status match-status--border pending'>\n" +
-                "    <span class=\"icon match-status--icon " +  getStatusStyle(match) +"\"></span>\n" +
-                "    <a href=\"/match/" + match._id + "\" class=\"match-status--text " +  getStatusStyle(match) +"\">\n" +
-                    "       " +  getStatusText(match) +"\n" +
+                    "<td class='col--status match-status--border pending'>\n" +
+                    "    <span class=\"icon match-status--icon " + getStatusStyle(match) + "\"></span>\n" +
+                    "    <a href=\"/match/" + match._id + "\" class=\"match-status--text " + getStatusStyle(match) + "\">\n" +
+                    "       " + getStatusText(match) + "\n" +
                     "    </a>\n" +
                     "  </td>\n" +
                     "  <td class=\"col--challenger\">\n" +
@@ -63,7 +68,7 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
                     "  <td class=\"col--rating\">\n" +
                     "    \n" +
                     "      <span class=\"rating\" style=\"color:" + (match.status ? color.scoreToColor(match.scores.p1[1]) : "gray") + ";font-weight:bold;\">\n" +
-                    "        " +  (match.status ? (match.scores.p1[0] + "&#8594;" + match.scores.p1[1]) : "Pending") + "\n" +
+                    "        " + (match.status ? (match.scores.p1[0] + "&#8594;" + match.scores.p1[1]) : "Pending") + "\n" +
                     "      </span>\n" +
                     "  </td>\n" +
                     "  <td class=\"col--challengee\">\n" +
@@ -76,12 +81,12 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
                     "  <td class=\"col--rating\">\n" +
                     "    \n" +
                     "      <span class=\"rating\" style=\"color:" + (match.status ? color.scoreToColor(match.scores.p2[1]) : "gray") + ";font-weight:bold;\">\n" +
-                    "        " +  (match.status ? (match.scores.p2[0] + "&#8594;" + match.scores.p2[1]) : "Pending") + "\n" +
+                    "        " + (match.status ? (match.scores.p2[0] + "&#8594;" + match.scores.p2[1]) : "Pending") + "\n" +
                     "      </span>\n" +
                     "  </td>\n" +
                     "</tr>");
 
-                    dataGrid.append(tr);
+                dataGrid.append(tr);
             });
 
             $(".pager").html(result.pager);
@@ -93,7 +98,7 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
     refreshList();
     var refreshInterval = setInterval(refreshList, 60000);
 
-    $("#filter").on("click", function() {
+    $("#filter").on("click", function () {
         clearInterval(refreshInterval);
         refreshInterval = setInterval(refreshList, 60000);
         refreshList();

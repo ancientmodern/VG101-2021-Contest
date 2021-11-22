@@ -22,7 +22,7 @@ module.exports = function (userID, sourcedir, compiler) {
         let col = db.collection("submission");
         let id = (await col.insertOne({status: -1, stack: "", stdout: "", stderr: "", bin: "", compiler, user: ObjectID(userID), time: Date.now(), source: sourcedir})).insertedId;
 
-        (new Compiler(compiler)).addSource(sourcedir + "/lab6.cpp")
+        (new Compiler(compiler)).addSource(sourcedir + "/lab7.cpp")
             .addSource(sourcedir + "/main.cpp")
             .compile(config.executable.root + binName, async (msg) => {
                 if (msg.status === 0) await col.updateMany({status: 0, user: ObjectID(userID)}, {$set: {status: 1}});

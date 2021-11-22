@@ -1,133 +1,18 @@
+
 <!doctype html>
 <html>
 <head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>VG101 LAB6 - TankWar</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --node-fill: #ECECFF; --node-border: #CCCCFF; --cluster-fill: #ffffde; --cluster-border: #aaaa33; --note-fill: #fff5ad; --note-border: #aaaa33; --mermaid-color: var(--text-color); }
-.label { font-family: var(--mermaid-font-family); color: rgb(51, 51, 51); }
-.label text { fill: rgb(51, 51, 51); }
-.node rect, .node circle, .node ellipse, .node polygon { fill: var(--node-fill); stroke: rgb(147, 112, 219); stroke-width: 1px; }
-.node .label { text-align: center; }
-.node.clickable { cursor: pointer; }
-.arrowheadPath { fill: var(--text-color); }
-.edgePath .path { stroke: var(--text-color); stroke-width: 1.5px; }
-.edgeLabel { background-color: rgb(232, 232, 232); text-align: center; }
-.cluster rect { fill: var(--cluster-fill); stroke: var(--cluster-border); stroke-width: 1px; }
-.cluster text { fill: var(--text-color); }
-div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: var(--mermaid-font-family); font-size: 12px; background: var(--cluster-fill); border: 1px solid var(--cluster-border); border-radius: 2px; pointer-events: none; z-index: 100; }
-.actor { stroke: var(--node-border); fill: var(--node-fill); }
-text.actor { fill: black; stroke: none; }
-.actor-line { stroke: grey; }
-.messageLine0 { stroke-width: 1.5; stroke: var(--text-color); }
-.messageLine1 { stroke-width: 1.5; stroke: var(--text-color); }
-#arrowhead { fill: var(--text-color); }
-.sequenceNumber { fill: white; }
-#sequencenumber { fill: var(--text-color); }
-#crosshead path { fill: var(--text-color)  !important; stroke: var(--text-color)  !important; }
-.messageText { fill: var(--text-color); stroke: none; }
-.labelBox { stroke: var(--node-border); fill: var(--node-fill); }
-.labelText { fill: black; stroke: none; }
-.loopText { fill: black; stroke: none; }
-.loopLine { stroke-width: 2; stroke: var(--node-border); }
-.note { stroke: var(--cluster-border); fill: rgb(255, 245, 173); }
-.noteText { fill: black; stroke: none; font-family: var(--mermaid-font-family); font-size: 14px; }
-.activation0 { fill: rgb(244, 244, 244); stroke: rgb(102, 102, 102); }
-.activation1 { fill: rgb(244, 244, 244); stroke: rgb(102, 102, 102); }
-.activation2 { fill: rgb(244, 244, 244); stroke: rgb(102, 102, 102); }
-.mermaid-main-font { font-family: var(--mermaid-font-family); }
-.section { stroke: none; opacity: 0.2; }
-.section0 { fill: rgba(102, 102, 255, 0.49); }
-.section2 { fill: rgb(255, 244, 0); }
-.section1, .section3 { fill: white; opacity: 0.2; }
-.sectionTitle0 { fill: var(--text-color); }
-.sectionTitle1 { fill: var(--text-color); }
-.sectionTitle2 { fill: var(--text-color); }
-.sectionTitle3 { fill: var(--text-color); }
-.sectionTitle { text-anchor: start; font-size: 11px; font-family: var(--mermaid-font-family); }
-.grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispedges; }
-.grid .tick text { font-family: var(--mermaid-font-family); }
-.grid path { stroke-width: 0; }
-.today { fill: none; stroke: red; stroke-width: 2px; }
-.task { stroke-width: 2; }
-.taskText { text-anchor: middle; font-family: var(--mermaid-font-family); }
-.taskText:not([font-size]) { font-size: 11px; }
-.taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; font-family: var(--mermaid-font-family); }
-.taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
-.task.clickable { cursor: pointer; }
-.taskText.clickable { cursor: pointer; font-weight: bold; fill: rgb(0, 49, 99) !important; }
-.taskTextOutsideLeft.clickable { cursor: pointer; font-weight: bold; fill: rgb(0, 49, 99) !important; }
-.taskTextOutsideRight.clickable { cursor: pointer; font-weight: bold; fill: rgb(0, 49, 99) !important; }
-.taskText0, .taskText1, .taskText2, .taskText3 { fill: white; }
-.task0, .task1, .task2, .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
-.taskTextOutside0, .taskTextOutside2 { fill: black; }
-.taskTextOutside1, .taskTextOutside3 { fill: black; }
-.active0, .active1, .active2, .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
-.activeText0, .activeText1, .activeText2, .activeText3 { fill: black !important; }
-.done0, .done1, .done2, .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
-.doneText0, .doneText1, .doneText2, .doneText3 { fill: black !important; }
-.crit0, .crit1, .crit2, .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
-.activeCrit0, .activeCrit1, .activeCrit2, .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
-.doneCrit0, .doneCrit1, .doneCrit2, .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispedges; }
-.milestone { transform: rotate(45deg) scale(0.8, 0.8); }
-.milestoneText { font-style: italic; }
-.doneCritText0, .doneCritText1, .doneCritText2, .doneCritText3 { fill: black !important; }
-.activeCritText0, .activeCritText1, .activeCritText2, .activeCritText3 { fill: black !important; }
-.titleText { text-anchor: middle; font-size: 18px; fill: black; font-family: var(--mermaid-font-family); }
-g.classGroup text { fill: rgb(147, 112, 219); stroke: none; font-family: var(--mermaid-font-family); font-size: 10px; }
-g.classGroup text .title { font-weight: bolder; }
-g.classGroup rect { fill: var(--node-fill); stroke: rgb(147, 112, 219); }
-g.classGroup line { stroke: rgb(147, 112, 219); stroke-width: 1; }
-.classLabel .box { stroke: none; stroke-width: 0; fill: var(--node-fill); opacity: 0.5; }
-.classLabel .label { fill: rgb(147, 112, 219); font-size: 10px; }
-.relation { stroke: rgb(147, 112, 219); stroke-width: 1; fill: none; }
-#compositionStart { fill: rgb(147, 112, 219); stroke: rgb(147, 112, 219); stroke-width: 1; }
-#compositionEnd { fill: rgb(147, 112, 219); stroke: rgb(147, 112, 219); stroke-width: 1; }
-#aggregationStart { fill: var(--node-fill); stroke: rgb(147, 112, 219); stroke-width: 1; }
-#aggregationEnd { fill: var(--node-fill); stroke: rgb(147, 112, 219); stroke-width: 1; }
-#dependencyStart { fill: rgb(147, 112, 219); stroke: rgb(147, 112, 219); stroke-width: 1; }
-#dependencyEnd { fill: rgb(147, 112, 219); stroke: rgb(147, 112, 219); stroke-width: 1; }
-#extensionStart { fill: rgb(147, 112, 219); stroke: rgb(147, 112, 219); stroke-width: 1; }
-#extensionEnd { fill: rgb(147, 112, 219); stroke: rgb(147, 112, 219); stroke-width: 1; }
-.commit-id, .commit-msg, .branch-label { fill: lightgrey; color: lightgrey; font-family: var(--mermaid-font-family); }
-.pieTitleText { text-anchor: middle; font-size: 25px; fill: var(--text-color); font-family: var(--mermaid-font-family); }
-.slice { font-family: var(--mermaid-font-family); }
-g.stateGroup text { fill: rgb(147, 112, 219); stroke: none; font-size: 10px; font-family: var(--mermaid-font-family); }
-g.stateGroup text { fill: rgb(147, 112, 219); stroke: none; font-size: 10px; }
-g.stateGroup .state-title { font-weight: bolder; fill: black; }
-g.stateGroup rect { fill: var(--node-fill); stroke: rgb(147, 112, 219); }
-g.stateGroup line { stroke: rgb(147, 112, 219); stroke-width: 1; }
-.transition { stroke: rgb(147, 112, 219); stroke-width: 1; fill: none; }
-.stateGroup .composit { fill: white; border-bottom: 1px; }
-.state-note { stroke: var(--cluster-border); fill: rgb(255, 245, 173); }
-.state-note text { fill: black; stroke: none; font-size: 10px; }
-.stateLabel .box { stroke: none; stroke-width: 0; fill: var(--node-fill); opacity: 0.5; }
-.stateLabel text { fill: black; font-size: 10px; font-weight: bold; font-family: var(--mermaid-font-family); }
-.statediagram-cluster rect { fill: var(--node-fill); stroke: rgb(147, 112, 219); stroke-width: 1px; }
-.statediagram-cluster rect.outer { rx: 5px; ry: 5px; }
-.statediagram-state .divider { stroke: rgb(147, 112, 219); }
-.statediagram-state .title-state { rx: 5px; ry: 5px; }
-.statediagram-cluster.statediagram-cluster .inner { fill: white; }
-.statediagram-cluster.statediagram-cluster-alt .inner { fill: rgb(224, 224, 224); }
-.statediagram-cluster .inner { rx: 0; ry: 0; }
-.statediagram-state rect.basic { rx: 5px; ry: 5px; }
-.statediagram-state rect.divider { stroke-dasharray: 10, 10; fill: rgb(239, 239, 239); }
-.note-edge { stroke-dasharray: 5; }
-.statediagram-note rect { stroke: var(--cluster-border); fill: rgb(255, 245, 173); stroke-width: 1px; rx: 0; ry: 0; }
-.node circle.state-start { fill: black; stroke: black; }
-.node circle.state-end { fill: black; stroke: white; stroke-width: 1.5; }
-#statediagram-barbEnd { fill: rgb(147, 112, 219); }
-.node text { font-size: 14px; }
-div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: var(--mermaid-font-family); font-size: 12px; background: var(--cluster-fill); border: 1px solid var(--cluster-border); border-radius: 2px; pointer-events: none; z-index: 100; }
-#write .md-diagram-panel .md-diagram-panel-preview div { width: initial; }
+    <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 
-
-:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; }
+    <link href='https://fonts.loli.net/css?family=Merriweather:900,900italic,300,300italic&subset=latin-ext' rel='stylesheet' type='text/css' /><link href='https://fonts.loli.net/css?family=Lato:900,300&subset=latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; --title-bar-height:20px; }
+.mac-os-11 { --title-bar-height:28px; }
 html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
 iframe { margin: auto; }
 a.url { word-break: break-all; }
 a:active, a:hover { outline: 0px; }
 .in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
-#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
 #write.first-line-indent p { text-indent: 2em; }
 #write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
 #write.first-line-indent li { margin-left: 2em; }
@@ -136,10 +21,10 @@ body.typora-export { padding-left: 30px; padding-right: 30px; }
 .typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
 .typora-export .task-list-item input { pointer-events: none; }
 @media screen and (max-width: 500px) {
-  body.typora-export { padding-left: 0px; padding-right: 0px; }
-  #write { padding-left: 20px; padding-right: 20px; }
-  .CodeMirror-sizer { margin-left: 0px !important; }
-  .CodeMirror-gutters { display: none !important; }
+    body.typora-export { padding-left: 0px; padding-right: 0px; }
+    #write { padding-left: 20px; padding-right: 20px; }
+    .CodeMirror-sizer { margin-left: 0px !important; }
+    .CodeMirror-gutters { display: none !important; }
 }
 #write li > figure:last-child { margin-bottom: 0.5rem; }
 #write ol, #write ul { position: relative; }
@@ -183,7 +68,7 @@ div.hr:focus { cursor: none; }
 #write pre.ty-contain-cm { white-space: normal; }
 .CodeMirror-gutters { margin-right: 4px; }
 .md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
-.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
 #write .md-fences.mock-cm { white-space: pre-wrap; }
 .md-fences.md-fences-with-lineno { padding-left: 0px; }
 #write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
@@ -195,19 +80,20 @@ div.hr:focus { cursor: none; }
 li div { padding-top: 0px; }
 blockquote { margin: 1rem 0px; }
 li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
 li { margin: 0px; position: relative; }
 blockquote > :last-child { margin-bottom: 0px; }
 blockquote > :first-child, li > :first-child { margin-top: 0px; }
 .footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
 #write .footnote-line { white-space: pre-wrap; }
 @media print {
-  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
-  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
-  .typora-export * { -webkit-print-color-adjust: exact; }
-  html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { break-after: avoid; }
-  .typora-export #write::after { height: 0px; }
-  .is-mac table { break-inside: avoid; }
+    body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+    #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+    .typora-export * { -webkit-print-color-adjust: exact; }
+    .typora-export #write { break-after: avoid; }
+    .typora-export #write::after { height: 0px; }
+    .is-mac table { break-inside: avoid; }
+    .typora-export-show-outline .typora-export-sidebar { display: none; }
 }
 .footnote-line { margin-top: 0.714em; font-size: 0.7em; }
 a img, img a { cursor: pointer; }
@@ -218,6 +104,7 @@ p > .md-image:only-child { display: inline-block; width: 100%; }
 #write .MathJax_Display { margin: 0.8em 0px 0px; }
 .md-math-block { width: 100%; }
 .md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
 [contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
 .md-task-list-item { position: relative; list-style-type: none; }
 .task-list-item.md-task-list-item { padding-left: 0px; }
@@ -237,10 +124,10 @@ p > .md-image:only-child { display: inline-block; width: 100%; }
 .md-toc-h5 .md-toc-inner { margin-left: 8em; }
 .md-toc-h6 .md-toc-inner { margin-left: 10em; }
 @media screen and (max-width: 48em) {
-  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
-  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
-  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
-  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+    .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+    .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+    .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+    .md-toc-h6 .md-toc-inner { margin-left: 8em; }
 }
 a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
 .footnote-line a:not(.reversefootnote) { color: inherit; }
@@ -248,18 +135,9 @@ a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; 
 .md-fn-count::after { content: "."; }
 code, pre, samp, tt { font-family: var(--monospace); }
 kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
-.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.6; font-family: var(--monospace); }
 code { text-align: left; vertical-align: initial; }
 a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
-.md-inline-math .MathJax_SVG .noError { display: none !important; }
-.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
-.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
-.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
-.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
-.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
-.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
-.MathJax_SVG * { transition: none 0s ease 0s; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
 .os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
 .md-diagram-panel > svg { max-width: 100%; }
 [lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
@@ -268,13 +146,60 @@ table tr th { border-bottom: 0px; }
 video { max-width: 100%; display: block; margin: 0px auto; }
 iframe { max-width: 100%; width: 100%; border: none; }
 .highlight td, .highlight tr { border: 0px; }
-svg[id^="mermaidChart"] { line-height: 1em; }
 mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
 .md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
-mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
 @media print {
-  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+    .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
 }
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background: inherit; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex:2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) {
+    .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) {
+    .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.42857rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ""; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ""; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left: 28px solid transparent; border-right: 28px solid transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right: 8px solid transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: "−"; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
 
 
 .CodeMirror { height: auto; }
@@ -321,12 +246,12 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
 .CodeMirror { position: relative; overflow: hidden; }
 .CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background: inherit; }
 .CodeMirror-sizer { position: relative; }
-.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; outline: 0px; }
 .CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
-.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: auto hidden; }
 .CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
 .CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
-.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 10px; z-index: 3; overflow-y: hidden; }
 .CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
 .CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: 0px 0px !important; border: none !important; }
 .CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
@@ -336,7 +261,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
 .CodeMirror-wrap pre { overflow-wrap: break-word; white-space: pre-wrap; word-break: normal; }
 .CodeMirror-code pre { border-right: 30px solid transparent; width: fit-content; }
 .CodeMirror-wrap .CodeMirror-code pre { border-right: none; width: auto; }
-.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
+.CodeMirror-linebackground { position: absolute; inset: 0px; z-index: 0; }
 .CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
 .CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
 .CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
@@ -345,397 +270,487 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
 .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
 .CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
 .cm-searching { background: rgba(255, 255, 0, 0.4); }
+span.cm-underlined { text-decoration: underline; }
+span.cm-strikethrough { text-decoration: line-through; }
+.cm-tw-syntaxerror { color: rgb(255, 255, 255); background-color: rgb(153, 0, 0); }
+.cm-tw-deleted { text-decoration: line-through; }
+.cm-tw-header5 { font-weight: 700; }
+.cm-tw-listitem:first-child { padding-left: 10px; }
+.cm-tw-box { border-style: solid; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-color: inherit; border-top-width: 0px !important; }
+.cm-tw-underline { text-decoration: underline; }
 @media print {
-  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+    .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
 }
 
 
+@include-when-export url(https://fonts.loli.net/css?family=Merriweather:900,900italic,300,300italic&subset=latin-ext);
+@include-when-export url(https://fonts.loli.net/css?family=Lato:900,300&subset=latin-ext);
+
 :root {
-    --side-bar-bg-color: #fafafa;
     --control-text-color: #777;
 }
 
-@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+/**
+ * forked from pixyll.com
+ * MIT license
+ */
 
-/* open-sans-regular - latin-ext_latin */
-  /* open-sans-italic - latin-ext_latin */
-    /* open-sans-700 - latin-ext_latin */
-    /* open-sans-700italic - latin-ext_latin */
-  html {
-    font-size: 16px;
+h1,
+.h1,
+.f1 {
+    font-size: 2rem;
+    line-height: 2.5rem;
+}
+h2,
+.h2,
+.f2 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+h3,
+.h3,
+.f3 {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+}
+p,
+.p,
+.f4,
+h4,
+h5,
+h6,
+dl,
+ol,
+ul,
+pre[cid],
+div[cid],
+#typora-source {
+    font-size: 1.125rem;
+    line-height: 1.5rem;
 }
 
+h4 {
+    font-size: 1.13rem;
+}
+/*
+ Pixyll
+ A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.
+ Best served with BASSCSS (http://jxnblk.github.io/basscss)
+ Crafted with <3 by John Otander (@4lpine) - ©2015 John Otander MIT License http://opensource.org/licenses/MIT
+
+*/
+
 body {
-    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: rgb(51, 51, 51);
-    line-height: 1.6;
+    font-family: "Merriweather", "PT Serif", Georgia, "Times New Roman", "STSong", 'Segoe UI Emoji', Serif;
+    line-height: 1.5rem;
+    font-weight: 400;
 }
 
 #write {
-    max-width: 860px;
-  	margin: 0 auto;
-  	padding: 30px;
-    padding-bottom: 100px;
+    max-width: 914px;
+    color: #333;
 }
 
 @media only screen and (min-width: 1400px) {
-	#write {
-		max-width: 1024px;
-	}
+    #write {
+        max-width: 1100px;
+    }
 }
 
-@media only screen and (min-width: 1800px) {
-	#write {
-		max-width: 1200px;
-	}
+@media only screen and (min-width: 1700px) {
+    #write {
+        max-width: 1200px;
+    }
 }
 
-#write > ul:first-child,
-#write > ol:first-child{
-    margin-top: 30px;
+img {
+    width: auto;
+    max-width: 100%;
+}
+body {
+    font-size: 1.5rem;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
-a {
-    color: #4183C4;
+.ty-table-edit {
+    background: #ededed;
+}
+
+table {
+    width: 100%;
+    font-size: 1.125rem;
+}
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td,
+table > tfoot > tr > th,
+table > tfoot > tr > td {
+    padding: 12px;
+    line-height: 1.2;
+    vertical-align: top;
+    border-top: 1px solid #333;
+}
+table > thead > tr > th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #333;
+}
+table > caption + thead > tr:first-child > th,
+table > caption + thead > tr:first-child > td,
+table > colgroup + thead > tr:first-child > th,
+table > colgroup + thead > tr:first-child > td,
+table > thead:first-child > tr:first-child > th,
+table > thead:first-child > tr:first-child > td {
+    border-top: 0;
+}
+table > tbody + tbody {
+    border-top: 2px solid #333;
+}
+p {
+    font-weight: 300;
+    line-height: 1.5;
+}
+abbr {
+    border-bottom: 1px black dotted;
+    cursor: help;
+}
+pre,
+code {
+    font-family: Menlo, Monaco, "Courier New", monospace;
+}
+
+code,
+.md-fences  {
+    color: #7a7a7a;
+}
+
+.md-fences {
+    padding: 1.125em;
+    margin-bottom: 0.88em;
+    font-size: 1rem;
+    border: 1px solid #7a7a7a;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+blockquote {
+    padding: 1.33em;
+    font-style: italic;
+    border-left: 5px solid #7a7a7a;
+    color: #555;
+}
+blockquote em {
+    color: #000;
+}
+blockquote footer {
+    font-size: .85rem;
+    font-style: normal;
+    background-color: #fff;
+    color: #7a7a7a;
+    border-color: transparent;
 }
 h1,
+.h1,
 h2,
+.h2,
 h3,
+.h3,
 h4,
+.h4,
 h5,
-h6 {
-    position: relative;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+.h5,
+h6,
+.h6 {
+    font-family: "Lato", 'Helvetica Neue', Helvetica, sans-serif;
     font-weight: bold;
-    line-height: 1.4;
-    cursor: text;
-}
-h1:hover a.anchor,
-h2:hover a.anchor,
-h3:hover a.anchor,
-h4:hover a.anchor,
-h5:hover a.anchor,
-h6:hover a.anchor {
-    text-decoration: none;
-}
-h1 tt,
-h1 code {
-    font-size: inherit;
-}
-h2 tt,
-h2 code {
-    font-size: inherit;
-}
-h3 tt,
-h3 code {
-    font-size: inherit;
-}
-h4 tt,
-h4 code {
-    font-size: inherit;
-}
-h5 tt,
-h5 code {
-    font-size: inherit;
-}
-h6 tt,
-h6 code {
-    font-size: inherit;
-}
-h1 {
-    font-size: 2.25em;
     line-height: 1.2;
-    border-bottom: 1px solid #eee;
+    margin: 1em 0 0.5em;
 }
-h2 {
-    font-size: 1.75em;
-    line-height: 1.225;
-    border-bottom: 1px solid #eee;
-}
-
-/*@media print {
-    .typora-export h1,
-    .typora-export h2 {
-        border-bottom: none;
-        padding-bottom: initial;
+@media screen and (min-width: 48em) {
+    .h1,
+    h1 {
+        font-size: 3.250rem;
     }
-
-    .typora-export h1::after,
-    .typora-export h2::after {
-        content: "";
-        display: block;
-        height: 100px;
-        margin-top: -96px;
-        border-top: 1px solid #eee;
+    .h2,
+    h2 {
+        font-size: 2.298rem;
     }
-}*/
-
-h3 {
-    font-size: 1.5em;
-    line-height: 1.43;
-}
-h4 {
-    font-size: 1.25em;
-}
-h5 {
-    font-size: 1em;
-}
-h6 {
-   font-size: 1em;
-    color: #777;
-}
-p,
-blockquote,
-ul,
-ol,
-dl,
-table{
-    margin: 0.8em 0;
-}
-li>ol,
-li>ul {
-    margin: 0 0;
-}
-hr {
-    height: 2px;
-    padding: 0;
-    margin: 16px 0;
-    background-color: #e7e7e7;
-    border: 0 none;
-    overflow: hidden;
-    box-sizing: content-box;
-}
-
-li p.first {
-    display: inline-block;
-}
-ul,
-ol {
-    padding-left: 30px;
-}
-ul:first-child,
-ol:first-child {
-    margin-top: 0;
-}
-ul:last-child,
-ol:last-child {
-    margin-bottom: 0;
-}
-blockquote {
-    border-left: 4px solid #dfe2e5;
-    padding: 0 15px;
-    color: #777777;
-}
-blockquote blockquote {
-    padding-right: 0;
-}
-table {
-    padding: 0;
-    word-break: initial;
-}
-table tr {
-    border-top: 1px solid #dfe2e5;
-    margin: 0;
-    padding: 0;
-}
-table tr:nth-child(2n),
-thead {
-    background-color: #f8f8f8;
-}
-table tr th {
-    font-weight: bold;
-    border: 1px solid #dfe2e5;
-    border-bottom: 0;
-    margin: 0;
-    padding: 6px 13px;
-}
-table tr td {
-    border: 1px solid #dfe2e5;
-    margin: 0;
-    padding: 6px 13px;
-}
-table tr th:first-child,
-table tr td:first-child {
-    margin-top: 0;
-}
-table tr th:last-child,
-table tr td:last-child {
-    margin-bottom: 0;
-}
-
-.CodeMirror-lines {
-    padding-left: 4px;
-}
-
-.code-tooltip {
-    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
-    border-top: 1px solid #eef2f2;
-}
-
-.md-fences,
-code,
-tt {
-    border: 1px solid #e7eaed;
-    background-color: #f8f8f8;
-    border-radius: 3px;
-    padding: 0;
-    padding: 2px 4px 0px 4px;
-    font-size: 0.9em;
-}
-
-code {
-    background-color: #f3f4f4;
-    padding: 0 2px 0 2px;
-}
-
-.md-fences {
-    margin-bottom: 15px;
-    margin-top: 15px;
-    padding-top: 8px;
-    padding-bottom: 6px;
-}
-
-
-.md-task-list-item > input {
-  margin-left: -1.3em;
-}
-
-@media print {
-    html {
-        font-size: 13px;
+    .h3,
+    h3 {
+        font-size: 1.625rem;
     }
-    table,
-    pre {
-        page-break-inside: avoid;
+    .h4,
+    h4 {
+        font-size: 1.3rem;
     }
-    pre {
-        word-wrap: break-word;
+    #write>h4.md-focus:before,
+    #write>h5.md-focus:before,
+    #write>h6.md-focus:before{
+        top: 1px;
+    }
+    .p,
+    p,
+    li {
+        font-size: 1.25rem;
+        line-height: 1.8;
+    }
+    table {
+        font-size: 1.25rem;
     }
 }
-
-.md-fences {
-	background-color: #f8f8f8;
+@media (max-width: 48em) {
+    blockquote {
+        margin-left: 1rem;
+        margin-right: 0;
+        padding: 0.5em;
+    }
+    .h1,
+    h1 {
+        font-size: 2.827rem;
+    }
+    .h2,
+    h2 {
+        font-size: 1.999rem;
+    }
+    .h3,
+    h3 {
+        font-size: 1.413rem;
+    }
+    .h4,
+    h4 {
+        font-size: 1.3rem;
+    }
 }
+@media screen and (min-width: 64em) {
+    .h1,
+    h1 {
+        font-size: 4.498rem;
+    }
+    .h2,
+    h2 {
+        font-size: 2.29rem;
+    }
+    .h3,
+    h3 {
+        font-size: 1.9rem;
+    }
+    .h4,
+    h4 {
+        font-size: 1.591rem;
+    }
+    #write>h4.md-focus:before{
+        top:4px;
+    }
+}
+a {
+    color: #463F5C;
+    text-decoration: underline;
+}
+
+#write {
+    padding-top: 2rem;
+}
+
 #write pre.md-meta-block {
-	padding: 1rem;
-    font-size: 85%;
-    line-height: 1.45;
-    background-color: #f7f7f7;
-    border: 0;
-    border-radius: 3px;
-    color: #777777;
-    margin-top: 0 !important;
+    min-height: 35px;
+    padding: 0.5em 1em;
+    white-space: pre;
+    border: 0px;
+
+    border-left: 30px #f8f8f8 solid;
+    border-right: 30px #f8f8f8 solid;
+    width: 100vw;
+    max-width: calc(100% + 60px);
+
+    margin-left: -30px;
+    margin-bottom: 2em;
+    margin-top: -2010px;
+    padding-top: 2000px;
+    padding-bottom: 10px;
+    line-height: 1.5em;
+    color: #7a7a7a;
+    background-color: #fafafa;
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 300;
+    clear: both;
+    padding-left: 0;
+    font-size:1.125rem;
+}
+.md-image>.md-meta {
+    color: #463F5C
+}
+.footnotes {
+    font-size:1.1rem;
+}
+.md-tag {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, sans-serif;
+}
+.code-tooltip {
+    background: white;
+}
+.code-tooltip-content {
+    font-size: 1.1rem;
 }
 
-.mathjax-block>.code-tooltip {
-	bottom: .375rem;
+.task-list{
+    padding-left: 0;
+}
+
+.md-task-list-item {
+    padding-left:34px;
+}
+
+.md-task-list-item > input{
+    width: 1.25rem;
+    height: 1.25rem;
+    display: block;
+    -webkit-appearance: initial;
+    top: -0.2rem;
+    margin-left: -1.6em;
+    margin-top: calc(1rem - 7px);
+    border: none;
+}
+
+.md-task-list-item > input:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.md-task-list-item > input:before{
+    border: 1px solid #555;
+    border-radius: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #fff;
+    content: ' ';
+    transition: background-color 200ms ease-in-out;
+    display: block;
+}
+
+.md-task-list-item > input:checked:before,
+.md-task-list-item > input[checked]:before{
+    background: #333;
+    border-width: 2px;
+    display:inline-block;
+    transition: background-color 200ms ease-in-out;
+}
+
+.md-task-list-item > input:checked:after,
+.md-task-list-item > input[checked]:after {
+    opacity: 1;
+}
+
+.md-task-list-item > input:after {
+    opacity: 1;
+    -webkit-transition: opacity 0.05s ease-in-out;
+    -moz-transition: opacity 0.05s ease-in-out;
+    transition: opacity 0.05s ease-in-out;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 0.4375rem;
+    left: 0.28125rem;
+    width: 0.9375rem;
+    height: 0.5rem;
+    border: 3px solid #fff;
+    border-top: 0;
+    border-right: 0;
+    content: ' ';
+    opacity: 0;
+}
+
+.md-tag {
+    color:inherit;
+}
+
+.md-toc:focus .md-toc-content{
+    margin-top: 19px;
+}
+
+#typora-sidebar {
+    font-size:1rem !important;
+}
+
+.html-for-mac #typora-sidebar {
+    background-color:white;
+}
+
+.outline-content li, .outline-content ul {
+    font-size:1rem !important;
+}
+
+.outline-title {
+    line-height: inherit;
+    margin-top: 10px;
+}
+
+.outline-expander {
+    width: 18px;
+}
+
+.outline-expander:before {
+    content: "+";
+    font-family: inherit;
+    color: rgb(108, 108, 108);
+    font-size: 1.5rem;
+    top: -0.1rem;
+}
+
+.outline-expander:hover:before {
+    content: "+";
+}
+
+.outline-item-open>.outline-item>.outline-expander:before{
+    content: "-";
+}
+
+/** source code mode */
+#typora-source {
+    font-family: Courier, monospace;
+    color: #6A6A6A;
+}
+
+.os-windows #typora-source {
+    font-family: inherit;
+}
+
+.cm-s-typora-default .cm-header,
+.cm-s-typora-default .cm-property,
+.CodeMirror.cm-s-typora-default div.CodeMirror-cursor {
+    color: #428bca;
+}
+
+.cm-s-typora-default .cm-atom, .cm-s-typora-default .cm-number {
+    color: #777777;
+}
+
+.md-diagram-panel {
+    margin-top: 24px;
+    margin-left: -1.2em;
 }
 
 .md-mathjax-midline {
     background: #fafafa;
 }
 
-#write>h3.md-focus:before{
-	left: -1.5625rem;
-	top: .375rem;
-}
-#write>h4.md-focus:before{
-	left: -1.5625rem;
-	top: .285714286rem;
-}
-#write>h5.md-focus:before{
-	left: -1.5625rem;
-	top: .285714286rem;
-}
-#write>h6.md-focus:before{
-	left: -1.5625rem;
-	top: .285714286rem;
-}
-.md-image>.md-meta {
-    /*border: 1px solid #ddd;*/
-    border-radius: 3px;
-    padding: 2px 0px 0px 4px;
-    font-size: 0.9em;
-    color: inherit;
-}
-
-.md-tag {
-    color: #a7a7a7;
-    opacity: 1;
-}
-
-.md-toc { 
-    margin-top:20px;
-    padding-bottom:20px;
-}
-
-.sidebar-tabs {
-    border-bottom: none;
-}
-
-#typora-quick-open {
-    border: 1px solid #ddd;
-    background-color: #f8f8f8;
-}
-
-#typora-quick-open-item {
-    background-color: #FAFAFA;
-    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
-    border-style: solid;
-    border-width: 1px;
-}
-
-/** focus mode */
-.on-focus-mode blockquote {
-    border-left-color: rgba(85, 85, 85, 0.12);
-}
-
-header, .context-menu, .megamenu-content, footer{
-    font-family: "Segoe UI", "Arial", sans-serif;
-}
-
-.file-node-content:hover .file-node-icon,
-.file-node-content:hover .file-node-open-state{
-    visibility: visible;
-}
-
-.mac-seamless-mode #typora-sidebar {
-    background-color: #fafafa;
-    background-color: var(--side-bar-bg-color);
-}
-
-.md-lang {
-    color: #b4654d;
-}
-
-.html-for-mac .context-menu {
-    --item-hover-bg-color: #E6F0FE;
-}
-
-#md-notification .btn {
-    border: 0;
+.enable-diagrams pre.md-fences[lang="sequence"] .code-tooltip,
+.enable-diagrams pre.md-fences[lang="flow"] .code-tooltip,
+.enable-diagrams pre.md-fences[lang="mermaid"] .code-tooltip {
+    bottom: -3.4em;
 }
 
 .dropdown-menu .divider {
     border-color: #e5e5e5;
 }
 
-.ty-preferences .window-content {
-    background-color: #fafafa;
-}
 
-.ty-preferences .nav-group-item.active {
-    color: white;
-    background: #999;
-}
-
-
-</style>
+</style><title>VG101 FA2021 Lab 7_Special</title>
 </head>
-<body class='typora-export os-windows'>
-<div id='write'  class=''><h1><a name="vg101-lab6---tankwar" class="md-header-anchor"></a><span>VG101 LAB6 - TankWar</span></h1><h2><a name="background" class="md-header-anchor"></a><span>Background</span></h2><p><span>Tank War is a classic computer game. In this game, player acts as a tank and they compete to survive the game. In LAB6, we&#39;re going to realize a simple version of Tank War game and write an AI for it. Through this LAB, you will learn how to build data structures in C++, and learn some basic thing in game programming and traditional AI programming.</span></p><h2><a name="rules" class="md-header-anchor"></a><span>Rules</span></h2><p><span>To make your life easier, we created the following rules, which are easy to implement using C++.</span></p><ul><li><span>Two players battle in spare map.</span></li><li><span>One player owns one tank.</span></li><li><span>Tank can move one meter each turn.</span></li><li><span>Tank can choose to move left, right or straightly each turn.</span></li></ul><p>&nbsp;</p><ul><li><span>Tank will shoot a bullet every three turns (starting from the first turn), the bullet will generate 1m ahead of the tank&#39;s position. (It keeps the direction of the tank and is generated after the tank moves in his turn, or the tank will be shoot by itself)</span></li><li><span>Bullet will move straightly at the speed 2 meter/round.</span></li><li><span>Tank have 5 life points.</span></li><li><span>Once a tank is hit by a bullet, two life point will be deducted. To make your life easier, just assume that the bullet moves after tanks, and this will avoid geometry calculations. Notice that there will be three possibilities where it could hit a tank each time in your calculation.</span></li><li><span>Once a bullet hits a tank, it will not go further but explode.</span></li></ul><p>&nbsp;</p><ul><li><span>Initially, the the size of the map is 20*20. (A player can go outside the map)</span></li><li><span>The map will shrink by 1 block to the center every 16 turns. (Notice that the first shrink is on the 16th turn), which means map size is 20x20-18x18-...</span></li><li><span>As long as a tank is outside of the map, one life point will be deducted each turn.</span></li></ul><p>&nbsp;</p><ul><li><span>The tank whose life points are first deducted to 0 will lose.</span></li><li><span>If two tanks have there life points deducted to 0 at the same time, they will have a draw competition.</span></li><li><span>When two tanks crash, the tank with high life point wins.</span></li></ul><p>&nbsp;</p><ul><li><span>To make your life easier, calculation will take place after two tanks move one turn.</span></li></ul><h2><a name="objective-i" class="md-header-anchor"></a><span>Objective I</span></h2><p><span>Based on </span><code>Lab6_Related_Files</code><span> on canvas, realize a Tank War Game based on the provided structure.</span></p><p><span>To implement the Tank War game, you need to come up with a data structure so that you can store the position of tanks and bullets. With the data structure, you may then have a method so that you can update the tank and bullets each turn.</span></p><p><span>Flow chart inside one turn is shown below:</span></p><div class="md-diagram-panel"><svg id="mermaidChart0" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 554.48828125px;" viewBox="0 0 554.48828125 1298.078125"><style>
-:root { --mermaid-font-family: sans-serif}
-:root { --mermaid-alt-font-family: sans-serif}</style><style></style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M170.20703125,68.625L170.20703125,93.625L170.20703125,118.625" marker-end="url(#arrowhead72)" style="fill:none"></path><defs><marker id="arrowhead72" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M170.20703125,161.125L170.20703125,186.125L170.20703125,211.125" marker-end="url(#arrowhead73)" style="fill:none"></path><defs><marker id="arrowhead73" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M170.20703125,253.625L170.20703125,278.625L170.20703125,303.625" marker-end="url(#arrowhead74)" style="fill:none"></path><defs><marker id="arrowhead74" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M170.20703125,346.125L170.20703125,371.125L170.20703125,396.125" marker-end="url(#arrowhead75)" style="fill:none"></path><defs><marker id="arrowhead75" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M170.20703125,438.625L170.20703125,463.625L170.20703125,488.625" marker-end="url(#arrowhead76)" style="fill:none"></path><defs><marker id="arrowhead76" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M125.62389605978261,531.125L49.5703125,567.375L49.5703125,603.625" marker-end="url(#arrowhead77)" style="fill:none"></path><defs><marker id="arrowhead77" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M214.79016644021738,531.125L290.84375,567.375L290.84375,623.9453125" marker-end="url(#arrowhead78)" style="fill:none"></path><defs><marker id="arrowhead78" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M285.4389839122578,666.4453125L271.05078125,723.015625L283.52895720108694,759.265625" marker-end="url(#arrowhead79)" style="fill:none"></path><defs><marker id="arrowhead79" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M301.37491508152175,759.265625L319.33984375,723.015625L298.6250345095874,666.4453125" marker-end="url(#arrowhead80)" style="fill:none"></path><defs><marker id="arrowhead80" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M290.84375,801.765625L290.84375,838.015625L290.84375,874.265625" marker-end="url(#arrowhead81)" style="fill:none"></path><defs><marker id="arrowhead81" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M290.84375,916.765625L290.84375,953.015625L290.84375,989.265625" marker-end="url(#arrowhead82)" style="fill:none"></path><defs><marker id="arrowhead82" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M290.84375,1031.765625L290.84375,1056.765625L290.84375,1081.765625" marker-end="url(#arrowhead83)" style="fill:none"></path><defs><marker id="arrowhead83" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M238.3671875,1117.2657218509603L79.09765625,1160.515625L79.09765625,1197.4453125" marker-end="url(#arrowhead84)" style="fill:none"></path><defs><marker id="arrowhead84" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M265.3018851902174,1124.265625L221.73046875,1160.515625L221.73046875,1196.765625" marker-end="url(#arrowhead85)" style="fill:none"></path><defs><marker id="arrowhead85" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M316.3856148097826,1124.265625L359.95703125,1160.515625L359.95703125,1201.8515625" marker-end="url(#arrowhead86)" style="fill:none"></path><defs><marker id="arrowhead86" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M343.3203125,1118.0629611254506L491.37109375,1160.515625L491.37109375,1203.578125" marker-end="url(#arrowhead87)" style="fill:none"></path><defs><marker id="arrowhead87" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><rect rx="0" ry="0" width="0" height="0" style="fill:#e8e8e8;"></rect><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><rect rx="0" ry="0" width="0" height="0" style="fill:#e8e8e8;"></rect><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><rect rx="0" ry="0" width="0" height="0" style="fill:#e8e8e8;"></rect><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><rect rx="0" ry="0" width="0" height="0" style="fill:#e8e8e8;"></rect><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><rect rx="0" ry="0" width="0" height="0" style="fill:#e8e8e8;"></rect><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(49.5703125,567.375)" style="opacity: 1;"><g transform="translate(-28.2890625,-11.25)" class="label"><rect rx="0" ry="0" width="56.578125" height="22.5" style="fill:#e8e8e8;"></rect><foreignObject width="56.58203125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span>collide</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(290.84375,567.375)" style="opacity: 1;"><g transform="translate(-17.3671875,-11.25)" class="label"><rect rx="0" ry="0" width="34.734375" height="22.5" style="fill:#e8e8e8;"></rect><foreignObject width="34.74609375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span>safe</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(271.05078125,723.015625)" style="opacity: 1;"><g transform="translate(-28.2890625,-11.25)" class="label"><rect rx="0" ry="0" width="56.578125" height="22.5" style="fill:#e8e8e8;"></rect><foreignObject width="56.58203125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span>collide</span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><rect rx="0" ry="0" width="0" height="0" style="fill:#e8e8e8;"></rect><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(290.84375,838.015625)" style="opacity: 1;"><g transform="translate(-23.1640625,-11.25)" class="label"><rect rx="0" ry="0" width="46.328125" height="22.5" style="fill:#e8e8e8;"></rect><foreignObject width="46.328125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span>finish</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(290.84375,953.015625)" style="opacity: 1;"><g transform="translate(-120.4375,-11.25)" class="label"><rect rx="0" ry="0" width="240.875" height="22.5" style="fill:#e8e8e8;"></rect><foreignObject width="240.87890625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span>There is tank yout of border</span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><rect rx="0" ry="0" width="0" height="0" style="fill:#e8e8e8;"></rect><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(79.09765625,1160.515625)" style="opacity: 1;"><g transform="translate(-26.421875,-11.25)" class="label"><rect rx="0" ry="0" width="52.84375" height="22.5" style="fill:#e8e8e8;"></rect><foreignObject width="52.8515625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span>A dies</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(221.73046875,1160.515625)" style="opacity: 1;"><g transform="translate(-25.7421875,-11.25)" class="label"><rect rx="0" ry="0" width="51.484375" height="22.5" style="fill:#e8e8e8;"></rect><foreignObject width="51.484375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span>B dies</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(359.95703125,1160.515625)" style="opacity: 1;"><g transform="translate(-36.1875,-11.25)" class="label"><rect rx="0" ry="0" width="72.375" height="22.5" style="fill:#e8e8e8;"></rect><foreignObject width="72.3828125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span>Both die</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(491.37109375,1160.515625)" style="opacity: 1;"><g transform="translate(-55.1171875,-11.25)" class="label"><rect rx="0" ry="0" width="110.234375" height="22.5" style="fill:#e8e8e8;"></rect><foreignObject width="110.234375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span>Nobody dies</span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="A" transform="translate(170.20703125,38.3125)" style="opacity: 1;"><circle x="-30.3125" y="-21.25" r="30.3125" class="label-container"></circle><g class="label" transform="translate(0,0)"><g transform="translate(-20.3125,-11.25)"><foreignObject width="40.625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Start</div></foreignObject></g></g></g><g class="node default" id="B" transform="translate(170.20703125,139.875)" style="opacity: 1;"><rect rx="0" ry="0" x="-70.75" y="-21.25" width="141.5" height="42.5" class="label-container"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-60.75,-11.25)"><foreignObject width="121.50390625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Tank A Moves</div></foreignObject></g></g></g><g class="node default" id="C" transform="translate(170.20703125,232.375)" style="opacity: 1;"><rect rx="0" ry="0" x="-71.9375" y="-21.25" width="143.875" height="42.5" class="label-container"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-61.9375,-11.25)"><foreignObject width="123.88671875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Tank A Shoots</div></foreignObject></g></g></g><g class="node default" id="D" transform="translate(170.20703125,324.875)" style="opacity: 1;"><rect rx="0" ry="0" x="-70.0625" y="-21.25" width="140.125" height="42.5" class="label-container"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-60.0625,-11.25)"><foreignObject width="120.13671875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Tank B Moves</div></foreignObject></g></g></g><g class="node default" id="E" transform="translate(170.20703125,417.375)" style="opacity: 1;"><rect rx="0" ry="0" x="-71.2578125" y="-21.25" width="142.515625" height="42.5" class="label-container"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-61.2578125,-11.25)"><foreignObject width="122.51953125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Tank B Shoots</div></foreignObject></g></g></g><g class="node default" id="F" transform="translate(170.20703125,509.875)" style="opacity: 1;"><rect rx="0" ry="0" x="-88.9296875" y="-21.25" width="177.859375" height="42.5" class="label-container"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-78.9296875,-11.25)"><foreignObject width="157.87109375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Check for collision</div></foreignObject></g></g></g><g class="node default" id="E1" transform="translate(49.5703125,645.1953125)" style="opacity: 1;"><circle x="-41.5703125" y="-21.25" r="41.5703125" class="label-container"></circle><g class="label" transform="translate(0,0)"><g transform="translate(-31.5703125,-11.25)"><foreignObject width="63.14453125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">T_Draw</div></foreignObject></g></g></g><g class="node default" id="G" transform="translate(290.84375,645.1953125)" style="opacity: 1;"><rect rx="0" ry="0" x="-149.703125" y="-21.25" width="299.40625" height="42.5" class="label-container"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-139.703125,-11.25)"><foreignObject width="279.4140625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Move Bullets and check collision</div></foreignObject></g></g></g><g class="node default" id="H" transform="translate(290.84375,780.515625)" style="opacity: 1;"><rect rx="0" ry="0" x="-108.484375" y="-21.25" width="216.96875" height="42.5" class="label-container"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-98.484375,-11.25)"><foreignObject width="196.97265625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Deduct Point to A tank</div></foreignObject></g></g></g><g class="node default" id="I" transform="translate(290.84375,895.515625)" style="opacity: 1;"><rect rx="0" ry="0" x="-68.8828125" y="-21.25" width="137.765625" height="42.5" class="label-container"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-58.8828125,-11.25)"><foreignObject width="117.7734375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Shrink border</div></foreignObject></g></g></g><g class="node default" id="J" transform="translate(290.84375,1010.515625)" style="opacity: 1;"><rect rx="0" ry="0" x="-103.65625" y="-21.25" width="207.3125" height="42.5" class="label-container"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-93.65625,-11.25)"><foreignObject width="187.32421875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Deduct Point to tanks</div></foreignObject></g></g></g><g class="node default" id="K" transform="translate(290.84375,1103.015625)" style="opacity: 1;"><rect rx="0" ry="0" x="-52.4765625" y="-21.25" width="104.953125" height="42.5" class="label-container"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-42.4765625,-11.25)"><foreignObject width="84.9609375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Life check</div></foreignObject></g></g></g><g class="node default" id="E2" transform="translate(79.09765625,1243.421875)" style="opacity: 1;"><circle x="-45.9765625" y="-21.25" r="45.9765625" class="label-container"></circle><g class="label" transform="translate(0,0)"><g transform="translate(-35.9765625,-11.25)"><foreignObject width="71.953125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">T_B_Win</div></foreignObject></g></g></g><g class="node default" id="E3" transform="translate(221.73046875,1243.421875)" style="opacity: 1;"><circle x="-46.65625" y="-21.25" r="46.65625" class="label-container"></circle><g class="label" transform="translate(0,0)"><g transform="translate(-36.65625,-11.25)"><foreignObject width="73.3203125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">T_A_Win</div></foreignObject></g></g></g><g class="node default" id="E4" transform="translate(359.95703125,1243.421875)" style="opacity: 1;"><circle x="-41.5703125" y="-21.25" r="41.5703125" class="label-container"></circle><g class="label" transform="translate(0,0)"><g transform="translate(-31.5703125,-11.25)"><foreignObject width="63.14453125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">T_Draw</div></foreignObject></g></g></g><g class="node default" id="E5" transform="translate(491.37109375,1243.421875)" style="opacity: 1;"><circle x="-39.84375" y="-21.25" r="39.84375" class="label-container"></circle><g class="label" transform="translate(0,0)"><g transform="translate(-29.84375,-11.25)"><foreignObject width="59.6875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">T_Cont</div></foreignObject></g></g></g></g></g></g></svg></div><p><span> You can define your own data structure and write the code in </span><code>lab6.cpp</code><span> but you may not modify other related files because you could only submit </span><code>lab6.cpp</code><span> to the OJ platform later in Objective II and other files will be provided by TAs.</span></p><p><span>Example I/O module is provided in </span><code>main.cpp</code><span>.</span></p><p><strong><span>Sample STDIN:</span></strong></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre>x</pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0 19 19 2 0</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">2 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">2 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 1</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 1</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">2 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">2 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><div class="" style="position: relative;"><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 918px;"></div><div class="CodeMirror-gutters" style="display: none; height: 918px;"></div></div></div></pre><p><strong><span>Sample STDOUT:</span></strong></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Tank A Wins</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre><p><img src="C:\Users\22490\Desktop\2020-11-17 09-28-18.gif" referrerpolicy="no-referrer" alt="2020-11-17 09-28-18"></p><h2><a name="objective-ii" class="md-header-anchor"></a><span>Objective II</span></h2><p><span>Based on </span><code>Lab6_Related_Files</code><span> on canvas, write an AI for your Tank War game in </span><code>MyBrain</code><span> class.</span></p><p><span>In </span><code>MyBrain</code><span> class, an AI framework is provided, we have obtained a reference of </span><code>MyGame</code><span> object, by providing interface in your </span><code>MyGame</code><span> class, your AI could have access to the content of your current game.</span></p><p><span>Submit your AI to </span><a href='http://106.15.125.102' target='_blank' class='url'>http://106.15.125.102</a><span> and compete with other AIs.</span></p><h2><a name="hints" class="md-header-anchor"></a><span>Hints</span></h2><ol start='' ><li><p><span>You do not need to understand the class inheritance and virtual functions in </span><code>lab6.h</code><span>, it simply enables you to write your own structures without </span><code>lab6.h</code><span> being changed.</span></p></li><li><p><span>A simple 2D vector class is provided and you may want to use that to realize your Tank War game and AI.</span></p></li><li><p><strong><span>How to build an AI?</span></strong></p><ul><li><span>Decision Tree Strategy</span></li></ul><p><span>Theoretically, you could deduce all the possible state of game several turns after by listing all the possible actions. However, because the phenomenon of exponential explosion, we cannot do so in programming. </span></p><p><span>However, by assuming that your opponent will also take the best strategy, you could reduce the possible states that the game would fall into.</span></p><p><span>Also, you could give evaluation to certain intermediate case. For example,</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> | |&gt;|-</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> |&gt;| |-</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">&gt;| |T|-</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> ------</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 90px;"></div><div class="CodeMirror-gutters" style="display: none; height: 90px;"></div></div></div></pre><p><span>This case will certainly cause the tank to lose one life point. So this case will be evaluated higher.</span></p><ul><li><span>State Machine Strategy</span></li></ul><p><span>We could set up some tasks that a tank should do in certain stage. We could let the tank to behave different in different stages so that it could have different effects.</span></p></li></ol><h2><a name="grading" class="md-header-anchor"></a><span>Grading</span></h2><ul><li><span>Objective I worth 150 pts.</span></li><li><span>The OJ have a system ranking for each player, we will assign each player up to 150 pts according to the ranking.</span></li><li><span>If you found bugs in the OJ platform or the game rules, we will consider to give you bonus to this lab.</span></li></ul></div>
+<body class='typora-export os-windows'><div class='typora-export-content'>
+    <div id='write'  class=''><h1 id='vg101-lab-7---tank-war'><span>VG101 Lab 7 - Tank War</span></h1><p><strong><span>Author: Lu Haorong</span></strong></p><p><strong><span>OJ Platform: </span><a href='http://vg101.sometimesnaive.xyz/' target='_blank' class='url'>http://vg101.sometimesnaive.xyz/</a><span> (Can only be accessed within SJTU, you may use SJTU VPN if you are outside SJTU)</span></strong></p><p><span>If you have any question, please contact: </span><a href='mailto:ancientmodern@sjtu.edu.cn'><span>ancientmodern@sjtu.edu.cn</span></a><span>, or via WeChat/Feishu</span></p><p><span>Special thanks to </span><strong><span>Wang Kaibin</span></strong><span>, the TA of VG101 in FA2019 and FA2020, and </span><strong><span>Cai yunlong</span></strong><span> from JI IT department</span></p><p>&nbsp;</p><h2 id='fight-for-glory'><span>Fight for Glory!</span></h2><p><span>Tank War is a classic computer game. In this game, each player controls a tank and they compete to become the last survivor. This time, you are going to implement a simple version of Tank War and write an AI to compete with other students. In this LAB, you will learn how to build and use data structures in C++, and have a taste of game programming and traditional AI programming.</span></p><p><span>There will be no more stories, because SOP and PS have ruined all my passion for writing 🤬</span></p><p>&nbsp;</p><h2 id='rules'><span>Rules</span></h2><p><span>To make your life easier, we create following rules for the Tank War,</span></p><ul><li><span>Two players battle in a spare map.</span></li><li><span>Each player controls a tank. </span></li><li><span>The tank moves </span><strong><span>1 meter/turn</span></strong><span>. </span></li><li><span>Each turn, the tank can choose to </span><strong><span>move left, right or forward</span></strong><span>. </span></li></ul><p>&nbsp;</p><ul><li><span>The tank shoots a bullet </span><strong><span>every three turns</span></strong><span> (starting from the first turn), and the bullet will be generated 1 meter ahead of the tank&#39;s position. (The bullet has the same direction as the tank, and it is generated after the tank moves in its turn, otherwise the tank will be shot by itself) </span></li><li><span>Bullet </span><strong><span>moves straightly</span></strong><span> at the speed of </span><strong><span>2 meter/turn</span></strong><span>. </span></li></ul><p>&nbsp;</p><ul><li><span>Tank have </span><strong><span>5 life points</span></strong><span>. </span></li><li><span>Once a tank is hit by a bullet, </span><strong><span>2 life points</span></strong><span> will be deducted. </span></li><li><span>To make your life easier, just assume that the bullet moves after the tank moves since this will avoid geometry calculations. Note that each turn there are </span><strong><span>three possible cases</span></strong><span> where the bullet may hit a tank in your calculation. </span></li><li><span>Once a bullet hits a tank, it will not go further but explode. </span></li></ul><p>&nbsp;</p><ul><li><p><span>Initially, the the size of the map is 20x20. (A tank can go outside the map) </span></p></li><li><p><span>The map shrinks by 1 block to the center every 16 turns (the first shrink occurs in the 16th turn), namely the map size will be 20x20 -&gt; 18x18 -&gt; 16x16...</span></p></li><li><p><span>As long as a tank is outside of the map, </span><strong><span>one life point</span></strong><span> will be deducted each turn. </span></p><p>&nbsp;</p></li><li><p><span>The tank whose life points are first deducted to 0 will lose. </span></p></li><li><p><span>If the life points of two tanks are deducted to 0 in the same turn, they have a draw competition. </span></p></li><li><p><span>When two tanks crash, the tank with high life point wins. </span></p></li><li><p><span>To make your life easier, each turn the calculation takes place after two tanks move.</span></p></li></ul><p>&nbsp;</p><h2 id='task-1'><span>Task 1</span></h2><p><span>Given </span><code>Lab7_Related_Files</code><span> on canvas, implement a Tank War game based on the provided structure.</span></p><p><span>To implement the Tank War, you need to design a data structure to store the positions and directions of tanks and bullets. Then you can think about how to update the states of tank and bullets in each turn.</span></p><p><span>Below is a sample flow chart to show what happens in each turn,</span></p><p><img src="img/flow_chart.jpg" alt="flow_chart" style="zoom: 50%;" /></p><p>&nbsp;</p><p><span>You can define your own data structure and write the code in </span><code>lab7.cpp</code><span>, and it&#39;s better not to modify other related files because you can only submit </span><code>lab7.cpp</code><span> to the OJ platform later. The other files will be provided by us. </span></p><p><span>Example I/O module is provided in </span><code>main.cpp</code><span>.</span></p><p><strong><span>Sample Inputs from </span><code>stdin</code><span>:</span></strong></p><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang="" style="break-inside: unset;"><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 8.4px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0 19 19 2 0</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">2 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">2 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 1</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">1 1</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 2</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">2 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">2 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">0 0</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 832px;"></div><div class="CodeMirror-gutters" style="display: none; height: 832px;"></div></div></div></pre><p><strong><span>Corresponding outputs in </span><code>stdout</code><span>:</span></strong></p><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 8.4px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Tank A Wins</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 21px;"></div><div class="CodeMirror-gutters" style="display: none; height: 21px;"></div></div></div></pre><p>&nbsp;</p><p><span>In the first line of input, </span><code>0 0</code><span> and </span><code>19 19</code><span> are the initial positions of tank A and tank B respectively, </span><code>2 (Right)</code><span> is the initial direction of  tank A, and </span><code>0 (Left)</code><span> is the initial direction of tank B. </span></p><p><span>The following input lines indicate the actions of two tanks in each turn. </span><strong><span>Here 0 means moving forward, 1 means turning left and moving forward, and 2 means turning right and moving forward.</span></strong></p><p><span>For the detailed definition of direction and action, you can check the </span><code>enum</code><span> definitions in </span><code>lab7.h</code></p><pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang="cpp"><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang="cpp"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 8.4px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">enum</span> <span class="cm-def">Direction</span> {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">D_Left</span>, <span class="cm-variable">D_Up</span>, <span class="cm-variable">D_Right</span>, <span class="cm-variable">D_Down</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">};</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">enum</span> <span class="cm-def">Move</span> {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-variable">M_Forward</span>, <span class="cm-variable">M_Left</span>, <span class="cm-variable">M_Right</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">};</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 146px;"></div><div class="CodeMirror-gutters" style="display: none; height: 146px;"></div></div></div></pre><p>&nbsp;</p><h2 id='task-2'><span>Task 2</span></h2><p><span>Given </span><code>Lab7_Related_Files</code><span> on canvas, write an AI for your Tank War in </span><code>MyBrain</code><span> class. An AI framework is provided in </span><code>MyBrain</code><span> class, and a reference of </span><code>MyGame</code><span> object is already obtained, so your AI can have access to your current game through the interface you provide in your </span><code>MyGame</code><span> class.</span></p><p><span>Submit your AI to </span><a href='http://vg101.sometimesnaive.xyz/' target='_blank' class='url'>http://vg101.sometimesnaive.xyz/</a><span>, and fight for glory!</span></p><p>&nbsp;</p><h2 id='guidelines-on-oj'><span>Guidelines on OJ</span></h2><ul><li><span>The OJ does not have a clear separation between &quot;sign up&quot; and &quot;sign in&quot;. The first time you click </span><strong><a href='http://vg101.sometimesnaive.xyz/oauth'><span>Login</span></a></strong><span> , you need to enter your student ID (do not enter other&#39;s student ID!) and set the password, this is like </span><strong><span>create an account</span></strong><span>, and now you should see your name on the scoreboard. Then you need to click </span><strong><a href='http://vg101.sometimesnaive.xyz/oauth'><span>Login</span></a></strong><span> again, enter your student ID and the password you just set, and this time it&#39;s really </span><strong><span>login</span></strong><span>.</span></li><li><span>To submit your AI, first  </span><strong><a href='http://vg101.sometimesnaive.xyz/oauth'><span>Login</span></a></strong><span> and then click </span><strong><a href='http://vg101.sometimesnaive.xyz/submission/submit'><span>Submission - Submit New Brain</span></a></strong><span>, and </span><strong><span>paste all the content in your </span><code>lab7.cpp</code></strong><span>. Choose the C++ versions you want to use, and then click &quot;Submit&quot;.  If everything goes fine, you will see the </span><strong><span>Effective</span></strong><span> flag, which means currently your tank is controlled by this brain.</span></li></ul><p><img src="img/image-20211124210638890.png" referrerpolicy="no-referrer" alt="image-20211124210638890"></p><p>&nbsp;</p><h2 id='hints'><span>Hints</span></h2><ul><li><p><span>You do not need to understand the class inheritance and virtual functions in </span><code>lab7.h</code><span>, it simply enables you to write your own structures without changing </span><code>lab7.h</code><span>.</span></p></li><li><p><span>A simple 2D vector class is provided. You may use it to help implement your Tank War and AI.</span></p></li><li><p><span>How to write an traditional AI?</span></p></li><li><p><strong><span>Game Trees</span></strong></p><ul><li><span>Each node illustrates one state of the game, and has its utility</span></li><li><span>Higher the utility, better your result</span></li><li><span>Always assume your opponent will behave optimally</span></li><li><span>According to the current state, you choose the action that gives you the best achievable utility</span></li><li><img src="img/image-20211124201239921.png" referrerpolicy="no-referrer" alt="image-20211124201239921"></li><li><span>This picture is taken from </span><a href='https://inst.eecs.berkeley.edu/~cs188/su21/'><span>CS188</span></a><span>, one of the most famous courses in UC Berkeley. </span><strong><span>You can check the original lecture notes if you want to learn more about Game Trees.</span></strong></li></ul></li><li><p><strong><span>Finite State Machine</span></strong></p><ul><li><span>You can set up some tasks that a tank should do in a certain state. You can let your tank behave differently in different states so that it could have different effects.</span></li><li><span>Actually I&#39;m not familiar with this approach... You can search on Internet for more details.</span></li></ul></li><li><p><strong><span>If you find your account is occupied by other, please contact me ASAP!</span></strong></p></li></ul><p>&nbsp;</p><h2 id='grading'><span>Grading </span></h2><ul><li><p><span>Task 1 worths 100 points. </span></p></li><li><p><span>The OJ has a scoreboard for each player, each player will be assigned up to 150 points according to his/her rank. </span></p><ul><li><span>If your AI can beat the most straightforward AI, you can get 50 points,</span></li><li><span>If your AI can beat the basic AI, you can get 100 points,</span></li><li><span>Beat other competitors to get the final 50 points!</span></li></ul></li></ul><h3 id='bonus-😺'><span>Bonus 😺</span></h3><ul><li><span>Find and report some bugs about the OJ platform.</span></li><li><span>Help to improve the OJ platform, we need some experts in </span><code>Node.js</code><span> 🤤</span></li></ul><h3 id='potential-deduction-😾'><span>Potential Deduction 😾</span></h3><ul><li><span>Try to attack/hack the OJ platform without informing the TAs.</span></li><li><span>Deliberately submit a program that will paralyze the OJ platform.</span></li><li><strong><span>Deliberately login other student&#39;s account.</span></strong></li></ul><p>&nbsp;</p><h2 id='reference'><span>Reference</span></h2><ul><li><span>VG101 FA2020 LAB6 - TankWar, Wang Kaibin</span></li><li><span>SU21 CS188 Lecture 4 -- Game Trees I.pdf</span></li></ul><p>&nbsp;</p><h2 id='end-of-story'><span>End of Story...</span></h2><p><span>Usually reference is the last part of a lab manual, but considering that this is the last time I have a chance to force you read my sentimental nonsense, maybe it&#39;s better to write something... And actually I have a lot to say.</span></p><p><span>OK, perhaps it&#39;s too early, as you are just going to take your first course in C++, and still have two labs to complete. Good luck on your journey with C++, and in case I don&#39;t see you: Good afternoon, good evening, and good night.</span></p><p>&nbsp;</p></div></div>
 </body>
 </html>

@@ -6,7 +6,7 @@ const {ObjectID} = require("mongodb");
 const crypto = require("crypto");
 
 function sha256(s) {
-  return crypto.createHash("sha256").update(s + config.security.salt).digest("base64");
+    return crypto.createHash("sha256").update(s + config.security.salt).digest("base64");
 }
 
 module.exports = {
@@ -19,7 +19,10 @@ module.exports = {
             let rec = await db.collection("user").find({_id: ObjectID(req.session.uid)}).toArray();
 
             let data = rec[0];
+            data.tankSkin = rec[0].tankSkin; // I don't know why, but it works
+            data.bulletSkin = rec[0].bulletSkin; // I don't know why, but it works
             data.post = false;
+            // console.log(data);
 
             await client.close();
             res.render("profile/profile", data);
@@ -29,20 +32,34 @@ module.exports = {
         if (!req.session.uid) { // 未授权
             res.redirect('/oauth');
         } else {
+            // console.log("update profile");
             let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
             let db = client.db(config.db.db);
 
-            let wrongPassword = false
+            req.body.name = req.body.name.replaceAll('<', '&lt').replaceAll('>', '&gt');
+            // console.log(req.body.name);
 
+            let wrongPassword = false
             if (req.body.password) {
                 let rec = await db.collection("user").find({_id: ObjectID(req.session.uid)}).toArray();
                 if (sha256(req.body.password) === rec[0].password) {
-                    await db.collection("user").updateOne({_id: ObjectID(req.session.uid)}, {$set: {dispName: req.body.name, password: sha256(req.body.newpassword)}});
+                    await db.collection("user").updateOne({_id: ObjectID(req.session.uid)}, {
+                        $set: {
+                            dispName: req.body.name,
+                            password: sha256(req.body.newpassword)
+                        }
+                    });
                 } else {
                     wrongPassword = true;
                 }
             } else {
-                await db.collection("user").updateOne({_id: ObjectID(req.session.uid)}, {$set: {dispName: req.body.name}});
+                await db.collection("user").updateOne({_id: ObjectID(req.session.uid)}, {
+                    $set: {
+                        dispName: req.body.name,
+                        tankSkin: req.body.tskin,
+                        bulletSkin: req.body.bskin
+                    }
+                });
             }
 
             let rec = await db.collection("user").find({_id: ObjectID(req.session.uid)}).toArray();

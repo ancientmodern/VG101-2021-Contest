@@ -7,7 +7,7 @@ const {ObjectId} = require("mongodb");
 const crypto = require("crypto");
 
 function sha256(s) {
-  return crypto.createHash("sha256").update(s + config.security.salt).digest("base64");
+    return crypto.createHash("sha256").update(s + config.security.salt).digest("base64");
 }
 
 module.exports = {
@@ -24,47 +24,52 @@ module.exports = {
         let student = await (await col.find({studentId: studentId})).toArray();
 
         if (student.length === 0) { // 新用户
-          if (studentId in studentList) { // 创建用户
-            let userData = {};
-            userData.studentId = studentId;
-            userData.password = sha256(password);
-            userData.realName = studentList[studentId].name;
-            userData.dispName = studentList[studentId].name;
-            userData.admin = studentList[studentId].TA;
-            userData.win = 0;
-            userData.lose = 0;
-            userData.draw = 0;
-            userData.score = 0;
-            userData.compiler = "c++17";
-            userData.student = true;
+            if (studentId in studentList) { // 创建用户
+                let userData = {};
+                userData.studentId = studentId;
+                userData.password = sha256(password);
+                userData.realName = studentList[studentId].name;
+                userData.dispName = studentList[studentId].name;
+                userData.admin = studentList[studentId].TA;
+                userData.win = 0;
+                userData.lose = 0;
+                userData.draw = 0;
+                userData.score = 2000;
+                userData.compiler = "c++17";
+                userData.student = true;
+                userData.tankSkin = "";
+                userData.bulletSkin = "";
 
-            let uid = await col.insertOne(userData);
+                let uid = await col.insertOne(userData);
 
-            req.session.uid = uid.insertedId;
-            req.session.studentId = studentId;
-            req.realName = studentList[studentId].name;
+                req.session.uid = uid.insertedId;
+                req.session.studentId = studentId;
+                req.realName = studentList[studentId].name;
 
-            res.redirect('/');
-          }
-           else { // 失败
-            res.render('auth/login', {fail: false, nouser: true, CSRF: ""});
-          }
+                res.redirect('/');
+            } else { // 失败
+                res.render('auth/login', {fail: false, nouser: true, CSRF: ""});
+            }
         } else {
-          if (sha256(password) !== student[0].password) { // 密码错误
-            res.render('auth/login', {fail: true, nouser: false, CSRF: ""});
-          } else { // 登陆成功
-            req.session.uid = student[0]._id;
-            req.session.studentId = studentId;
-            req.session.realName = student[0].realName;
+            if (sha256(password) !== student[0].password) { // 密码错误
+                res.render('auth/login', {fail: true, nouser: false, CSRF: ""});
+            } else { // 登陆成功
+                req.session.uid = student[0]._id;
+                req.session.studentId = studentId;
+                req.session.realName = student[0].realName;
 
-            res.redirect('/');
-          }
+                res.redirect('/');
+            }
         }
 
         await client.close();
     },
     async check(req, res) {
-        if (req.session.uid) res.end(JSON.stringify({status: "OK", studentId: req.session.studentId, realName: req.session.realName}));
+        if (req.session.uid) res.end(JSON.stringify({
+            status: "OK",
+            studentId: req.session.studentId,
+            realName: req.session.realName
+        }));
         else res.end(JSON.stringify({status: "FAIL"}));
     },
     logout(req, res) {

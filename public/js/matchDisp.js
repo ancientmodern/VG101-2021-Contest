@@ -25,6 +25,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
     function getGameResult() {
         return new Promise(function (res, rej) {
             $.get("/match/get/" + getURLVariable(), function (result) {
+                // console.log(JSON.parse(result));
                 res(JSON.parse(result));
             })
         });
@@ -33,6 +34,11 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
     function animateRotation(elt, from, to, time) {
         var obj = $(elt);
         var counter = 1;
+        if (from === -90 && to === 180) {
+            from = 270;
+        } else if (from === 180 && to === -90) {
+            to = 270;
+        }
         return new Promise(function (res, rej) {
             var timer = setInterval(function () {
                 if (10 / time * counter >= 1) {
@@ -93,15 +99,28 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         });
     }
 
+    function animateLife(elt, tank) {
+        var obj = $(elt);
+        return new Promise(function (res, rej) {
+            var timer = setInterval(function () {
+                obj.css({
+                    width: (100 * tank.life).toString() + "px",
+                })
+                clearInterval(timer);
+                res();
+            }, 10);
+        });
+    }
+
     var globalFps = 5;
-    $("[name='step-go']").on("click", function() {
+    $("[name='step-go']").on("click", function () {
         var newFps = parseInt($("[name='step-speed']").val());
         if (newFps <= 0) newFps = 1;
         globalFps = newFps;
     })
 
     var pause = false;
-    $("[name='step-pause']").on("click", function() {
+    $("[name='step-pause']").on("click", function () {
         if (finished) {
             $("[name='step-pause']").html("Pause");
             finished = false;
@@ -111,11 +130,12 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         }
     });
 
-    var A = undefined, B = undefined;
+    var A = undefined, B = undefined, p1 = undefined, p2 = undefined, ts1 = undefined, ts2 = undefined, bs1 = undefined,
+        bs2 = undefined;
 
     var mode = 0;
 
-    $("[name='toggle-mode']").on("click", function() {
+    $("[name='toggle-mode']").on("click", function () {
         mode = !mode;
         if (mode) {
             $(".board-container").hide();
@@ -141,25 +161,35 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         180
     ]
 
-    function TankSpirit(parent, tank, index) {
+    function TankSpirit(parent, tank, index, skin1, skin2) {
         this.position = [(tank.position[0] + 5) / 30 * 100, (tank.position[1] + 5) / 30 * 100];
         this.direction = tank.direction;
         this.life = tank.life;
         this.index = index;
         this.parent = $(parent);
-        this.self = $("<div class='tank'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
-            "    <rect width=\"70\" height=\"70\" x=\"0\" y=\"30\" rx=\"10\" ry=\"10\" style=\"fill:#333\" />\n" +
-            "    <rect x=\"0\" y=\"25\" rx=\"10\" ry=\"10\" width=\"15\" height=\"80\" style=\"fill:#5c5c5c;\" />\n" +
-            "    <rect x=\"55\" y=\"25\" rx=\"10\" ry=\"10\" width=\"15\" height=\"80\" style=\"fill:#5c5c5c;\" />\n" +
-            "    <rect x=\"20\" y=\"90\" rx=\"10\" ry=\"10\" width=\"30\" height=\"15\" style=\"" + ((this.index !== 0) ? "fill:#c9a26c;" : "fill:#fb5555;") + "\" />\n" +
-            "    <circle cx=\"35\" cy=\"65\" r=\"15\" style=\"fill-opacity: .2\" fill=\"white\" />\n" +
-            "    <circle cx=\"35\" cy=\"65\" r=\"10\" style=\"fill-opacity: .3\" fill=\"white\" />\n" +
-            "    <circle cx=\"35\" cy=\"65\" r=\"5\" style=\"fill-opacity: .5\" fill=\"white\" />\n" +
-            "    <g id=\"gun\">\n" +
-            "        <line x1=\"35\" y1=\"5\" x2=\"35\" y2=\"57.5\" style=\"stroke: #8d8d8d; stroke-width: 8\" />\n" +
-            "        <rect x=\"32\" y=\"0\" rx=\"5\" ry=\"5\" width=\"6\" height=\"10\" style=\"fill:#8d8d8d;\" />\n" +
-            "    </g>\n" +
-            "</svg></div>");
+        if (index === 0 && skin1 !== "") {
+            this.self = $("<div class='tank'>" +
+                "<img src=\"" + skin1 + "\" alt='Tank'/>" +
+                "</div>");
+        } else if (index === 1 && skin2 !== "") {
+            this.self = $("<div class='tank'>" +
+                "<img src=\"" + skin2 + "\" alt='Tank'/>" +
+                "</div>");
+        } else {
+            this.self = $("<div class='tank'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
+                "    <rect width=\"70\" height=\"70\" x=\"0\" y=\"30\" rx=\"10\" ry=\"10\" style=\"fill:#333\" />\n" +
+                "    <rect x=\"0\" y=\"25\" rx=\"10\" ry=\"10\" width=\"15\" height=\"80\" style=\"fill:#5c5c5c;\" />\n" +
+                "    <rect x=\"55\" y=\"25\" rx=\"10\" ry=\"10\" width=\"15\" height=\"80\" style=\"fill:#5c5c5c;\" />\n" +
+                "    <rect x=\"20\" y=\"90\" rx=\"10\" ry=\"10\" width=\"30\" height=\"15\" style=\"" + ((this.index !== 0) ? "fill:#c9a26c;" : "fill:#fb5555;") + "\" />\n" +
+                "    <circle cx=\"35\" cy=\"65\" r=\"15\" style=\"fill-opacity: .2\" fill=\"white\" />\n" +
+                "    <circle cx=\"35\" cy=\"65\" r=\"10\" style=\"fill-opacity: .3\" fill=\"white\" />\n" +
+                "    <circle cx=\"35\" cy=\"65\" r=\"5\" style=\"fill-opacity: .5\" fill=\"white\" />\n" +
+                "    <g id=\"gun\">\n" +
+                "        <line x1=\"35\" y1=\"5\" x2=\"35\" y2=\"57.5\" style=\"stroke: #8d8d8d; stroke-width: 8\" />\n" +
+                "        <rect x=\"32\" y=\"0\" rx=\"5\" ry=\"5\" width=\"6\" height=\"10\" style=\"fill:#8d8d8d;\" />\n" +
+                "    </g>\n" +
+                "</svg></div>");
+        }
         this.self.css({
             transform: "rotate(" + rotationDeg[this.direction].toString() + "deg) translate(-50%, -50%)",
             top: this.position[1].toString() + "%",
@@ -184,13 +214,23 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         })
     }
 
-    function BulletSpirit(parent, bullet) {
+    function BulletSpirit(parent, bullet, skin1, skin2) {
         this.position = bullet.position;
         this.direction = bullet.direction;
         this.parent = $(parent);
-        this.self = $("<div class='tank'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
-            "    <rect width=\"5\" height=\"30\" x=\"32.5\" y=\"40\" style=\";fill:#ffc927\" />\n" +
-            "</svg></div>");
+        if (bullet.owner === 0 && skin1 !== "") {
+            this.self = $("<div class='bullet'>" +
+                "<img src=\"" + skin1 + "\" alt='Bullet'/>" +
+                "</div>");
+        } else if (bullet.owner === 1 && skin2 !== "") {
+            this.self = $("<div class='bullet'>" +
+                "<img src=\"" + skin2 + "\" alt='Bullet'/>" +
+                "</div>");
+        } else {
+            this.self = $("<div class='bullet'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
+                "    <rect width=\"5\" height=\"30\" x=\"32.5\" y=\"40\" style=\";fill:#ffc927\" />\n" +
+                "</svg></div>");
+        }
         this.self.css({
             transform: "rotate(" + rotationDeg[this.direction].toString() + "deg) translate(-50%, -50%)",
             top: ((bullet.position[1] + 5) / 29 * 100).toString() + "%",
@@ -232,7 +272,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         var tanks = [];
         var bullets = [];
 
-        var border;
+        var border, lifeFixedA, lifeFixedB, lifePointA, lifePointB;
 
         var container = $(".board-container");
         container.html("");
@@ -242,6 +282,12 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
 
             A = result.A;
             B = result.B;
+            p1 = result.p1;
+            p2 = result.p2;
+            ts1 = result.ts1;
+            ts2 = result.ts2;
+            bs1 = result.bs1;
+            bs2 = result.bs2;
             result = result.record;
 
             $("[data='stdout-A']").html(A.stdout);
@@ -250,16 +296,25 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             $("[data='stderr-B']").html(B.stderr);
 
             result[0].tanks.forEach(function (item, index) {
-                tanks.push(new TankSpirit(container, item, index));
+                tanks.push(new TankSpirit(container, item, index, ts1, ts2));
             });
 
             result[0].bullets.forEach(function (item) {
-                bullets.push(new BulletSpirit(container, item));
+                bullets.push(new BulletSpirit(container, item, bs1, bs2));
             });
 
             border = $("<div class='border'> </div>");
             var borderWidth = 20;
             container.append(border);
+
+            lifeFixedA = $("<div class='lifeFixed' style='left: 0;text-align: left'>&nbsp;" + p1 + "</div>");
+            lifeFixedB = $("<div class='lifeFixed' style='right: 0;text-align: right'>" + p2 + "&nbsp;</div>");
+            lifePointA = $("<div class='lifepointA'></div>");
+            lifePointB = $("<div class='lifepointB'></div>");
+            container.append(lifeFixedA);
+            container.append(lifeFixedB);
+            container.append(lifePointA);
+            container.append(lifePointB);
 
             function frame() {
                 var fd = result[frameid];
@@ -278,6 +333,16 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                         borderWidth / 30 * 100,
                         (20 - fd.shrink * 2) / 30 * 100,
                         1000 / globalFps
+                    ));
+
+                    promises.push(animateLife(
+                        lifePointA,
+                        fd.tanks[0],
+                    ));
+
+                    promises.push(animateLife(
+                        lifePointB,
+                        fd.tanks[1],
                     ));
 
                     fd.tanks.forEach(function (item, index) {
@@ -299,9 +364,9 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                 }
 
                 Promise.all(promises).then(function () {
-                    if(!pause) {
+                    if (!pause) {
                         for (; i < fd.bullets.length; i++) {
-                            bullets.push(new BulletSpirit(container, fd.bullets[i]));
+                            bullets.push(new BulletSpirit(container, fd.bullets[i], bs1, bs2));
                         }
                         console.log(frameid, result.length);
                         frameid++;

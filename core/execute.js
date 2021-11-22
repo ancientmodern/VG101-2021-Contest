@@ -33,8 +33,10 @@ function Match() {
 Match.prototype.setExecutable = function (A, B) {
     this.binA = A;
     this.binB = B;
-    this.procA = spawn("sudo", ["-u", "game", this.binA, "-r"]);
-    this.procB = spawn("sudo", ["-u", "game", this.binB, "-r"]);
+    // this.procA = spawn("sudo", ["-u", "game", this.binA, "-r"]);
+    // this.procB = spawn("sudo", ["-u", "game", this.binB, "-r"]);
+    this.procA = spawn(this.binA, ["-r"]);
+    this.procB = spawn(this.binB, ["-r"]);
 
     this.procA.pid = processPIDLine(this.procA.pid);
     this.procB.pid = processPIDLine(this.procB.pid);
@@ -60,8 +62,8 @@ Match.prototype.setExecutable = function (A, B) {
             if (!code) this.errors.push({player: 0, msg: "Runtime Error (" + signal + ")"});
             else this.errors.push({player: 0, msg: "Runtime Error (" + code + ")"});
         else
-            this.errors.push({player: 0, msg: "Accidentally Exit"});
-        this.result = {winner: 1, error: errors};
+            this.errors.push({player: 0, msg: "Player 0 Accidentally Exit"});
+        this.result = {winner: 1, error: this.errors};
     };
 
     this.onerrB = (code, signal) => {
@@ -73,8 +75,8 @@ Match.prototype.setExecutable = function (A, B) {
             if (!code) this.errors.push({player: 1, msg: "Runtime Error (" + signal + ")"});
             else this.errors.push({player: 1, msg: "Runtime Error (" + code + ")"});
         else
-            this.errors.push({player: 1, msg: "Accidentally Exit"});
-        this.result = {winner: 0, error: errors};
+            this.errors.push({player: 1, msg: "Player 1 Accidentally Exit"});
+        this.result = {winner: 0, error: this.errors};
     };
 
     this.procA.on("exit", (code, signal) => this.onerrA(code, signal));
@@ -117,7 +119,7 @@ Match.prototype.execute = function () {
                 if (!code) errors.push({player: 0, msg: "Runtime Error (" + signal + ")"});
                 else errors.push({player: 0, msg: "Runtime Error (" + code + ")"});
             else
-                errors.push({player: 0, msg: "Accidentally Exit"});
+                errors.push({player: 0, msg: "Player 0 Accidentally Exit"});
             res({winner: 1, error: errors});
         };
         this.onerrB = (code, signal) => {
@@ -130,7 +132,7 @@ Match.prototype.execute = function () {
                 if (!code) errors.push({player: 1, msg: "Runtime Error (" + signal + ")"});
                 else errors.push({player: 1, msg: "Runtime Error (" + code + ")"});
             else
-                errors.push({player: 1, msg: "Accidentally Exit"});
+                errors.push({player: 1, msg: "Player 1 Accidentally Exit"});
             res({winner: 0, error: errors});
         };
 
@@ -153,8 +155,7 @@ Match.prototype.execute = function () {
                 if (tank === Game.tank.A) {
                     moveA = parseInt(msg);
                     this.A.stdout += msg + "\n";
-                }
-                else {
+                } else {
                     moveB = parseInt(msg);
                     this.B.stdout += msg + "\n";
                 }
@@ -196,7 +197,7 @@ Match.prototype.execute = function () {
         sendMsg = () => {
             this.procA.stdin.write(moveB.toString() + "\n");
             this.procB.stdin.write(moveA.toString() + "\n");
-            this.tle = setTimeout(tleHandler, 2000);
+            this.tle = setTimeout(tleHandler, 1000);
             moveA = -1;
             moveB = -1;
             this.procA.stdout.once("data", checkMove(Game.tank.A));
@@ -231,7 +232,7 @@ Match.prototype.execute = function () {
             }
         }
 
-        this.tle = setTimeout(tleHandler, 2000);
+        this.tle = setTimeout(tleHandler, 1000);
         this.procA.stdout.once("data", checkMove(Game.tank.A));
         this.procB.stdout.once("data", checkMove(Game.tank.B));
     });
