@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" class="page--login">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <title>Student Login - Create New Account</title>
+</head>
+<body>
+<nav class="nav">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li>
+                    <a href="/" class="nav__logo">GreedySnakeJudge</a>
+                </li>
+                <li>
+                    <a href="/" class="nav__item">Scoreboard</a>
+                </li>
+                <li>
+                    <a href="/submission" class="nav__item">Submission</a>
+                </li>
+                <li>
+                    <a href="/match" class="nav__item">Match</a>
+                </li>
+                <li>
+                    <a href="/rules" class="nav__item">Rules</a>
+                </li>
+            </ol>
+            <ol class="nav__container-item">
+                <li id="signin">
+                    <a href="/oauth/login" class="nav__item">Loading...</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel" id="panel">
+    <div class="main">
+        <div class="row">
+            <div class="columns">
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">
+                            <span class="icon icon-warning text-red"></span>
+                            Guest Registration
+                        </h1>
+                    </div>
+                    {{if fail == 1}}
+                    <div class="typo">
+                        <blockquote class="success">
+                            Login Name already exists
+                        </blockquote>
+                    </div>
+                    {{else if fail == 2}}
+                    <div class="typo">
+                        <blockquote class="success">
+                            Please directly login with your student ID
+                        </blockquote>
+                    </div>
+                    {{/if}}
+                    <div class="section__body">
+                        <form method="post" action="/oauth/register">
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Login ID</label>
+                                    <input type="text" name="studentId" class="textbox" autofocus="" required="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Real Name (required)</label>
+                                    <input type="text" name="realname" class="textbox"
+                                           required="">
+                                    <p class="help-text">Your real name is only visible to TAs. Others will not know who
+                                        you are.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Display Name (required)</label>
+                                    <input type="text" name="name" class="textbox"
+                                           required="">
+                                    <p class="help-text">Will be displayed <span class="text-red">publicly</span> in
+                                        scoreboard.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Password</label>
+                                    <input type="password" name="password" class="textbox" required="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Confirm Password</label>
+                                    <input type="password" name="confirm" class="textbox" required="">
+                                    <p class="help-text warn">Password should be the same as confirm password</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <input type="hidden" name="_csrf" value="{{token}}">
+                                    <button class="primary rounded button" type="submit">Register</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+</div>
+<script src="/js/jQuery.js"></script>
+<script src="/general.js"></script>
+<script src="validation.js"></script>
+</body>
+</html>

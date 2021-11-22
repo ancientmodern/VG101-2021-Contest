@@ -1,0 +1,44 @@
+{
+  "compiler": {
+    "c++98": "g++ %source -o %exec -std=c++98 -lm -Werror -Wall -O3 %flags",
+    "c++11": "g++ %source -o %exec -std=c++11 -lm -Werror -Wall -O3 %flags",
+    "c++14": "g++ %source -o %exec -std=c++14 -lm -Werror -Wall -O3 %flags",
+    "c++17": "g++ %source -o %exec -std=c++17 -lm -Werror -Wall -O3 %flags"
+  },
+  "executable": {
+    "root": "./executable/"
+  },
+  "submission": {
+    "root": "./submission/"
+  },
+  "db": {
+    "user": "admin",
+    "password": "123456",
+    "ip": "127.0.0.1",
+    "port": "27017",
+    "db": "tank"
+  },
+  "game":{
+    "defaultMapSize": 20
+  },
+  "machine": 0,
+  "security": {
+    "salt": "123"
+  },
+  "env": "dev",
+  "debug": {
+    "watchGame": false
+  },
+  "worker": {
+    "maxProcessCnt": 1
+  },
+  "ranking": {
+    "base": 100,
+    "multiplier": 1.5,
+    "divider": 1000
+  },
+  "display": {
+    "pager": 20
+  },
+  "maxGameRecord": 10000
+}

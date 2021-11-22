@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" class="page--scoreboard">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <title>O1 Submission - TankWar Lab</title>
+</head>
+<body>
+<nav class="nav">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li>
+                    <a href="/" class="nav__logo">TankWarJudge</a>
+                </li>
+                <li>
+                    <a href="/" class="nav__item">Scoreboard</a>
+                </li>
+                <li>
+                    <a href="/submission" class="nav__item active">Submission</a>
+                </li>
+                <li>
+                    <a href="/match" class="nav__item">Match</a>
+                </li>
+                <li>
+                    <a href="/rules" class="nav__item">Rules</a>
+                </li>
+            </ol>
+            <ol class="nav__container-item">
+                <li id="signin">
+                    <a href="/profile" class="nav__item"><%= realName %></a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel" id="panel">
+    <div class="main">
+        <div class="row">
+            <div class="medium-9 columns">
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">
+                            <span class="icon icon-warning text-red"></span>
+                            Version 1.0.0
+                        </h1>
+                    </div>
+                    <div class="section__body">
+                        <p>Happy VG101 Lab6!</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">My O1 Submission</h1>
+                    </div>
+                    <% if (nosubmission) { %>
+                        <div class="section__body">
+                            No submission.
+                        </div>
+                    <% } else { %>
+                        <div class="section__header">
+                            <h1 class="section__title">
+                                <span class="icon submission-status--icon <%
+                                if (submission.status === 0) {
+                                %> pending <%
+                                } else if (submission.status < 4) {
+                                %> compiling <%
+                                } else if (submission.status === 4) {
+                                %> effective <%
+                                } else {
+                                %> fail <%
+                                }
+                                %>"></span>
+                                <span class="submission-status--text <%
+                                if (submission.status === 0) {
+                                %> pending <%
+                                } else if (submission.status < 4) {
+                                %> compiling <%
+                                } else if (submission.status === 4) {
+                                %> effective <%
+                                } else {
+                                %> fail <%
+                                }
+                                %>">
+                                    <% switch(submission.status) {
+                                    case 0:
+                                    %>
+                                    Waiting
+                                    <% break;
+                                    case 1: %>
+                                    Fetched
+                                    <% break;
+                                    case 2: %>
+                                    Compiling
+                                    <% break;
+                                    case 3: %>
+                                    Judging
+                                    <% break;
+                                    case 4: %>
+                                    Accepted
+                                    <% break;
+                                    case 5: %>
+                                    Wrong Answer
+                                    <% break;
+                                    case 6: %>
+                                    Time Exceeded
+                                    <% break;
+                                    case 7: %>
+                                    Memory Exceeded
+                                    <% break;
+                                    case 8: %>
+                                    Runtime Error
+                                    <% break;
+                                    case 9: %>
+                                    Compile Error
+                                    <% break;
+                                        case 10: %>
+                                    System Error
+                                    <% } %>
+                                </span>
+                                score: <%= score%>
+                            </h1>
+                        </div>
+                        <% if (submission.status === 9) { %>
+                            <div class="section__body">
+                                <pre class="compiler-text">
+                                    <%= submission.stderr %>
+                                </pre>
+                            </div>
+                        <% } else if (submission.status >= 4) { %>
+                            <div class="section__body no-padding">
+                                <div class="section__table-container">
+                                    <table class="data-table submissions-table section__table-header">
+                                        <colgroup>
+                                            <col class="col--status submission-status--border">
+                                            <col class="col--compiler">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th class="col--status submission-status--border">Status</th>
+                                            <th class="col--compiler">Compiler</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                    <table class="data-table submissions-table">
+                                        <colgroup>
+                                            <col class="col--status submission-status--border">
+                                            <col class="col--compiler">
+                                        </colgroup>
+                                        <tbody id="datagrid">
+                                        <% submission.testcases.forEach((testcase, index) => { %>
+                                            <tr>
+                                                <td class="col--status submission-status--border <%
+                                                if (testcase.status === 0) {
+                                                %> pending <%
+                                                } else if (testcase.status < 4) {
+                                                %> compiling <%
+                                                } else if (testcase.status === 4) {
+                                                %> effective <%
+                                                } else {
+                                                %> fail <%
+                                                }
+                                                %>">
+                                                <span class="icon submission-status--icon <%
+                                                if (testcase.status === 0) {
+                                                %> pending <%
+                                                } else if (testcase.status < 4) {
+                                                %> compiling <%
+                                                } else if (testcase.status === 4) {
+                                                %> effective <%
+                                                } else {
+                                                %> ce <%
+                                                }
+                                                %>"></span>
+                                                    <a href="/submission/O1/<%= index %>">
+                                                        <% switch(testcase.status) {
+                                                        case 0:
+                                                        %>
+                                                        Waiting
+                                                        <% break;
+                                                        case 1: %>
+                                                        Fetched
+                                                        <% break;
+                                                        case 2: %>
+                                                        Compiling
+                                                        <% break;
+                                                        case 3: %>
+                                                        Judging
+                                                        <% break;
+                                                        case 4: %>
+                                                        Accepted
+                                                        <% break;
+                                                        case 5: %>
+                                                        Wrong Answer
+                                                        <% break;
+                                                        case 6: %>
+                                                        Time Exceeded
+                                                        <% break;
+                                                        case 7: %>
+                                                        Memory Exceeded
+                                                        <% break;
+                                                        case 8: %>
+                                                        Runtime Error
+                                                        <% break;
+                                                        case 9: %>
+                                                        Compile Error
+                                                        <% break;
+                                                            case 10: %>
+                                                        System Error
+                                                        <% } %>
+                                                    </a>
+                                                </td>
+                                                <td class="col--compiler"><%= submission.compiler %></td>
+                                            </tr>
+                                        <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+            </div>
+            <div class="medium-3 columns">
+                <div data-sticky="medium">
+                    <div class="section side">
+                        <div class="section__header">
+                            <h1 class="section__title">Submission</h1>
+                        </div>
+                        <ol class="menu">
+                            <li class="menu__item">
+                                <a href="/submission" class="menu__link">
+                                    <span class="icon icon-flag"></span>
+                                    My Submissions
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="/submission/O1" class="menu__link active">
+                                    <span class="icon icon-flag"></span>
+                                    O1 Submission
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="/submission/submit" class="menu__link">
+                                    <span class="icon icon-send"></span>
+                                    Submit New Brain
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+</div>
+<script src="/js/jsUtils/jsUtils.js"></script>
+</body>
+</html>
