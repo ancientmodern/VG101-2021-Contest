@@ -72,8 +72,8 @@ app.post("/profile", profile.update);
 app.get("/profile/settings", profile.settings);
 app.post("/profile/settings", profile.updateSettings);
 
-app.listen(443, () => {
-    console.log(`Example app listening at https://localhost:443`)
+app.listen(80, () => {
+    console.log(`Example app listening at http://localhost:80`)
 })
 
 // catch 404 and forward to error handler

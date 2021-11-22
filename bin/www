@@ -6,7 +6,7 @@
 
 var app = require('../app');
 var debug = require('debug')('tankwar:server');
-var https = require('https');
+var http = require('http');
 var fs = require('fs');
 
 /**
@@ -20,10 +20,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = https.createServer({
-    key: fs.readFileSync('/root/cert/private.key'),//证书文件的存放目录
-    cert: fs.readFileSync('/root/cert/cert.crt')
-}, app).listen(443, '0.0.0.0');
+var server = http.createServer(app);
 
 // var server = https.createServer(app);
 
