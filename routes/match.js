@@ -111,7 +111,7 @@ module.exports = {
 
         try {
             id = ObjectID(id);
-        } catch(e) {
+        } catch (e) {
             res.redirect("/match")
             return;
         }
@@ -138,7 +138,7 @@ module.exports = {
 
         try {
             id = ObjectID(id);
-        } catch(e) {
+        } catch (e) {
             res.status(404);
             return;
         }
@@ -150,6 +150,10 @@ module.exports = {
 
         await client.close();
 
-        res.end(JSON.stringify({record: rec.record, A: rec.A || {stdout: "No Record", stderr: "No Record"}, B: rec.B || {stdout: "No Record", stderr: "No Record"}}));
+        res.end(JSON.stringify({
+            record: rec.record,
+            A: rec.A || {stdout: "No Record", stderr: "No Record"},
+            B: rec.B || {stdout: "No Record", stderr: "No Record"}
+        }));
     }
 }

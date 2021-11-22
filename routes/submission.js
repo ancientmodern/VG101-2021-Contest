@@ -45,7 +45,10 @@ module.exports = {
 
             let submissions = await (await col.find({user: ObjectID(req.session.uid)}).sort(["_id", -1])).limit(1).toArray();
 
-            if (submissions.length === 0) res.render("submission/O1", {nosubmission: true, realName: req.session.realName});
+            if (submissions.length === 0) res.render("submission/O1", {
+                nosubmission: true,
+                realName: req.session.realName
+            });
             else {
                 let score = 0;
                 if (submissions[0].testcases)
@@ -59,7 +62,12 @@ module.exports = {
                         if (submissions[0].status < item.status) submissions[0].status = item.status;
                     });
 
-                res.render("submission/O1", {nosubmission: false, submission: submissions[0], realName: req.session.realName, score: Math.floor(score / 90 * 100)});
+                res.render("submission/O1", {
+                    nosubmission: false,
+                    submission: submissions[0],
+                    realName: req.session.realName,
+                    score: Math.floor(score / 90 * 100)
+                });
             }
 
             await client.close();
@@ -91,7 +99,12 @@ module.exports = {
             res.redirect('/oauth');
         } else {
             // TODO: 增加截止时间, 增加默认编译器设置
-            res.render("submission/submit", {realName: req.session.realName, post: false, late: false, compiler: "c++17"});
+            res.render("submission/submit", {
+                realName: req.session.realName,
+                post: false,
+                late: false,
+                compiler: "c++17"
+            });
         }
     },
     async post(req, res) {
@@ -113,7 +126,12 @@ module.exports = {
                 let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
                 let db = client.db(config.db.db);
                 let col = db.collection("judge");
-                await col.insertOne({source: sourcedir, status: 0, compiler: req.body.compiler, user: ObjectID(req.session.uid)});
+                await col.insertOne({
+                    source: sourcedir,
+                    status: 0,
+                    compiler: req.body.compiler,
+                    user: ObjectID(req.session.uid)
+                });
                 await client.close();
 
                 child_process.fork("./core/judge.js");
@@ -130,7 +148,7 @@ module.exports = {
 
             try {
                 id = ObjectID(id)
-            } catch(e) {
+            } catch (e) {
                 res.redirect("/submission")
             }
 

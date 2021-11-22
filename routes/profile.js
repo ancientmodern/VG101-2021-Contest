@@ -6,7 +6,7 @@ const {ObjectID} = require("mongodb");
 const crypto = require("crypto");
 
 function sha256(s) {
-  return crypto.createHash("sha256").update(s + config.security.salt).digest("base64");
+    return crypto.createHash("sha256").update(s + config.security.salt).digest("base64");
 }
 
 module.exports = {
@@ -37,7 +37,12 @@ module.exports = {
             if (req.body.password) {
                 let rec = await db.collection("user").find({_id: ObjectID(req.session.uid)}).toArray();
                 if (sha256(req.body.password) === rec[0].password) {
-                    await db.collection("user").updateOne({_id: ObjectID(req.session.uid)}, {$set: {dispName: req.body.name, password: sha256(req.body.newpassword)}});
+                    await db.collection("user").updateOne({_id: ObjectID(req.session.uid)}, {
+                        $set: {
+                            dispName: req.body.name,
+                            password: sha256(req.body.newpassword)
+                        }
+                    });
                 } else {
                     wrongPassword = true;
                 }
