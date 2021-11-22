@@ -46,29 +46,35 @@ async function worker() {
         });
         if (success) {
             let testcases = [
-                        {status: 1},
-                        {status: 1},
-                        {status: 1},
-                        {status: 1},
-                        {status: 1},
-                        {status: 1},
-                        {status: 1},
-                        {status: 1},
-                        {status: 1}
-                    ];
+                {status: 1},
+                {status: 1},
+                {status: 1},
+                {status: 1},
+                {status: 1},
+                {status: 1},
+                {status: 1},
+                {status: 1},
+                {status: 1}
+            ];
             let status = 3;
 
-            await col.updateOne({_id: record._id}, {$set:
+            await col.updateOne({_id: record._id}, {
+                $set:
                     {
                         status,
                         testcases
-            }});
+                    }
+            });
 
-            for(let i = 0; i < testcases.length; i++) {
+            for (let i = 0; i < testcases.length; i++) {
                 let stdout = "", stderr = "";
                 let obj = spawn(record.source + "/judge.out", ["-" + (i + 1).toString()]);
-                obj.stdout.on("data", (chunk) => { stdout += chunk; });
-                obj.stderr.on("data", (chunk) => { stderr += chunk; });
+                obj.stdout.on("data", (chunk) => {
+                    stdout += chunk;
+                });
+                obj.stderr.on("data", (chunk) => {
+                    stderr += chunk;
+                });
                 testcases[i] = await new Promise((res, rej) => {
                     let tle = setTimeout(() => {
                         spawn("kill", ["-9", obj.pid.toString()]);
@@ -87,17 +93,21 @@ async function worker() {
                         } else res({status: 4, stdout, stderr});
                     })
                 });
-                await col.updateOne({_id: record._id}, {$set:
-                    {
-                        status,
-                        testcases
-                }});
+                await col.updateOne({_id: record._id}, {
+                    $set:
+                        {
+                            status,
+                            testcases
+                        }
+                });
             }
 
-            if (status === 3) await col.updateOne({_id: record._id}, {$set:
+            if (status === 3) await col.updateOne({_id: record._id}, {
+                $set:
                     {
                         status: 4
-                }});
+                    }
+            });
 
         }
     }

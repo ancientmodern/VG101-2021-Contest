@@ -72,7 +72,7 @@ app.post("/profile", profile.update);
 app.get("/profile/settings", profile.settings);
 app.post("/profile/settings", profile.updateSettings);
 
-app.listen(80, () => {
+app.listen(1234, () => {
     console.log(`Example app listening at http://localhost:80`)
 })
 

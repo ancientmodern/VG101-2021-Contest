@@ -33,8 +33,10 @@ function Match() {
 Match.prototype.setExecutable = function (A, B) {
     this.binA = A;
     this.binB = B;
-    this.procA = spawn("sudo", ["-u", "game", this.binA, "-r"]);
-    this.procB = spawn("sudo", ["-u", "game", this.binB, "-r"]);
+    // this.procA = spawn("sudo", ["-u", "game", this.binA, "-r"]);
+    // this.procB = spawn("sudo", ["-u", "game", this.binB, "-r"]);
+    this.procA = spawn(this.binA, ["-r"]);
+    this.procB = spawn(this.binB, ["-r"]);
 
     this.procA.pid = processPIDLine(this.procA.pid);
     this.procB.pid = processPIDLine(this.procB.pid);
@@ -153,8 +155,7 @@ Match.prototype.execute = function () {
                 if (tank === Game.tank.A) {
                     moveA = parseInt(msg);
                     this.A.stdout += msg + "\n";
-                }
-                else {
+                } else {
                     moveB = parseInt(msg);
                     this.B.stdout += msg + "\n";
                 }
