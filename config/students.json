@@ -18,5 +18,17 @@
   "test": {
     "name": "test",
     "TA": false
+  },
+  "test1": {
+    "name": "test1",
+    "TA": false
+  },
+  "test2": {
+    "name": "test2",
+    "TA": false
+  },
+  "test3": {
+    "name": "test3",
+    "TA": false
   }
 }
