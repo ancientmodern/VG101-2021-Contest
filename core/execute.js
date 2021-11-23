@@ -141,6 +141,7 @@ Match.prototype.execute = function () {
 
         let checkMove = (tank) => {
             return (msg) => {
+                // console.log(msg.toString());
                 msg = msg.toString()[0];
 
                 if (!/^[0-2]/.exec(msg)) {
