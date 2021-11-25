@@ -69,13 +69,16 @@ class Game {
     turn() {
 
         this.round++;
-        this.shrink = Math.floor(this.round  / 16);
+        this.shrink = Math.floor(this.round / 16);
 
         let loser = [];
 
         if (this.tanks[0].position.x === this.tanks[1].position.x && this.tanks[0].position.y === this.tanks[1].position.y) {
-            if (this.tanks[0].life < this.tanks[1].life) return [1];
-            else if (this.tanks[1].life < this.tanks[0].life) return [0];
+            // TODO: Change to correct loser
+            // if (this.tanks[0].life < this.tanks[1].life) return [1];
+            // else if (this.tanks[1].life < this.tanks[0].life) return [0];
+            if (this.tanks[0].life < this.tanks[1].life) return [0];
+            else if (this.tanks[1].life < this.tanks[0].life) return [1];
             else return [0, 1];
         }
 
@@ -107,7 +110,7 @@ class Game {
         });
 
         this.bullets = this.bullets.filter((bullet) => !(bullet.position.x < this.shrink - 5 || bullet.position.y < this.shrink - 5 ||
-                bullet.position.x >= this.mapSize - this.shrink + 5 || bullet.position.y >= this.mapSize - this.shrink + 5) && !bullet.busted);
+            bullet.position.x >= this.mapSize - this.shrink + 5 || bullet.position.y >= this.mapSize - this.shrink + 5) && !bullet.busted);
 
         this.tanks.forEach((tank, index) => {
             if (tank.position.x < this.shrink || tank.position.y < this.shrink ||
@@ -149,7 +152,7 @@ class Game {
             let row = [];
             for (let j = -5; j < this.mapSize + 5; j++) {
                 if (i < this.shrink || j < this.shrink ||
-                i >= this.mapSize - this.shrink || j >= this.mapSize - this.shrink)
+                    i >= this.mapSize - this.shrink || j >= this.mapSize - this.shrink)
                     row.push("-");
                 else
                     row.push(' ');
