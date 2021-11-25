@@ -64,7 +64,7 @@
                                         <% if (winner === 0) { %>
                                             <%= p1 %><% } else { %>
                                             <%= p2 %><% } %>
-                                        <div class="field-icon field--<%= (winner === 0) ? 'black' : 'white' %>"></div>
+                                        <div class="field-icon field--<%= (winner === 0) ? 'white' : 'black' %>"></div>
                                 </span>
                             </li>
                             <li><span class="round-status--text lose">
@@ -76,7 +76,7 @@
                                     <% } else { %>
                                         <%= p2 %>
                                     <% } %>
-                                    <div class="field-icon field--<%= (winner === 1) ? 'black' : 'white' %>"></div>
+                                    <div class="field-icon field--<%= (winner === 1) ? 'white' : 'black' %>"></div>
             </span>
                             </li>
                         </ol>
@@ -87,7 +87,7 @@
               Draw
               :
                 <%= p1 %>
-              <div class="field-icon field--black"></div>
+              <div class="field-icon field--white"></div>
             </span>
                                 </li>
                                 <li><span class="round-status--text draw">
@@ -95,7 +95,7 @@
               Draw
               :
                 <%= p2 %>
-              <div class="field-icon field--white"></div>
+              <div class="field-icon field--black"></div>
             </span>
                                 </li>
                             </ol>
