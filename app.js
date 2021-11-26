@@ -27,7 +27,7 @@ app.use(session({
     resave: false,   /*强制保存 session 即使它并没有变化,。默认为 true。建议设置成 false。*/
     saveUninitialized: true,   //强制将未初始化的 session 存储。  默认值是true  建议设置成true
     cookie: {
-        maxAge: 1000 * 30 * 60    /*过期时间*/
+        maxAge: 1000 * 60 * 60 * 24    /*过期时间*/
     },   /* secure:true  https这样的情况才可以访问cookie */
     rolling: true, //在每次请求时强行设置 cookie，这将重置 cookie 过期时间（默认：false）
     store: new MongoStore({
