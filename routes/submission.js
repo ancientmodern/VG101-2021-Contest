@@ -117,7 +117,7 @@ module.exports = {
             let sourcedir = config.submission.root + sha1.update((new Date()).valueOf().toString() + req.session.uid.toString()).digest("hex");
 
             fs.mkdirSync(sourcedir);
-            fs.writeFileSync(sourcedir + "/lab6.cpp", data);
+            fs.writeFileSync(sourcedir + "/lab7.cpp", data);
             child_process.execSync("cp " + config.submission.root + "template/* " + sourcedir);
 
             compile(req.session.uid, sourcedir, req.body.compiler).then();

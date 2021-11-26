@@ -33,7 +33,7 @@ async function worker() {
         await col.updateOne({_id: record._id}, {$set: {status: 2}});
         let success = await new Promise((res, rej) => {
             (new Compiler(record.compiler)).addSource(record.source + "/driver1.cpp")
-                .addSource(record.source + "/lab6.cpp")
+                .addSource(record.source + "/lab7.cpp")
                 .compile(record.source + "/judge.out", async (msg) => {
                     if (msg.status === 0) {
                         await col.updateOne({_id: record._id}, {$set: {status: 1}});
