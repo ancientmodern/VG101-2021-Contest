@@ -19,7 +19,8 @@ module.exports = {
             let rec = await db.collection("user").find({_id: ObjectID(req.session.uid)}).toArray();
 
             let data = rec[0];
-            data.post = false;
+            // data.post = false;
+            data.post = true;
 
             await client.close();
             res.render("profile/profile", data);
