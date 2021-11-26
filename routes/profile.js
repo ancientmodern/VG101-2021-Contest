@@ -19,8 +19,7 @@ module.exports = {
             let rec = await db.collection("user").find({_id: ObjectID(req.session.uid)}).toArray();
 
             let data = rec[0];
-            // data.post = false;
-            data.post = true;
+            data.post = false;
 
             await client.close();
             res.render("profile/profile", data);
@@ -30,6 +29,7 @@ module.exports = {
         if (!req.session.uid) { // 未授权
             res.redirect('/oauth');
         } else {
+            console.log("update profile");
             let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
             let db = client.db(config.db.db);
 
