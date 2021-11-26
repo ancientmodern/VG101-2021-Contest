@@ -29,7 +29,7 @@ module.exports = {
         if (!req.session.uid) { // 未授权
             res.redirect('/oauth');
         } else {
-            console.log("update profile");
+            // console.log("update profile");
             let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
             let db = client.db(config.db.db);
 
