@@ -13,11 +13,11 @@
   },
   "test1": {
     "name": "test1",
-    "TA": false
+    "TA": true
   },
   "test2": {
     "name": "test2",
-    "TA": false
+    "TA": true
   },
   "test3": {
     "name": "test3",
