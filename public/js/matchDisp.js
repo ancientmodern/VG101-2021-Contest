@@ -245,8 +245,8 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             result = result.record;
 
             $("[data='stdout-A']").html(A.stdout);
-            $("[data='stderr-A']").html(B.stderr);
-            $("[data='stdout-B']").html(A.stdout);
+            $("[data='stderr-A']").html(A.stderr);
+            $("[data='stdout-B']").html(B.stdout);
             $("[data='stderr-B']").html(B.stderr);
 
             result[0].tanks.forEach(function (item, index) {
