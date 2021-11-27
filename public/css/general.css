@@ -5467,7 +5467,7 @@ svg {
     color: white;
     font-size: 25px;
     font-smooth: antialiased;
-    text-shadow: -8px -8px 0 black, 8px -8px 0 black, -8px 8px 0 black, 8px 8px 0 black;
+    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, -4px -4px 0 black, 4px -4px 0 black, -4px 4px 0 black, 4px 4px 0 black;
 }
 
 .tank {
