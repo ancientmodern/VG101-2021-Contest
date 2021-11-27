@@ -5441,7 +5441,8 @@ svg {
     text-align: left;
     font-family: Monaco, sans-serif;
     font-weight: bolder;
-    font-size: 24px;
+    font-size: 32px;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
     color: #ffffff;
 }
 
@@ -5458,6 +5459,7 @@ svg {
     font-family: Monaco, sans-serif;
     font-weight: bolder;
     font-size: 32px;
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
     color: #ffffff;
 }
 
