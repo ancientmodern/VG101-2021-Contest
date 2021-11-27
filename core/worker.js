@@ -42,9 +42,9 @@ async function worker() {
             let K2 = Math.max(22, 70 - user2.score / 80);
             if (user1.score < 1920 && user2.score < 1920) {
                 if (user1.score < user2.score) {
-                    K1 *= 1.15;
+                    K1 *= 1.25;
                 } else {
-                    K2 *= 1.15;
+                    K2 *= 1.25;
                 }
             }
             let P1 = 1 / (1 + Math.pow(10, (user2.score - user1.score) / 400));
@@ -83,7 +83,7 @@ async function worker() {
             let winK = Math.max(22, 70 - userWin.score / 80);
             let loseK = Math.max(22, 70 - userLose.score / 80);
             if (userWin.score < 1920 && userLose.score < 1920) {
-                winK *= 1.15;
+                winK *= 1.25;
             }
             let winP = 1 / (1 + Math.pow(10, (userLose.score - userWin.score) / 400));
             let loseP = 1 / (1 + Math.pow(10, (userWin.score - userLose.score) / 400));
