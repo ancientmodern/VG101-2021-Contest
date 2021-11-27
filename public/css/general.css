@@ -5449,7 +5449,7 @@ svg {
     line-height: 60px;
     text-align: left;
     font-family: "Press Start 2P", "Hiragino Sans GB", "Microsoft Yahei";
-    font-size: 24px;
+    font-size: 20px;
     color: black;
     font-smooth: antialiased;
 }
@@ -5465,8 +5465,8 @@ svg {
     line-height: 60px;
     text-align: right;
     font-family: "Press Start 2P", "Hiragino Sans GB", "Microsoft Yahei";
-    font-size: 24px;
-    color: white;
+    font-size: 20px;
+    color: black;
     font-smooth: antialiased;
 }
 
