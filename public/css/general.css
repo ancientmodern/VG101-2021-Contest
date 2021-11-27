@@ -5435,6 +5435,7 @@ svg {
     left: 0%;
     width: 120px;
     height: 60px;
+    background-color: #ff0000;
     z-index: 2;
 }
 

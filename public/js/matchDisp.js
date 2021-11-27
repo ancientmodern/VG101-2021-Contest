@@ -97,7 +97,11 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         var obj = $(elt);
         return new Promise(function (res, rej) {
             var timer = setInterval(function () {
-                obj.self = $("<div class='lifepoint'> Tank A: " + tankA.life * "❤" + "<br/>" + "Tank B: " + tankB.life * "❤" + "</div>");
+                // obj.self = $("<div class='lifepoint'> Tank A: " + tankA.life * "❤" + "<br/>" + "Tank B: " + tankB.life * "❤" + "</div>");
+                obj.css({
+                    width: (100 * tankA.life).toString() + "px",
+                    height: (100 * tankB.life).toString() + "px"
+                })
                 clearInterval(timer);
                 res();
             }, 10);
