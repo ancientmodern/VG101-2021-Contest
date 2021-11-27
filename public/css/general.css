@@ -5429,10 +5429,20 @@ svg {
     transform: scale(0.7, 0.7);
 }
 
+/* press-start-2p-regular - latin-ext_latin_greek_cyrillic-ext_cyrillic */
+@font-face {
+    font-family: 'Press Start 2P';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+    url('../fonts/press-start-2p-v9-latin-ext_latin_greek_cyrillic-ext_cyrillic-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/press-start-2p-v9-latin-ext_latin_greek_cyrillic-ext_cyrillic-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 .lifepointA {
     position: absolute;
-    top: 0%;
-    left: 0%;
+    top: 0;
+    left: 0;
     width: 500px;
     height: 60px;
     background-color: rgb(253, 120, 225);
@@ -5440,33 +5450,23 @@ svg {
     line-height: 60px;
     text-align: left;
     font-family: "Press Start 2P", fantasy;
-    font-weight: lighter;
-    letter-spacing: 3px;
     font-size: 28px;
     color: #ffffff;
 }
 
 .lifepointB {
     position: absolute;
-    top: 0%;
-    right: 0%;
+    top: 0;
+    right: 0;
     width: 500px;
     height: 60px;
     background-color: #68cee7;
     z-index: 2;
     line-height: 60px;
     text-align: right;
-    /*font-family: "Press Start 2P", fantasy;*/
-    /*font-weight: lighter;*/
-    /*letter-spacing: 3px;*/
-    /*font-size: 28px;*/
-    /*color: #ffffff;*/
-    font-family:'Press Start 2P';
-    font-weight: 400;
-    color: white;
-    font-size: 30px;
-    -webkit-font-smoothing: antialiased;
-    /*text-shadow: -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000;*/
+    font-family: "Press Start 2P", fantasy;
+    font-size: 28px;
+    color: #ffffff;
 }
 
 .tank {
