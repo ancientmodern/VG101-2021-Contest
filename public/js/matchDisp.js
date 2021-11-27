@@ -25,7 +25,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
     function getGameResult() {
         return new Promise(function (res, rej) {
             $.get("/match/get/" + getURLVariable(), function (result) {
-                console.log(JSON.parse(result));
+                // console.log(JSON.parse(result));
                 res(JSON.parse(result));
             })
         });
@@ -125,7 +125,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         }
     });
 
-    var A = undefined, B = undefined;
+    var A = undefined, B = undefined, p1 = undefined, p2 = undefined;
 
     var mode = 0;
 
@@ -256,6 +256,8 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
 
             A = result.A;
             B = result.B;
+            p1 = result.p1;
+            p2 = result.p2;
             result = result.record;
 
             $("[data='stdout-A']").html(A.stdout);
@@ -275,8 +277,8 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             var borderWidth = 20;
             container.append(border);
 
-            lifePointA = $("<div class='lifepointA'> Tank A Life </div>");
-            lifePointB = $("<div class='lifepointB'> Tank B Life </div>");
+            lifePointA = $("<div class='lifepointA'>" + p1 + "</div>");
+            lifePointB = $("<div class='lifepointB'>" + p2 + "</div>");
             container.append(lifePointA);
             container.append(lifePointB);
 

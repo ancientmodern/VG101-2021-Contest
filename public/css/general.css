@@ -5437,6 +5437,7 @@ svg {
     height: 30px;
     background-color: #ff0000;
     z-index: 2;
+    text-align: left;
 }
 
 .lifepointB {
@@ -5447,6 +5448,7 @@ svg {
     height: 30px;
     background-color: #0000ff;
     z-index: 2;
+    text-align: right;
 }
 
 .tank {

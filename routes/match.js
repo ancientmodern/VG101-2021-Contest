@@ -147,13 +147,17 @@ module.exports = {
         let db = client.db(config.db.db);
 
         let rec = (await db.collection("match").find({_id: id}).toArray())[0];
+        let p1 = (await db.collection("user").find({_id: rec.p1}).toArray())[0];
+        let p2 = (await db.collection("user").find({_id: rec.p2}).toArray())[0];
 
         await client.close();
 
         res.end(JSON.stringify({
             record: rec.record,
             A: rec.A || {stdout: "No Record", stderr: "No Record"},
-            B: rec.B || {stdout: "No Record", stderr: "No Record"}
+            B: rec.B || {stdout: "No Record", stderr: "No Record"},
+            p1: p1.dispName,
+            p2: p2.dispName
         }));
     }
 }
