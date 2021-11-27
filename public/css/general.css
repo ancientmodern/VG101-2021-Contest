@@ -5437,7 +5437,10 @@ svg {
     height: 30px;
     background-color: #ff0000;
     z-index: 2;
+    margin: auto;
     text-align: left;
+    font-family: Monaco, sans-serif;
+    font-weight: bolder;
 }
 
 .lifepointB {
@@ -5448,7 +5451,10 @@ svg {
     height: 30px;
     background-color: #0000ff;
     z-index: 2;
+    margin: auto;
     text-align: right;
+    font-family: Monaco, sans-serif;
+    font-weight: bolder;
 }
 
 .tank {
