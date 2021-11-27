@@ -5466,7 +5466,7 @@ svg {
     font-family: "Press Start 2P", fantasy;
     color: white;
     font-size: 30px;
-    -webkit-font-smoothing: antialiased;
+    font-smooth: antialiased;
     text-shadow: -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 4px 4px 0 #000, -8px -8px 0 black, 8px -8px 0 black, -8px 8px 0 black, 8px 8px 0 black;
 }
 
