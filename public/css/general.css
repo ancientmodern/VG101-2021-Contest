@@ -5435,8 +5435,7 @@ svg {
     left: 0%;
     width: 500px;
     height: 40px;
-    background-color: rgba(255, 85, 222, 0.8);
-    opacity: 0.85;
+    background-color: rgb(253, 120, 225);
     z-index: 2;
     line-height: 40px;
     text-align: left;
@@ -5451,8 +5450,7 @@ svg {
     right: 0%;
     width: 500px;
     height: 40px;
-    background-color: #B0E0E6;
-    opacity: 0.85;
+    background-color: #82d9ee;
     z-index: 2;
     line-height: 40px;
     text-align: right;
