@@ -5434,15 +5434,14 @@ svg {
     top: 0%;
     left: 0%;
     width: 500px;
-    height: 75px;
+    height: 60px;
     background-color: rgb(253, 120, 225);
     z-index: 2;
-    line-height: 75px;
+    line-height: 60px;
     text-align: left;
-    font-family: Monaco, sans-serif;
+    font-family: "Lato", 'Helvetica Neue', Helvetica, sans-serif;
     font-weight: bolder;
-    font-size: 32px;
-    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
+    font-size: 24px;
     color: #ffffff;
 }
 
@@ -5451,15 +5450,14 @@ svg {
     top: 0%;
     right: 0%;
     width: 500px;
-    height: 75px;
+    height: 60px;
     background-color: #68cee7;
     z-index: 2;
-    line-height: 75px;
+    line-height: 60px;
     text-align: right;
-    font-family: Monaco, sans-serif;
+    font-family: "Lato", 'Helvetica Neue', Helvetica, sans-serif;
     font-weight: bolder;
-    font-size: 32px;
-    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
+    font-size: 24px;
     color: #ffffff;
 }
 
