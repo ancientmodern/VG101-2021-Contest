@@ -38,9 +38,9 @@ async function worker() {
             // user2.newScore = Math.max(user2.score + Math.floor(config.ranking.base * (Math.pow(config.ranking.multiplier, Math.max(Math.min((user1.score - user2.score) / config.ranking.divider, 50), -50)) - 1)), 0)
 
             // ELO
-            let K1 = Math.max(20, 68 - user1.score / 80);
-            let K2 = Math.max(20, 68 - user2.score / 80);
-            if (user1.score < 1500 && user2.score < 1500) {
+            let K1 = Math.max(22, 70 - user1.score / 80);
+            let K2 = Math.max(22, 70 - user2.score / 80);
+            if (user1.score < 1920 && user2.score < 1920) {
                 if (user1.score < user2.score) {
                     K1 *= 1.15;
                 } else {
@@ -49,8 +49,8 @@ async function worker() {
             }
             let P1 = 1 / (1 + Math.pow(10, (user2.score - user1.score) / 400));
             let P2 = 1 / (1 + Math.pow(10, (user1.score - user2.score) / 400));
-            user1.newScore = Math.max(0, user1.score + Math.floor(K1 * (0.5 - P1)));
-            user2.newScore = Math.max(0, user2.score + Math.floor(K2 * (0.5 - P2)));
+            user1.newScore = Math.max(0, user1.score + Math.round(K1 * (0.5 - P1)));
+            user2.newScore = Math.max(0, user2.score + Math.round(K2 * (0.5 - P2)));
 
             if (isNaN(user1.newScore) || isNaN(user2.newScore) || !isFinite(user1.newScore) || !isFinite(user2.newScore)) {
                 let fs = require("fs");
@@ -80,15 +80,15 @@ async function worker() {
             // userLose.newScore = Math.max(userLose.score - Math.floor(config.ranking.base * Math.pow(config.ranking.multiplier, Math.min((userLose.score - userWin.score) / config.ranking.divider, 50))), 0);
 
             // ELO
-            let winK = Math.max(20, 68 - userWin.score / 80);
-            let loseK = Math.max(20, 68 - userLose.score / 80);
-            if (userWin.score < 1500 && userLose.score < 1500) {
+            let winK = Math.max(22, 70 - userWin.score / 80);
+            let loseK = Math.max(22, 70 - userLose.score / 80);
+            if (userWin.score < 1920 && userLose.score < 1920) {
                 winK *= 1.15;
             }
             let winP = 1 / (1 + Math.pow(10, (userLose.score - userWin.score) / 400));
             let loseP = 1 / (1 + Math.pow(10, (userWin.score - userLose.score) / 400));
-            userWin.newScore = userWin.score + Math.floor(winK * (1 - winP));
-            userLose.newScore = Math.max(0, userLose.score + Math.floor(loseK * (0 - loseP)));
+            userWin.newScore = userWin.score + Math.round(winK * (1 - winP));
+            userLose.newScore = Math.max(0, userLose.score + Math.round(loseK * (0 - loseP)));
 
             if (isNaN(userWin.newScore) || isNaN(userLose.newScore) || !isFinite(userWin.newScore) || !isFinite(userLose.newScore)) {
                 let fs = require("fs");
