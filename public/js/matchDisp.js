@@ -274,8 +274,8 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             var borderWidth = 20;
             container.append(border);
 
-            lifePointA = $("<div class='lifepointA'> </div>")
-            lifePointB = $("<div class='lifepointB'> </div>")
+            lifePointA = $("<div class='lifepointA'> Tank A Life </div>");
+            lifePointB = $("<div class='lifepointB'> Tank B Life </div>");
             container.append(lifePointA);
             container.append(lifePointB);
 

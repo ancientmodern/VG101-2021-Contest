@@ -5433,8 +5433,8 @@ svg {
     position: absolute;
     top: 0%;
     left: 0%;
-    width: 50px;
-    height: 10px;
+    width: 500px;
+    height: 30px;
     background-color: #ff0000;
     z-index: 2;
 }
@@ -5443,8 +5443,8 @@ svg {
     position: absolute;
     top: 0%;
     right: 0%;
-    width: 50px;
-    height: 10px;
+    width: 500px;
+    height: 30px;
     background-color: #0000ff;
     z-index: 2;
 }
