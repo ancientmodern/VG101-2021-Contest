@@ -5431,12 +5431,12 @@ svg {
 
 .lifepoint {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 70px;
-    height: 110px;
+    top: 0%;
+    left: 0%;
+    width: 120px;
+    height: 60px;
     z-index: 2;
-    background-color: #ff0000;
+    background-color: #ffffff;
 }
 
 .tank {
