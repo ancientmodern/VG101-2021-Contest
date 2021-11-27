@@ -82,7 +82,7 @@ async function worker() {
 
             if (isNaN(userWin.newScore) || isNaN(userLose.newScore) || !isFinite(userWin.newScore) || !isFinite(userLose.newScore)) {
                 let fs = require("fs");
-                fs.appendFileSync("/root/bug.txt", JSON.stringify([userWin, userLose]) + "\n");
+                fs.appendFileSync("/root/bug.txt", JSON.stringify([userWin, userLose]) + winP.toString() + loseP.toString() + "\n");
                 userWin.newScore = userWin.score;
                 userLose.newScore = userLose.score;
             } else {
