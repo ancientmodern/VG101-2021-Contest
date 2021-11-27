@@ -5439,7 +5439,7 @@ svg {
     z-index: 2;
     line-height: 60px;
     text-align: left;
-    font-family: "Lato", 'Helvetica Neue', Helvetica, sans-serif;
+    font-family: "Press Start 2P", fantasy;
     -webkit-font-smoothing : none;
     font-weight: bolder;
     font-size: 24px;
@@ -5456,8 +5456,7 @@ svg {
     z-index: 2;
     line-height: 60px;
     text-align: right;
-    font-family: "Lato", 'Helvetica Neue', Helvetica, sans-serif;
-    -webkit-font-smoothing : none;
+    font-family: "Press Start 2P", fantasy;
     font-weight: bolder;
     font-size: 24px;
     color: #ffffff;
