@@ -40,8 +40,8 @@ async function worker() {
             // ELO
             let K1 = Math.max(16, 64 - user1.score / 80);
             let K2 = Math.max(16, 64 - user2.score / 80);
-            let P1 = 1 / (1 + Math.pow(10, (user2 - user1) / 400));
-            let P2 = 1 / (1 + Math.pow(10, (user1 - user2) / 400));
+            let P1 = 1 / (1 + Math.pow(10, (user2.score - user1.score) / 400));
+            let P2 = 1 / (1 + Math.pow(10, (user1.score - user2.score) / 400));
             user1.newScore = Math.max(0, user1.score + Math.floor(K1 * (0.5 - P1)));
             user2.newScore = Math.max(0, user2.score + Math.floor(K2 * (0.5 - P2)));
 
@@ -75,8 +75,8 @@ async function worker() {
             // ELO
             let winK = Math.max(16, 64 - userWin.score / 80);
             let loseK = Math.max(16, 64 - userLose.score / 80);
-            let winP = 1 / (1 + Math.pow(10, (userLose - userWin) / 400));
-            let loseP = 1 / (1 + Math.pow(10, (userWin - userLose) / 400));
+            let winP = 1 / (1 + Math.pow(10, (userLose.score - userWin.score) / 400));
+            let loseP = 1 / (1 + Math.pow(10, (userWin.score - userLose.score) / 400));
             userWin.newScore = userWin.score + Math.floor(winK * (1 - winP));
             userLose.newScore = Math.max(0, userLose.score + Math.floor(loseK * (0 - loseP)));
 
