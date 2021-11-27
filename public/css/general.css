@@ -5440,8 +5440,9 @@ svg {
     line-height: 60px;
     text-align: left;
     font-family: "Press Start 2P", fantasy;
-    -webkit-font-smoothing : none;
-    font-weight: bolder;
+    letter-spacing: 1px;
+    /*-webkit-font-smoothing : none;*/
+    /*font-weight: bolder;*/
     font-size: 24px;
     color: #ffffff;
 }
@@ -5457,6 +5458,7 @@ svg {
     line-height: 60px;
     text-align: right;
     font-family: "Press Start 2P", fantasy;
+    letter-spacing: 1px;
     font-weight: bolder;
     font-size: 24px;
     color: #ffffff;
