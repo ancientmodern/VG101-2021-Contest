@@ -5445,7 +5445,6 @@ svg {
     height: 60px;
     z-index: 3;
     line-height: 60px;
-    text-align: left;
     font-family: "Press Start 2P", "Hiragino Sans GB", "Microsoft Yahei";
     font-size: 20px;
     color: black;
@@ -5460,12 +5459,6 @@ svg {
     height: 60px;
     background-color: rgb(253, 120, 225);
     z-index: 2;
-    /*line-height: 60px;*/
-    /*text-align: left;*/
-    /*font-family: "Press Start 2P", "Hiragino Sans GB", "Microsoft Yahei";*/
-    /*font-size: 20px;*/
-    /*color: black;*/
-    /*font-smooth: antialiased;*/
 }
 
 .lifepointB {
@@ -5476,12 +5469,6 @@ svg {
     height: 60px;
     background-color: #68cee7;
     z-index: 2;
-    /*line-height: 60px;*/
-    /*text-align: right;*/
-    /*font-family: "Press Start 2P", "Hiragino Sans GB", "Microsoft Yahei";*/
-    /*font-size: 20px;*/
-    /*color: black;*/
-    /*font-smooth: antialiased;*/
 }
 
 .tank {
