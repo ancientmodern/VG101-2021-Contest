@@ -5440,9 +5440,9 @@ svg {
     z-index: 2;
 }
 
-.lifepoint::after {
-    content: "5";
-}
+/*.lifepoint::after {*/
+/*    content: "5";*/
+/*}*/
 
 .tank {
     position: absolute;

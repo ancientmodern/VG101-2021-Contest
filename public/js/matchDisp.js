@@ -101,8 +101,8 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                 obj.css({
                     width: (100 * tankA.life).toString() + "px",
                     height: (100 * tankB.life).toString() + "px",
-                    content: (tankA.life + tankB.life).toString()
                 })
+                obj.after("<p>" + (tankA.life * tankB.life).toString() + "</p>")
                 clearInterval(timer);
                 res();
             }, 10);
