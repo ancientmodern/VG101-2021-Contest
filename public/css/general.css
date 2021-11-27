@@ -5434,15 +5434,14 @@ svg {
     top: 0%;
     left: 0%;
     width: 500px;
-    height: 40px;
+    height: 75px;
     background-color: rgb(253, 120, 225);
     z-index: 2;
-    line-height: 40px;
+    line-height: 75px;
     text-align: left;
     font-family: Monaco, sans-serif;
     font-weight: bolder;
     color: #ffffff;
-    -webkit-text-stroke: 1px black;
 }
 
 .lifepointB {
@@ -5450,10 +5449,10 @@ svg {
     top: 0%;
     right: 0%;
     width: 500px;
-    height: 40px;
+    height: 75px;
     background-color: #68cee7;
     z-index: 2;
-    line-height: 40px;
+    line-height: 75px;
     text-align: right;
     font-family: Monaco, sans-serif;
     font-weight: bolder;
