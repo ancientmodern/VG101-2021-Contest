@@ -5435,11 +5435,10 @@ svg {
     left: 0%;
     width: 500px;
     height: 40px;
-    background-color: #ff0000;
-    opacity: 0.5;
+    background-color: rgba(255, 85, 222, 0.8);
+    opacity: 0.85;
     z-index: 2;
     line-height: 40px;
-    margin: 10px;
     text-align: left;
     font-family: Monaco, sans-serif;
     font-weight: bolder;
@@ -5452,11 +5451,10 @@ svg {
     right: 0%;
     width: 500px;
     height: 40px;
-    background-color: #0000ff;
-    opacity: 0.5;
+    background-color: #B0E0E6;
+    opacity: 0.85;
     z-index: 2;
     line-height: 40px;
-    margin: 10px;
     text-align: right;
     font-family: Monaco, sans-serif;
     font-weight: bolder;
