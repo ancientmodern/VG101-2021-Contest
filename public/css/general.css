@@ -5448,8 +5448,8 @@ svg {
     z-index: 2;
     line-height: 60px;
     text-align: left;
-    font-family: "Press Start 2P", Arial;
-    font-size: 25px;
+    font-family: "Press Start 2P", Helvetica;
+    font-size: 24px;
     color: black;
     font-smooth: antialiased;
 }
@@ -5464,8 +5464,8 @@ svg {
     z-index: 2;
     line-height: 60px;
     text-align: right;
-    font-family: "Press Start 2P", Arial;
-    font-size: 25px;
+    font-family: "Press Start 2P", Helvetica;
+    font-size: 24px;
     color: white;
     font-smooth: antialiased;
 }
