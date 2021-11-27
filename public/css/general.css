@@ -5442,6 +5442,7 @@ svg {
     font-family: Monaco, sans-serif;
     font-weight: bolder;
     color: #ffffff;
+    -webkit-text-stroke: 1px black;
 }
 
 .lifepointB {
@@ -5457,6 +5458,7 @@ svg {
     font-family: Monaco, sans-serif;
     font-weight: bolder;
     color: #ffffff;
+    -webkit-text-stroke: 1px black;
 }
 
 .tank {
