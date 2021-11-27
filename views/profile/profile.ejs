@@ -93,7 +93,7 @@
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Display Name (required)</label>
-                                    <input type="text" name="name" class="textbox" value="<%= dispName%>"
+                                    <input type="text" name="name" class="textbox" value="<%= escapeHTML(dispName) %>"
                                            required="">
                                     <p class="help-text">Will be displayed <span class="text-red">publicly</span> in
                                         scoreboard.</p>
