@@ -33,7 +33,8 @@ module.exports = {
             let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
             let db = client.db(config.db.db);
 
-            req.body.name = $('<span/>').text(req.body.name).html()
+            req.body.name = req.body.name.replaceAll('<', '&lt').replaceAll('>', '&gt');
+            // console.log(req.body.name);
 
             let wrongPassword = false
             if (req.body.password) {
