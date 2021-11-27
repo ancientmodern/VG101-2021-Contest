@@ -5450,7 +5450,7 @@ svg {
     right: 0%;
     width: 500px;
     height: 40px;
-    background-color: #82d9ee;
+    background-color: #68cee7;
     z-index: 2;
     line-height: 40px;
     text-align: right;
@@ -5481,7 +5481,7 @@ svg {
     display: block;
     overflow: hidden;
     padding: 0;
-    background-color: #cccccc;
+    background-color: #e7e7e7;
 }
 
 .board-container::before {
