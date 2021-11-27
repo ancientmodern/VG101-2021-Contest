@@ -5429,20 +5429,25 @@ svg {
     transform: scale(0.7, 0.7);
 }
 
-.lifepoint {
+.lifepointA {
     position: absolute;
     top: 0%;
     left: 0%;
-    width: 120px;
-    height: 60px;
-    content: "aaaaaaaaa";
+    width: 50px;
+    height: 10px;
     background-color: #ff0000;
     z-index: 2;
 }
 
-/*.lifepoint::after {*/
-/*    content: "5";*/
-/*}*/
+.lifepointB {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    width: 50px;
+    height: 10px;
+    background-color: #0000ff;
+    z-index: 2;
+}
 
 .tank {
     position: absolute;

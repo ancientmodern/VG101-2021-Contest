@@ -93,16 +93,13 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         });
     }
 
-    function animateLife(elt, tankA, tankB) {
+    function animateLife(elt, tank) {
         var obj = $(elt);
         return new Promise(function (res, rej) {
             var timer = setInterval(function () {
-                // obj.self = $("<div class='lifepoint'> Tank A: " + tankA.life * "❤" + "<br/>" + "Tank B: " + tankB.life * "❤" + "</div>");
                 obj.css({
-                    width: (100 * tankA.life).toString() + "px",
-                    height: (100 * tankB.life).toString() + "px",
+                    width: (100 * tank.life).toString() + "px",
                 })
-                obj.after("<p>" + (tankA.life * tankB.life).toString() + "</p>")
                 clearInterval(timer);
                 res();
             }, 10);
@@ -248,7 +245,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         var tanks = [];
         var bullets = [];
 
-        var border, lifePoints;
+        var border, lifePointA, lifePointB;
 
         var container = $(".board-container");
         container.html("");
@@ -277,8 +274,10 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             var borderWidth = 20;
             container.append(border);
 
-            lifePoints = $("<div class='lifepoint'> </div>")
-            container.append(lifePoints);
+            lifePointA = $("<div class='lifepointA'> </div>")
+            lifePointB = $("<div class='lifepointB'> </div>")
+            container.append(lifePointA);
+            container.append(lifePointB);
 
             function frame() {
                 var fd = result[frameid];
@@ -300,9 +299,13 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                     ));
 
                     promises.push(animateLife(
-                        lifePoints,
+                        lifePointA,
                         fd.tanks[0],
-                        fd.tanks[1]
+                    ));
+
+                    promises.push(animateLife(
+                        lifePointB,
+                        fd.tanks[1],
                     ));
 
                     fd.tanks.forEach(function (item, index) {
