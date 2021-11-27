@@ -100,7 +100,8 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                 // obj.self = $("<div class='lifepoint'> Tank A: " + tankA.life * "❤" + "<br/>" + "Tank B: " + tankB.life * "❤" + "</div>");
                 obj.css({
                     width: (100 * tankA.life).toString() + "px",
-                    height: (100 * tankB.life).toString() + "px"
+                    height: (100 * tankB.life).toString() + "px",
+                    content: (tankA.life + tankB.life).toString()
                 })
                 clearInterval(timer);
                 res();
