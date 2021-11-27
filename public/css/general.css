@@ -5434,13 +5434,14 @@ svg {
     top: 0%;
     left: 0%;
     width: 500px;
-    height: 30px;
+    height: 40px;
     background-color: #ff0000;
     z-index: 2;
-    margin: auto;
+    line-height: 40px;
     text-align: left;
     font-family: Monaco, sans-serif;
     font-weight: bolder;
+    color: #ffffff;
 }
 
 .lifepointB {
@@ -5448,13 +5449,14 @@ svg {
     top: 0%;
     right: 0%;
     width: 500px;
-    height: 30px;
+    height: 40px;
     background-color: #0000ff;
     z-index: 2;
-    margin: auto;
+    line-height: 40px;
     text-align: right;
     font-family: Monaco, sans-serif;
     font-weight: bolder;
+    color: #ffffff;
 }
 
 .tank {
