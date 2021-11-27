@@ -25,6 +25,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
     function getGameResult() {
         return new Promise(function (res, rej) {
             $.get("/match/get/" + getURLVariable(), function (result) {
+                console.log(JSON.parse(result));
                 res(JSON.parse(result));
             })
         });
