@@ -5429,6 +5429,14 @@ svg {
     transform: scale(0.7, 0.7);
 }
 
+.lifepoint {
+    position: absolute;
+    width: 70px;
+    height: 110px;
+    z-index: 1;
+    transform-origin: 0 0;
+}
+
 .tank {
     position: absolute;
     width: 70px;

@@ -94,14 +94,14 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
     }
 
     var globalFps = 5;
-    $("[name='step-go']").on("click", function() {
+    $("[name='step-go']").on("click", function () {
         var newFps = parseInt($("[name='step-speed']").val());
         if (newFps <= 0) newFps = 1;
         globalFps = newFps;
     })
 
     var pause = false;
-    $("[name='step-pause']").on("click", function() {
+    $("[name='step-pause']").on("click", function () {
         if (finished) {
             $("[name='step-pause']").html("Pause");
             finished = false;
@@ -115,7 +115,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
 
     var mode = 0;
 
-    $("[name='toggle-mode']").on("click", function() {
+    $("[name='toggle-mode']").on("click", function () {
         mode = !mode;
         if (mode) {
             $(".board-container").hide();
@@ -232,7 +232,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         var tanks = [];
         var bullets = [];
 
-        var border;
+        var border, lifePoints;
 
         var container = $(".board-container");
         container.html("");
@@ -260,6 +260,9 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             border = $("<div class='border'> </div>");
             var borderWidth = 20;
             container.append(border);
+
+            lifePoints = $("<div class='lifepoint'> Tank A Life: </div>")
+            container.append(lifePoints);
 
             function frame() {
                 var fd = result[frameid];
@@ -299,7 +302,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                 }
 
                 Promise.all(promises).then(function () {
-                    if(!pause) {
+                    if (!pause) {
                         for (; i < fd.bullets.length; i++) {
                             bullets.push(new BulletSpirit(container, fd.bullets[i]));
                         }
