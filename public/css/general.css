@@ -5441,6 +5441,7 @@ svg {
     text-align: left;
     font-family: Monaco, sans-serif;
     font-weight: bolder;
+    font-size: 24px;
     color: #ffffff;
 }
 
@@ -5456,8 +5457,8 @@ svg {
     text-align: right;
     font-family: Monaco, sans-serif;
     font-weight: bolder;
+    font-size: 32px;
     color: #ffffff;
-    -webkit-text-stroke: 1px black;
 }
 
 .tank {
