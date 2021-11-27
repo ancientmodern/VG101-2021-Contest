@@ -34,7 +34,7 @@ module.exports = {
             userData.win = 0;
             userData.lose = 0;
             userData.draw = 0;
-            userData.score = 0;
+            userData.score = 1920;
             userData.compiler = "c++17";
             userData.student = true;
 
