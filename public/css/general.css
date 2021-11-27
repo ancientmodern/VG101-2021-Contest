@@ -5440,6 +5440,7 @@ svg {
     line-height: 60px;
     text-align: left;
     font-family: "Lato", 'Helvetica Neue', Helvetica, sans-serif;
+    -webkit-font-smoothing : none;
     font-weight: bolder;
     font-size: 24px;
     color: #ffffff;
@@ -5456,6 +5457,7 @@ svg {
     line-height: 60px;
     text-align: right;
     font-family: "Lato", 'Helvetica Neue', Helvetica, sans-serif;
+    -webkit-font-smoothing : none;
     font-weight: bolder;
     font-size: 24px;
     color: #ffffff;
