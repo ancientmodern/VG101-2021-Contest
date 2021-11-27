@@ -5463,11 +5463,11 @@ svg {
     z-index: 2;
     line-height: 60px;
     text-align: right;
-    font-family: "Press Start 2P", Arial;
+    font-family: "Press Start 2P", fantasy;
     color: white;
     font-size: 25px;
     font-smooth: antialiased;
-    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, -4px -4px 0 black, 4px -4px 0 black, -4px 4px 0 black, 4px 4px 0 black;
+    text-shadow: -4px -4px 0 black, 4px -4px 0 black, -4px 4px 0 black, 4px 4px 0 black;
 }
 
 .tank {
