@@ -5464,7 +5464,7 @@ svg {
     z-index: 2;
     line-height: 60px;
     text-align: right;
-    font-family: "Press Start 2P", "Hiragino Sans GB", "Microsoft Yahei";
+    font-family: "Press Start 2P", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "Hiragino Sans GB", "Microsoft Yahei";
     font-size: 24px;
     color: white;
     font-smooth: antialiased;
