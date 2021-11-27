@@ -246,7 +246,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         var tanks = [];
         var bullets = [];
 
-        var border, lifePointA, lifePointB;
+        var border, lifeFixedA, lifeFixedB, lifePointA, lifePointB;
 
         var container = $(".board-container");
         container.html("");
@@ -277,8 +277,12 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             var borderWidth = 20;
             container.append(border);
 
-            lifePointA = $("<div class='lifepointA'>&nbsp;" + p1 + "</div>");
-            lifePointB = $("<div class='lifepointB'>" + p2 + "&nbsp;</div>");
+            lifeFixedA = $("<div class='lifepointA'>&nbsp;" + p1 + "</div>");
+            lifeFixedB = $("<div class='lifepointB'>" + p2 + "&nbsp;</div>");
+            lifePointA = $("<div class='lifepointA'></div>");
+            lifePointB = $("<div class='lifepointB'></div>");
+            container.append(lifeFixedA);
+            container.append(lifeFixedB);
             container.append(lifePointA);
             container.append(lifePointB);
 
