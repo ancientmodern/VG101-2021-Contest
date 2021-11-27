@@ -94,7 +94,14 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
     }
 
     function animateLife(elt, tankA, tankB) {
-        elt.self = $("<div class='lifepoint'> Tank A: " + tankA.life * "❤" + "<br/>" + "Tank B: " + tankB.life * "❤" + "</div>");
+        var obj = $(elt);
+        return new Promise(function (res, rej) {
+            var timer = setInterval(function () {
+                obj.self = $("<div class='lifepoint'> Tank A: " + tankA.life * "❤" + "<br/>" + "Tank B: " + tankB.life * "❤" + "</div>");
+                clearInterval(timer);
+                res();
+            }, 10);
+        });
     }
 
     var globalFps = 5;
@@ -287,7 +294,11 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                         1000 / globalFps
                     ));
 
-                    animateLife(lifePoints, fd.tanks[0], fd.tanks[1]);
+                    promises.push(animateLife(
+                        lifePoints,
+                        fd.tanks[0],
+                        fd.tanks[1]
+                    ));
 
                     fd.tanks.forEach(function (item, index) {
                         promises.push(tanks[index].render(item));
