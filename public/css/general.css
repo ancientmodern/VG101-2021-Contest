@@ -5448,9 +5448,10 @@ svg {
     z-index: 2;
     line-height: 60px;
     text-align: left;
-    font-family: "Press Start 2P", fantasy;
-    font-size: 24px;
+    font-family: "Press Start 2P", 楷体_GB2312, fantasy;
+    font-size: 25px;
     color: black;
+    font-smooth: antialiased;
 }
 
 .lifepointB {
@@ -5463,11 +5464,10 @@ svg {
     z-index: 2;
     line-height: 60px;
     text-align: right;
-    font-family: "Press Start 2P", fantasy;
-    color: white;
+    font-family: "Press Start 2P", 楷体_GB2312, fantasy;
     font-size: 25px;
+    color: white;
     font-smooth: antialiased;
-    text-shadow: -4px -4px 0 black, 4px -4px 0 black, -4px 4px 0 black, 4px 4px 0 black;
 }
 
 .tank {
