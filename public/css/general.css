@@ -4909,7 +4909,6 @@ input.textbox:focus, textarea.textbox:focus {
 }
 
 
-
 .link, a, ins {
     text-decoration: none;
 }
@@ -5100,6 +5099,7 @@ input.textbox:focus, textarea.textbox:focus {
 .immersive-section.side, .section.side {
     font-size: .875rem;
 }
+
 .section__header {
     padding: 1.875rem 1.25rem .7em;
     position: relative;
@@ -5431,6 +5431,8 @@ svg {
 
 .lifepoint {
     position: absolute;
+    top: 50%;
+    left: 50%;
     width: 70px;
     height: 110px;
     z-index: 2;
@@ -5461,4 +5463,9 @@ svg {
     padding: 0;
     background-color: #cccccc;
 }
-.board-container::before{content: "";padding-top: 100%;display: block;}
+
+.board-container::before {
+    content: "";
+    padding-top: 100%;
+    display: block;
+}
