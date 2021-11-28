@@ -10,6 +10,7 @@ module.exports = {
         let rec = await (await col.find({}).sort(["score", -1])).toArray();
 
         rec.forEach((item) => {
+            item.score = Math.floor(item.score);
             delete item.password;
             delete item.studentId;
             delete item.realName;

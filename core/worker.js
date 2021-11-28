@@ -49,8 +49,8 @@ async function worker() {
             }
             let P1 = 1 / (1 + Math.pow(10, (user2.score - user1.score) / 400));
             let P2 = 1 / (1 + Math.pow(10, (user1.score - user2.score) / 400));
-            user1.newScore = Math.max(0, user1.score + Math.round(K1 * (0.5 - P1)));
-            user2.newScore = Math.max(0, user2.score + Math.round(K2 * (0.5 - P2)));
+            user1.newScore = Math.max(0, user1.score + K1 * (0.5 - P1));
+            user2.newScore = Math.max(0, user2.score + K2 * (0.5 - P2));
 
             if (isNaN(user1.newScore) || isNaN(user2.newScore) || !isFinite(user1.newScore) || !isFinite(user2.newScore)) {
                 let fs = require("fs");
@@ -87,8 +87,8 @@ async function worker() {
             }
             let winP = 1 / (1 + Math.pow(10, (userLose.score - userWin.score) / 400));
             let loseP = 1 / (1 + Math.pow(10, (userWin.score - userLose.score) / 400));
-            userWin.newScore = userWin.score + Math.round(winK * (1 - winP));
-            userLose.newScore = Math.max(0, userLose.score + Math.round(loseK * (0 - loseP)));
+            userWin.newScore = userWin.score + winK * (1 - winP);
+            userLose.newScore = Math.max(0, userLose.score + loseK * (0 - loseP));
 
             if (isNaN(userWin.newScore) || isNaN(userLose.newScore) || !isFinite(userWin.newScore) || !isFinite(userLose.newScore)) {
                 let fs = require("fs");
