@@ -28,7 +28,7 @@
             </ol>
             <ol class="nav__container-item">
                 <li id="signin">
-                    <a href="/profile" class="nav__item"><%= realName%></a>
+                    <a href="/profile" class="nav__item"><%= realName %></a>
                 </li>
             </ol>
         </div>
@@ -44,19 +44,19 @@
                     <div class="section__header">
                         <h1 class="section__title">Submit New Brain</h1>
                     </div>
-                    <% if (post) {%>
-                        <% if (late) {%>
-                    <div class="typo">
-                        <blockquote class="success">
-                            Submission channel is closed
-                        </blockquote>
-                    </div>
+                    <% if (post) { %>
+                        <% if (late) { %>
+                            <div class="typo">
+                                <blockquote class="success">
+                                    Submission channel is closed
+                                </blockquote>
+                            </div>
                         <% } else { %>
-                    <div class="typo">
-                        <blockquote class="success">
-                            Submission Succeeded
-                        </blockquote>
-                    </div>
+                            <div class="typo">
+                                <blockquote class="success">
+                                    Submission Succeeded
+                                </blockquote>
+                            </div>
                         <% } %>
                     <% } %>
                     <div class="section__body typo">
@@ -96,25 +96,42 @@
                                 <div class="medium-5 columns">
                                     <label>Environment:</label>
                                     <select class="select" name="compiler">
-                                        <option value="c++98" <% if (compiler === "c++98") {%>>selected<% } %>>GNU C++ 8.3.0 (-O3
+                                        <option value="c++98"
+                                        <% if (compiler === "c++98") { %>>
+                                            selected
+                                            <% } %>
+                                            >GNU C++ 8.3.0 (-O3
                                             -std=c++98)
                                         </option>
-                                        <option value="c++11" <% if (compiler === "c++11") {%>>selected<% } %>>GNU C++ 8.3.0 (-O3
+                                        <option value="c++11"
+                                        <% if (compiler === "c++11") { %>>
+                                            selected
+                                            <% } %>
+                                            >GNU C++ 8.3.0 (-O3
                                             -std=c++11)
                                         </option>
-                                        <option value="c++14" <% if (compiler === "c++14") {%>>selected<% } %>>GNU C++ 8.3.0 (-O3
+                                        <option value="c++14"
+                                        <% if (compiler === "c++14") { %>>
+                                            selected
+                                            <% } %>
+                                            >GNU C++ 8.3.0 (-O3
                                             -std=c++14)
                                         </option>
-                                        <option value="c++17" <% if (compiler === "c++17") {%>selected<% } %>>GNU C++ 8.3.0 (-O3
+                                        <option value="c++17" <% if (compiler === "c++17") { %>selected
+                                                <% } %>
+                                        >GNU C++ 8.3.0 (-O3
                                             -std=c++17)
                                         </option>
                                     </select>
-                                    <p class="help-text">You can change your default compiler in <a href="/user/settings">Settings</a>.</p>
+                                    <p class="help-text">You can change your default compiler in
+                                        <nobr><a href="/user/settings">Settings</a></nobr>
+                                    </p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="medium-5 columns">
-                                    <label>Send to Task 1 Judge</label> <input type="checkbox" name="judge" checked/>
+                                    <label>Send to Task 1 Judge</label>
+                                    <nobr><input type="checkbox" name="judge" checked/></nobr>
                                 </div>
                             </div>
                             <div class="row">
@@ -138,11 +155,11 @@
                         <div class="section__body typo">
                             <ul>
                                 <li><p>Max judge time consumption: <span data-tooltip="36000000ms">10 hours</span> per
-                                    day</p> (consumed <span data-tooltip="0ms">a few seconds</span>)
+                                        day</p> (consumed <span data-tooltip="0ms">a few seconds</span>)
                                 </li>
                                 <li><p>Min interval between submissions:
-                                    a minute
-                                </p></li>
+                                        a minute
+                                    </p></li>
                                 <li><p>Max size of Source code: 1 MB</p></li>
                                 <li><p>Max size of compiled exe: 1 MB</p></li>
                             </ul>
