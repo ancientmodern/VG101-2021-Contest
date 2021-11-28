@@ -118,8 +118,8 @@ async function worker() {
                 error: result.error,
                 record: match.record,
                 scores: {
-                    p1: [user1.score, user1.newScore],
-                    p2: [user2.score, user2.newScore],
+                    p1: [user1.score.toFixed(2), user1.newScore.toFixed(2)],
+                    p2: [user2.score.toFixed(2), user2.newScore.toFixed(2)],
                 },
                 A: match.A,
                 B: match.B
