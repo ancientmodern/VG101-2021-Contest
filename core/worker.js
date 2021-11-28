@@ -38,18 +38,18 @@ async function worker() {
             // user2.newScore = Math.max(user2.score + Math.floor(config.ranking.base * (Math.pow(config.ranking.multiplier, Math.max(Math.min((user1.score - user2.score) / config.ranking.divider, 50), -50)) - 1)), 0)
 
             // ELO
-            let K1 = Math.max(22, 70 - user1.score / 80);
-            let K2 = Math.max(22, 70 - user2.score / 80);
+            let K1 = Math.max(30, 70 - user1.score / 100);
+            let K2 = Math.max(30, 70 - user2.score / 100);
             if (user1.score < user2.score) {
                 if (user1.score < 2250) {
                     K1 *= 1.25;
                 }
                 if (user2.score < 2250) {
-                    K2 *= 0.8;
+                    K2 *= 0.75;
                 }
             } else {
                 if (user1.score < 2250) {
-                    K1 *= 0.8;
+                    K1 *= 0.75;
                 }
                 if (user2.score < 2250) {
                     K2 *= 1.25;
@@ -88,13 +88,13 @@ async function worker() {
             // userLose.newScore = Math.max(userLose.score - Math.floor(config.ranking.base * Math.pow(config.ranking.multiplier, Math.min((userLose.score - userWin.score) / config.ranking.divider, 50))), 0);
 
             // ELO
-            let winK = Math.max(22, 70 - userWin.score / 80);
-            let loseK = Math.max(22, 70 - userLose.score / 80);
+            let winK = Math.max(30, 70 - userWin.score / 100);
+            let loseK = Math.max(30, 70 - userLose.score / 100);
             if (userWin.score < 2250) {
                 winK *= 1.25;
             }
             if (userLose.score < 2250) {
-                loseK *= 0.8;
+                loseK *= 0.75;
             }
             let winP = 1 / (1 + Math.pow(10, (userLose.score - userWin.score) / 400));
             let loseP = 1 / (1 + Math.pow(10, (userWin.score - userLose.score) / 400));
