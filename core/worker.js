@@ -40,10 +40,18 @@ async function worker() {
             // ELO
             let K1 = Math.max(22, 70 - user1.score / 80);
             let K2 = Math.max(22, 70 - user2.score / 80);
-            if (user1.score < 1920 && user2.score < 1920) {
-                if (user1.score < user2.score) {
+            if (user1.score < user2.score) {
+                if (user1.score < 2250) {
                     K1 *= 1.25;
-                } else {
+                }
+                if (user2.score < 2250) {
+                    K2 *= 0.8;
+                }
+            } else {
+                if (user1.score < 2250) {
+                    K1 *= 0.8;
+                }
+                if (user2.score < 2250) {
                     K2 *= 1.25;
                 }
             }
@@ -82,8 +90,11 @@ async function worker() {
             // ELO
             let winK = Math.max(22, 70 - userWin.score / 80);
             let loseK = Math.max(22, 70 - userLose.score / 80);
-            if (userWin.score < 1920 && userLose.score < 1920) {
+            if (userWin.score < 2250) {
                 winK *= 1.25;
+            }
+            if (userLose.score < 2250) {
+                loseK *= 0.8;
             }
             let winP = 1 / (1 + Math.pow(10, (userLose.score - userWin.score) / 400));
             let loseP = 1 / (1 + Math.pow(10, (userWin.score - userLose.score) / 400));
