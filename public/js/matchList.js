@@ -64,7 +64,7 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
                     "  <td class=\"col--rating\">\n" +
                     "    \n" +
                     "      <span class=\"rating\" style=\"color:" + (match.status ? color.scoreToColor(match.scores.p1[1]) : "gray") + ";font-weight:bold;\">\n" +
-                    "        " + (match.status ? (match.scores.p1[0] + "&#8594;" + Math.floor(match.scores.p1[1])) : "Pending") + "\n" +
+                    "        " + (match.status ? (match.scores.p1[0] + "&#8594;" + match.scores.p1[1]) : "Pending") + "\n" +
                     "      </span>\n" +
                     "  </td>\n" +
                     "  <td class=\"col--challengee\">\n" +
