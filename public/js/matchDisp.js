@@ -34,6 +34,11 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
     function animateRotation(elt, from, to, time) {
         var obj = $(elt);
         var counter = 1;
+        if (from === -90 && to === 180) {
+            from = 270;
+        } else if (from === 180 && to === -90) {
+            to = 270;
+        }
         return new Promise(function (res, rej) {
             var timer = setInterval(function () {
                 if (10 / time * counter >= 1) {
