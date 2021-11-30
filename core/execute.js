@@ -62,7 +62,7 @@ Match.prototype.setExecutable = function (A, B) {
             if (!code) this.errors.push({player: 0, msg: "Runtime Error (" + signal + ")"});
             else this.errors.push({player: 0, msg: "Runtime Error (" + code + ")"});
         else
-            this.errors.push({player: 0, msg: "Accidentally Exit"});
+            this.errors.push({player: 0, msg: "Player 0 Accidentally Exit (" + signal + ")"});
         this.result = {winner: 1, error: errors};
     };
 
@@ -75,7 +75,7 @@ Match.prototype.setExecutable = function (A, B) {
             if (!code) this.errors.push({player: 1, msg: "Runtime Error (" + signal + ")"});
             else this.errors.push({player: 1, msg: "Runtime Error (" + code + ")"});
         else
-            this.errors.push({player: 1, msg: "Accidentally Exit"});
+            this.errors.push({player: 1, msg: "Player 1 Accidentally Exit (" + signal + ")"});
         this.result = {winner: 0, error: errors};
     };
 
@@ -119,7 +119,7 @@ Match.prototype.execute = function () {
                 if (!code) errors.push({player: 0, msg: "Runtime Error (" + signal + ")"});
                 else errors.push({player: 0, msg: "Runtime Error (" + code + ")"});
             else
-                errors.push({player: 0, msg: "Accidentally Exit"});
+                errors.push({player: 0, msg: "Player 0 Accidentally Exit (" + signal + ")"});
             res({winner: 1, error: errors});
         };
         this.onerrB = (code, signal) => {
@@ -132,7 +132,7 @@ Match.prototype.execute = function () {
                 if (!code) errors.push({player: 1, msg: "Runtime Error (" + signal + ")"});
                 else errors.push({player: 1, msg: "Runtime Error (" + code + ")"});
             else
-                errors.push({player: 1, msg: "Accidentally Exit"});
+                errors.push({player: 1, msg: "Player 1 Accidentally Exit (" + signal + ")"});
             res({winner: 0, error: errors});
         };
 
