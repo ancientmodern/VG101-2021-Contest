@@ -38,7 +38,7 @@
     "divider": 1000
   },
   "display": {
-    "pager": 20
+    "pager": 50
   },
   "maxGameRecord": 10000
 }
