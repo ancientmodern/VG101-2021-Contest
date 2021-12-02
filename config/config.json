@@ -30,7 +30,7 @@
     "watchGame": false
   },
   "worker": {
-    "maxProcessCnt": 4
+    "maxProcessCnt": 5
   },
   "ranking": {
     "base": 100,
