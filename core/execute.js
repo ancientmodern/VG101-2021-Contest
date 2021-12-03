@@ -197,7 +197,7 @@ Match.prototype.execute = function () {
         sendMsg = () => {
             this.procA.stdin.write(moveB.toString() + "\n");
             this.procB.stdin.write(moveA.toString() + "\n");
-            this.tle = setTimeout(tleHandler, 2000);
+            this.tle = setTimeout(tleHandler, 1500);
             moveA = -1;
             moveB = -1;
             this.procA.stdout.once("data", checkMove(Game.tank.A));
@@ -232,7 +232,7 @@ Match.prototype.execute = function () {
             }
         }
 
-        this.tle = setTimeout(tleHandler, 2000);
+        this.tle = setTimeout(tleHandler, 1500);
         this.procA.stdout.once("data", checkMove(Game.tank.A));
         this.procB.stdout.once("data", checkMove(Game.tank.B));
     });
