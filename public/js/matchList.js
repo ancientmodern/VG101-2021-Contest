@@ -38,7 +38,11 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
             listQuery += "&page=" + page.toString();
         }
         if ($("#filter").is(":checked")) {
-            listQuery += "&filter=1";
+            if ($("#search_name").val()) {
+                listQuery += "&filter=" + $("#search_name").val().toString();
+            } else {
+                listQuery += "&filter=1";
+            }
         }
 
         $.get(listQuery, function (result) {

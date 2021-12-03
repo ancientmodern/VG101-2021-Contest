@@ -69,11 +69,18 @@ module.exports = {
         let page = 1;
         if (req.query.hasOwnProperty("page")) page = parseInt(req.query.page);
 
-        let filterCondition = {};
-        if (req.query.hasOwnProperty("filter") && req.session.uid) filterCondition = {$or: [{p1: ObjectID(req.session.uid)}, {p2: ObjectID(req.session.uid)}]};
-
         let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
         let db = client.db(config.db.db);
+
+        let filterCondition = {};
+        if (req.query.hasOwnProperty("filter")) {
+            if (parseInt(req.query.filter) !== 1) {
+                let user = db.collection("user").find({dispName: req.query.filter}).toArray()[0]._id;
+                filterCondition = {$or: [{p1: user}, {p2: user}]};
+            } else if (req.session.uid) {
+                filterCondition = {$or: [{p1: ObjectID(req.session.uid)}, {p2: ObjectID(req.session.uid)}]};
+            }
+        }
 
         let count = await db.collection("match").find(filterCondition).count();
         let record = await db.collection("match").find(filterCondition).sort([["_id", -1]]).skip(config.display.pager * (page - 1)).limit(config.display.pager).toArray();
