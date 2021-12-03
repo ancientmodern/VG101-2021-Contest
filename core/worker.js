@@ -90,10 +90,10 @@ async function worker() {
             // ELO
             let winK = Math.max(30, 70 - userWin.score / 100);
             let loseK = Math.max(30, 70 - userLose.score / 100);
-            if (userWin.score < 1920) {
+            if (userWin.score < 1900) {
                 winK *= 1.25;
             }
-            if (userLose.score < 1920) {
+            if (userLose.score < 1900) {
                 loseK *= 0.8;
             }
             let winP = 1 / (1 + Math.pow(10, (userLose.score - userWin.score) / 400));
