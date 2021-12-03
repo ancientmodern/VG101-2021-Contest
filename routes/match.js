@@ -75,8 +75,9 @@ module.exports = {
         let filterCondition = {};
         if (req.query.hasOwnProperty("filter")) {
             if (parseInt(req.query.filter) !== 1) {
-                let user = db.collection("user").find({dispName: req.query.filter}).toArray()[0];
-                console.log(user);
+                let user = (await db.collection("user").find({dispName: req.query.filter}).toArray())[0]._id;
+		console.log(req.query.filter);
+		console.log(user);
                 filterCondition = {$or: [{p1: user}, {p2: user}]};
             } else if (req.session.uid) {
                 filterCondition = {$or: [{p1: ObjectID(req.session.uid)}, {p2: ObjectID(req.session.uid)}]};
