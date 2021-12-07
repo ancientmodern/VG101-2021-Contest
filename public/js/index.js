@@ -17,7 +17,7 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
             result.forEach(function (item, count) {
                 if ((item.score !== "unrated" && item.score !== lastRating) || (item.score === "unrated" && lastRating !== 0)) {
                     rank++;
-                    if (item.score === "unrated") lastRating = 0;
+                    if (item.score === "unrated") lastRating = 2000;
                     else lastRating = item.score;
                 }
                 container.append($("<tr>\n" +
