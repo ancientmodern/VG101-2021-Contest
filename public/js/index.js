@@ -36,7 +36,7 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
                         "                                </tr>")
                     );
                 } else {
-                    unrated.append(item);
+                    unrated.push(item);
                 }
             });
 
