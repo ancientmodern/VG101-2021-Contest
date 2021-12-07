@@ -10,7 +10,11 @@ module.exports = {
         let rec = await (await col.find({}).sort(["score", -1])).toArray();
 
         rec.forEach((item) => {
-            item.score = Math.floor(item.score);
+            if (item.win + item.lose + item.draw === 0) {
+                item.score = "unrated";
+            } else {
+                item.score = Math.floor(item.score);
+            }
             delete item.password;
             delete item.studentId;
             delete item.realName;
