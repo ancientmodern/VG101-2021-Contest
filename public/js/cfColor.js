@@ -7,7 +7,7 @@ define("cfColor", [], function() {
             if (score < 2400) return "#75dfbb";
             if (score < 2800) return "#aaabfe";
             if (score < 3000) return "purple";
-            if (score < 3500) return "orange";
+            if (score < 3200) return "orange";
             return "red";
         }
     }
