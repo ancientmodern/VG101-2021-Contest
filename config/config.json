@@ -30,7 +30,7 @@
     "watchGame": false
   },
   "worker": {
-    "maxProcessCnt": 3
+    "maxProcessCnt": 6
   },
   "ranking": {
     "base": 100,
@@ -38,7 +38,7 @@
     "divider": 1000
   },
   "display": {
-    "pager": 20
+    "pager": 50
   },
   "maxGameRecord": 10000
 }

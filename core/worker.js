@@ -34,8 +34,31 @@ async function worker() {
         let user2 = (await db.collection("user").find({_id: rec[1].user}).toArray())[0];
 
         if (result.winner === -1) { // 平局
-            user1.newScore = Math.max(user1.score + Math.floor(config.ranking.base * (Math.pow(config.ranking.multiplier, Math.max(Math.min((user2.score - user1.score) / config.ranking.divider, 50), -50)) - 1)), 0)
-            user2.newScore = Math.max(user2.score + Math.floor(config.ranking.base * (Math.pow(config.ranking.multiplier, Math.max(Math.min((user1.score - user2.score) / config.ranking.divider, 50), -50)) - 1)), 0)
+            // user1.newScore = Math.max(user1.score + Math.floor(config.ranking.base * (Math.pow(config.ranking.multiplier, Math.max(Math.min((user2.score - user1.score) / config.ranking.divider, 50), -50)) - 1)), 0)
+            // user2.newScore = Math.max(user2.score + Math.floor(config.ranking.base * (Math.pow(config.ranking.multiplier, Math.max(Math.min((user1.score - user2.score) / config.ranking.divider, 50), -50)) - 1)), 0)
+
+            // ELO
+            let K1 = Math.max(35, 67 - user1.score / 125);
+            let K2 = Math.max(35, 67 - user2.score / 125);
+            if (user1.score < user2.score) {
+                if (user1.score < 1500) {
+                    K1 *= 1.25;
+                }
+                if (user2.score < 1500) {
+                    K2 *= 0.8;
+                }
+            } else {
+                if (user1.score < 1500) {
+                    K1 *= 0.8;
+                }
+                if (user2.score < 1500) {
+                    K2 *= 1.25;
+                }
+            }
+            let P1 = 1 / (1 + Math.pow(10, (user2.score - user1.score) / 400));
+            let P2 = 1 / (1 + Math.pow(10, (user1.score - user2.score) / 400));
+            user1.newScore = Math.max(0, user1.score + K1 * (0.5 - P1));
+            user2.newScore = Math.max(0, user2.score + K2 * (0.5 - P2));
 
             if (isNaN(user1.newScore) || isNaN(user2.newScore) || !isFinite(user1.newScore) || !isFinite(user2.newScore)) {
                 let fs = require("fs");
@@ -61,12 +84,26 @@ async function worker() {
             let userWin = (result.winner === 0) ? user1 : user2;
             let userLose = (result.winner === 0) ? user2 : user1;
 
-            userWin.newScore = userWin.score + Math.floor(config.ranking.base * Math.pow(config.ranking.multiplier, Math.min((userLose.score - userWin.score) / config.ranking.divider, 50)));
-            userLose.newScore = Math.max(userLose.score - Math.floor(config.ranking.base * Math.pow(config.ranking.multiplier, Math.min((userLose.score - userWin.score) / config.ranking.divider, 50))), 0);
+            // userWin.newScore = userWin.score + Math.floor(config.ranking.base * Math.pow(config.ranking.multiplier, Math.min((userLose.score - userWin.score) / config.ranking.divider, 50)));
+            // userLose.newScore = Math.max(userLose.score - Math.floor(config.ranking.base * Math.pow(config.ranking.multiplier, Math.min((userLose.score - userWin.score) / config.ranking.divider, 50))), 0);
+
+            // ELO
+            let winK = Math.max(35, 67 - userWin.score / 125);
+            let loseK = Math.max(35, 67 - userLose.score / 125);
+            if (userWin.score < 1750) {
+                winK *= 1.25;
+            }
+            if (userLose.score < 1750) {
+                loseK *= 0.8;
+            }
+            let winP = 1 / (1 + Math.pow(10, (userLose.score - userWin.score) / 400));
+            let loseP = 1 / (1 + Math.pow(10, (userWin.score - userLose.score) / 400));
+            userWin.newScore = userWin.score + winK * (1 - winP);
+            userLose.newScore = Math.max(0, userLose.score + loseK * (0 - loseP));
 
             if (isNaN(userWin.newScore) || isNaN(userLose.newScore) || !isFinite(userWin.newScore) || !isFinite(userLose.newScore)) {
                 let fs = require("fs");
-                fs.appendFileSync("/root/bug.txt", JSON.stringify([userWin, userLose]) + "\n");
+                fs.appendFileSync("/root/bug.txt", JSON.stringify([userWin, userLose]) + winP.toString() + loseP.toString() + "\n");
                 userWin.newScore = userWin.score;
                 userLose.newScore = userLose.score;
             } else {
@@ -92,8 +129,8 @@ async function worker() {
                 error: result.error,
                 record: match.record,
                 scores: {
-                    p1: [user1.score, user1.newScore],
-                    p2: [user2.score, user2.newScore],
+                    p1: [user1.score.toFixed(2), user1.newScore.toFixed(2)],
+                    p2: [user2.score.toFixed(2), user2.newScore.toFixed(2)],
                 },
                 A: match.A,
                 B: match.B

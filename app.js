@@ -17,9 +17,8 @@ app.set('view engine', 'ejs');
 app.engine('html', ejs.renderFile);
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-
+app.use(express.json({limit: '5mb'}));
+app.use(express.urlencoded({limit: '5mb', extended: false}));
 
 app.use(session({
     secret: 'this is a string key',   // 可以随便写。 一个 String 类型的字符串，作为服务器端生成 session 的签名
@@ -27,7 +26,7 @@ app.use(session({
     resave: false,   /*强制保存 session 即使它并没有变化,。默认为 true。建议设置成 false。*/
     saveUninitialized: true,   //强制将未初始化的 session 存储。  默认值是true  建议设置成true
     cookie: {
-        maxAge: 1000 * 30 * 60    /*过期时间*/
+        maxAge: 1000 * 60 * 60 * 24    /*过期时间*/
     },   /* secure:true  https这样的情况才可以访问cookie */
     rolling: true, //在每次请求时强行设置 cookie，这将重置 cookie 过期时间（默认：false）
     store: new MongoStore({

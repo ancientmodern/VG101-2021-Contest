@@ -25,6 +25,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
     function getGameResult() {
         return new Promise(function (res, rej) {
             $.get("/match/get/" + getURLVariable(), function (result) {
+                // console.log(JSON.parse(result));
                 res(JSON.parse(result));
             })
         });
@@ -33,6 +34,11 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
     function animateRotation(elt, from, to, time) {
         var obj = $(elt);
         var counter = 1;
+        if (from === -90 && to === 180) {
+            from = 270;
+        } else if (from === 180 && to === -90) {
+            to = 270;
+        }
         return new Promise(function (res, rej) {
             var timer = setInterval(function () {
                 if (10 / time * counter >= 1) {
@@ -93,15 +99,28 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         });
     }
 
+    function animateLife(elt, tank) {
+        var obj = $(elt);
+        return new Promise(function (res, rej) {
+            var timer = setInterval(function () {
+                obj.css({
+                    width: (100 * tank.life).toString() + "px",
+                })
+                clearInterval(timer);
+                res();
+            }, 10);
+        });
+    }
+
     var globalFps = 5;
-    $("[name='step-go']").on("click", function() {
+    $("[name='step-go']").on("click", function () {
         var newFps = parseInt($("[name='step-speed']").val());
         if (newFps <= 0) newFps = 1;
         globalFps = newFps;
     })
 
     var pause = false;
-    $("[name='step-pause']").on("click", function() {
+    $("[name='step-pause']").on("click", function () {
         if (finished) {
             $("[name='step-pause']").html("Pause");
             finished = false;
@@ -111,11 +130,11 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         }
     });
 
-    var A = undefined, B = undefined;
+    var A = undefined, B = undefined, p1 = undefined, p2 = undefined;
 
     var mode = 0;
 
-    $("[name='toggle-mode']").on("click", function() {
+    $("[name='toggle-mode']").on("click", function () {
         mode = !mode;
         if (mode) {
             $(".board-container").hide();
@@ -232,7 +251,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         var tanks = [];
         var bullets = [];
 
-        var border;
+        var border, lifeFixedA, lifeFixedB, lifePointA, lifePointB;
 
         var container = $(".board-container");
         container.html("");
@@ -242,6 +261,8 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
 
             A = result.A;
             B = result.B;
+            p1 = result.p1;
+            p2 = result.p2;
             result = result.record;
 
             $("[data='stdout-A']").html(A.stdout);
@@ -261,6 +282,15 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             var borderWidth = 20;
             container.append(border);
 
+            lifeFixedA = $("<div class='lifeFixed' style='left: 0;text-align: left'>&nbsp;" + p1 + "</div>");
+            lifeFixedB = $("<div class='lifeFixed' style='right: 0;text-align: right'>" + p2 + "&nbsp;</div>");
+            lifePointA = $("<div class='lifepointA'></div>");
+            lifePointB = $("<div class='lifepointB'></div>");
+            container.append(lifeFixedA);
+            container.append(lifeFixedB);
+            container.append(lifePointA);
+            container.append(lifePointB);
+
             function frame() {
                 var fd = result[frameid];
 
@@ -278,6 +308,16 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                         borderWidth / 30 * 100,
                         (20 - fd.shrink * 2) / 30 * 100,
                         1000 / globalFps
+                    ));
+
+                    promises.push(animateLife(
+                        lifePointA,
+                        fd.tanks[0],
+                    ));
+
+                    promises.push(animateLife(
+                        lifePointB,
+                        fd.tanks[1],
                     ));
 
                     fd.tanks.forEach(function (item, index) {
@@ -299,7 +339,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                 }
 
                 Promise.all(promises).then(function () {
-                    if(!pause) {
+                    if (!pause) {
                         for (; i < fd.bullets.length; i++) {
                             bullets.push(new BulletSpirit(container, fd.bullets[i]));
                         }
