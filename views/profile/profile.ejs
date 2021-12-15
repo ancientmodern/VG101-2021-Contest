@@ -28,7 +28,7 @@
             </ol>
             <ol class="nav__container-item">
                 <li id="signin">
-                    <a href="/profile" class="nav__item active"><%= realName%></a>
+                    <a href="/profile" class="nav__item active"><%= realName %></a>
                 </li>
             </ol>
         </div>
@@ -60,31 +60,32 @@
                     <div class="section__body">
                         <form method="post">
                             <% if (post) { %>
-                            <% if (wrongPassword) {%>
-                                <div class="typo">
-                                    <blockquote class="error">
-                                        Wrong Password
-                                    </blockquote>
-                                </div>
+                                <% if (wrongPassword) { %>
+                                    <div class="typo">
+                                        <blockquote class="error">
+                                            Wrong Password
+                                        </blockquote>
+                                    </div>
                                 <% } else { %>
-                                <div class="typo">
-                                    <blockquote class="success">
-                                        Your settings has been updated.
-                                    </blockquote>
-                                </div>
+                                    <div class="typo">
+                                        <blockquote class="success">
+                                            Your settings has been updated.
+                                        </blockquote>
+                                    </div>
                                 <% } %>
                             <% } %>
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Student ID</label>
                                     <input type="text" name="studentId" class="textbox" readonly=""
-                                           value="<%= studentId%>">
+                                           value="<%= studentId %>">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Real Name (required)</label>
-                                    <input type="text" name="realname" class="textbox" autofocus="" readonly="" value="<%= realName%>"
+                                    <input type="text" name="realname" class="textbox" autofocus="" readonly=""
+                                           value="<%= realName %>"
                                            required="">
                                     <p class="help-text">Your real name is only visible to TAs. Others will not know who
                                         you are.</p>
@@ -93,10 +94,16 @@
                             <div class="row">
                                 <div class="medium-5 columns">
                                     <label>Display Name (required)</label>
-                                    <input type="text" name="name" class="textbox" value="<%= dispName%>"
+                                    <input type="text" name="name" class="textbox" value="<%= dispName %>"
                                            required="">
                                     <p class="help-text">Will be displayed <span class="text-red">publicly</span> in
                                         scoreboard.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Tank Skin</label>
+                                    <input type="file" name="skin">
                                 </div>
                             </div>
                             <div class="row">
@@ -142,8 +149,8 @@
                             <li class="menu__seperator"></li>
                             <li class="menu__item">
                                 <a href="/logout" class="menu__link">
-                                        <span class="icon icon-close"></span>
-                                        Logout
+                                    <span class="icon icon-close"></span>
+                                    Logout
                                 </a>
                             </li>
                         </ol>
@@ -157,7 +164,7 @@
 </div>
 <script src="/js/jsUtils/jsUtils.js"></script>
 <script>
-    require(["jquery", "/js/security/hash"], function($, hash) {
+    require(["jquery", "/js/security/hash"], function ($, hash) {
         function onChange() {
             if ($("[name='password']").val() || $("[name='newpassword']").val()) {
                 $("#password").show("slow");
@@ -168,12 +175,12 @@
         }
 
         $("[name='newpassword']").on("keydown", onChange)
-        .on("keyup", onChange)
-        .on("change", onChange);
+            .on("keyup", onChange)
+            .on("change", onChange);
 
         $("[name='password']").on("keydown", onChange)
-        .on("keyup", onChange)
-        .on("change", onChange);
+            .on("keyup", onChange)
+            .on("change", onChange);
 
         $("form").on("submit", function () {
             var pwd = $("[name=password]");
