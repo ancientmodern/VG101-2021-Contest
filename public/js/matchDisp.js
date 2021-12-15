@@ -219,11 +219,11 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin", "matchDisp.
         this.direction = bullet.direction;
         this.parent = $(parent);
         // console.log(bullet.owner);
-        if (bullet.owner === Game.tank.A && skin1 !== "") {
+        if (bullet.owner === 0 && skin1 !== "") {
             this.self = $("<div class='bullet'>" +
                 "<img src=\"" + skin1 + "\" alt='Bullet'/>" +
                 "</div>");
-        } else if (bullet.owner === Game.tank.B && skin2 !== "") {
+        } else if (bullet.owner === 1 && skin2 !== "") {
             this.self = $("<div class='bullet'>" +
                 "<img src=\"" + skin2 + "\" alt='Bullet'/>" +
                 "</div>");
