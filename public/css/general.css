@@ -5479,6 +5479,12 @@ svg {
     transform-origin: 0 0;
 }
 
+.tank img {
+    position: relative;
+    top: 20%;
+    right: 20%;
+}
+
 .border {
     position: absolute;
     top: 50%;
