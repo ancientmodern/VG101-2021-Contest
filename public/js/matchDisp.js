@@ -182,13 +182,8 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                 "</svg></div>");
         } else {
             this.self = $("<div class='tank'>" +
-                "<img src='../img/zombie.jpg' alt=\"Tank\" height='70' width='70'/>" +
-                "<svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">" +
-                "<g id=\"gun\">\n" +
-                "<line x1=\"35\" y1=\"5\" x2=\"35\" y2=\"57.5\" style=\"stroke: #8d8d8d; stroke-width: 8\" />\n" +
-                "<rect x=\"32\" y=\"0\" rx=\"5\" ry=\"5\" width=\"6\" height=\"10\" style=\"fill:#8d8d8d;\" />\n" +
-                "</g>\n" +
-                "</svg></div>");
+                "<img src='../img/zombie.jpg' alt='Tank' height='49' width='56'/>" +
+                "</div>");
         }
         this.self.css({
             transform: "rotate(" + rotationDeg[this.direction].toString() + "deg) translate(-50%, -50%)",
