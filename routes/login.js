@@ -38,6 +38,7 @@ module.exports = {
                 userData.compiler = "c++17";
                 userData.student = true;
                 userData.tankSKin = "";
+                userData.bulletSkin = "";
 
                 let uid = await col.insertOne(userData);
 

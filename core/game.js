@@ -17,12 +17,12 @@ Tank.direction = {
 }
 
 class Bullet {
-    constructor(position, direction) {
+    constructor(position, direction, owner) {
         this.position = position;
         this.direction = direction;
         this.busted = false;
+        this.owner = owner;
     }
-
 }
 
 Bullet.direction = {
@@ -61,7 +61,7 @@ class Game {
         }
         this.tanks[tank].position = this.tanks[tank].position.add(Tank.direction[this.tanks[tank].direction]);
         if (this.tanks[tank].cd === 0) {
-            this.bullets.push(new Bullet(this.tanks[tank].position.add(Tank.direction[this.tanks[tank].direction]), this.tanks[tank].direction));
+            this.bullets.push(new Bullet(this.tanks[tank].position.add(Tank.direction[this.tanks[tank].direction]), this.tanks[tank].direction, tank));
             this.tanks[tank].cd = 2;
         } else this.tanks[tank].cd--;
     }

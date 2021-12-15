@@ -130,7 +130,8 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         }
     });
 
-    var A = undefined, B = undefined, p1 = undefined, p2 = undefined, p1Skin = undefined, p2Skin = undefined;
+    var A = undefined, B = undefined, p1 = undefined, p2 = undefined, ts1 = undefined, ts2 = undefined, bs1 = undefined,
+        bs2 = undefined;
 
     var mode = 0;
 
@@ -168,11 +169,11 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         this.parent = $(parent);
         if (index === 0 && skin1 !== "") {
             this.self = $("<div class='tank'>" +
-                "<img src=\"" + skin1 + "\" alt='Tank' height='60' width='50'/>" +
+                "<img src=\"" + skin1 + "\" alt='Tank'/>" +
                 "</div>");
         } else if (index === 1 && skin2 !== "") {
             this.self = $("<div class='tank'>" +
-                "<img src=\"" + skin2 + "\" alt='Tank' height='60' width='50'/>" +
+                "<img src=\"" + skin2 + "\" alt='Tank'/>" +
                 "</div>");
         } else {
             this.self = $("<div class='tank'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
@@ -213,13 +214,23 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         })
     }
 
-    function BulletSpirit(parent, bullet) {
+    function BulletSpirit(parent, bullet, skin1, skin2) {
         this.position = bullet.position;
         this.direction = bullet.direction;
         this.parent = $(parent);
-        this.self = $("<div class='tank'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
-            "    <rect width=\"5\" height=\"30\" x=\"32.5\" y=\"40\" style=\";fill:#ffc927\" />\n" +
-            "</svg></div>");
+        if (bullet.owner === 0 && skin1 !== "") {
+            this.self = $("<div class='bullet'>" +
+                "<img src=\"" + skin1 + "\" alt='Bullet'/>" +
+                "</div>");
+        } else if (bullet.owner === 1 && skin2 !== "") {
+            this.self = $("<div class='bullet'>" +
+                "<img src=\"" + skin2 + "\" alt='Bullet'/>" +
+                "</div>");
+        } else {
+            this.self = $("<div class='bullet'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
+                "    <rect width=\"5\" height=\"30\" x=\"32.5\" y=\"40\" style=\";fill:#ffc927\" />\n" +
+                "</svg></div>");
+        }
         this.self.css({
             transform: "rotate(" + rotationDeg[this.direction].toString() + "deg) translate(-50%, -50%)",
             top: ((bullet.position[1] + 5) / 29 * 100).toString() + "%",
@@ -273,8 +284,10 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             B = result.B;
             p1 = result.p1;
             p2 = result.p2;
-            p1Skin = result.p1Skin;
-            p2Skin = result.p2Skin;
+            ts1 = result.ts1;
+            ts2 = result.ts2;
+            bs1 = result.bs1;
+            bs2 = result.bs2;
             result = result.record;
 
             $("[data='stdout-A']").html(A.stdout);
@@ -283,11 +296,11 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             $("[data='stderr-B']").html(B.stderr);
 
             result[0].tanks.forEach(function (item, index) {
-                tanks.push(new TankSpirit(container, item, index, p1Skin, p2Skin));
+                tanks.push(new TankSpirit(container, item, index, ts1, ts2));
             });
 
             result[0].bullets.forEach(function (item) {
-                bullets.push(new BulletSpirit(container, item));
+                bullets.push(new BulletSpirit(container, item, bs1, bs2));
             });
 
             border = $("<div class='border'> </div>");
@@ -353,7 +366,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                 Promise.all(promises).then(function () {
                     if (!pause) {
                         for (; i < fd.bullets.length; i++) {
-                            bullets.push(new BulletSpirit(container, fd.bullets[i]));
+                            bullets.push(new BulletSpirit(container, fd.bullets[i], bs1, bs2));
                         }
                         console.log(frameid, result.length);
                         frameid++;

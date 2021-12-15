@@ -5488,6 +5488,23 @@ svg {
     border-radius: 5px;
 }
 
+.bullet {
+    position: absolute;
+    width: 70px;
+    height: 110px;
+    z-index: 1;
+    transform-origin: 0 0;
+}
+
+.bullet img {
+    position: relative;
+    height: 30px;
+    width: 6px;
+    top: 40px;
+    left: 32px;
+    border-radius: 5px;
+}
+
 .border {
     position: absolute;
     top: 50%;

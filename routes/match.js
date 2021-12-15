@@ -165,8 +165,10 @@ module.exports = {
             B: rec.B || {stdout: "No Record", stderr: "No Record"},
             p1: p1.dispName,
             p2: p2.dispName,
-            p1Skin: p1.tankSkin,
-            p2Skin: p2.tankSkin
+            ts1: p1.tankSkin,
+            ts2: p2.tankSkin,
+            bs1: p1.bulletSkin,
+            bs2: p2.bulletSkin
         }));
     }
 }
