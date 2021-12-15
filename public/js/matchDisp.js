@@ -130,7 +130,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         }
     });
 
-    var A = undefined, B = undefined, p1 = undefined, p2 = undefined;
+    var A = undefined, B = undefined, p1 = undefined, p2 = undefined, p1Skin = undefined, p2Skin = undefined;
 
     var mode = 0;
 
@@ -160,13 +160,21 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         180
     ]
 
-    function TankSpirit(parent, tank, index) {
+    function TankSpirit(parent, tank, index, skin1, skin2) {
         this.position = [(tank.position[0] + 5) / 30 * 100, (tank.position[1] + 5) / 30 * 100];
         this.direction = tank.direction;
         this.life = tank.life;
         this.index = index;
         this.parent = $(parent);
-        if (index === 1) {
+        if (index === 0 && skin1 !== "") {
+            this.self = $("<div class='tank'>" +
+                "<img src=\"" + skin1 + "\" alt='Tank' height='60' width='50'/>" +
+                "</div>");
+        } else if (index === 1 && skin2 !== "") {
+            this.self = $("<div class='tank'>" +
+                "<img src=\"" + skin2 + "\" alt='Tank' height='60' width='50'/>" +
+                "</div>");
+        } else {
             this.self = $("<div class='tank'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
                 "    <rect width=\"70\" height=\"70\" x=\"0\" y=\"30\" rx=\"10\" ry=\"10\" style=\"fill:#333\" />\n" +
                 "    <rect x=\"0\" y=\"25\" rx=\"10\" ry=\"10\" width=\"15\" height=\"80\" style=\"fill:#5c5c5c;\" />\n" +
@@ -180,10 +188,6 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                 "        <rect x=\"32\" y=\"0\" rx=\"5\" ry=\"5\" width=\"6\" height=\"10\" style=\"fill:#8d8d8d;\" />\n" +
                 "    </g>\n" +
                 "</svg></div>");
-        } else {
-            this.self = $("<div class='tank'>" +
-                "<img src='../img/zombie.jpg' alt='Tank' height='60' width='50'/>" +
-                "</div>");
         }
         this.self.css({
             transform: "rotate(" + rotationDeg[this.direction].toString() + "deg) translate(-50%, -50%)",
@@ -269,6 +273,8 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             B = result.B;
             p1 = result.p1;
             p2 = result.p2;
+            p1Skin = result.p1Skin;
+            p2Skin = result.p2Skin;
             result = result.record;
 
             $("[data='stdout-A']").html(A.stdout);
@@ -277,7 +283,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             $("[data='stderr-B']").html(B.stderr);
 
             result[0].tanks.forEach(function (item, index) {
-                tanks.push(new TankSpirit(container, item, index));
+                tanks.push(new TankSpirit(container, item, index, p1Skin, p2Skin));
             });
 
             result[0].bullets.forEach(function (item) {
