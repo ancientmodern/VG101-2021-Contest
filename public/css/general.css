@@ -5481,8 +5481,10 @@ svg {
 
 .tank img {
     position: relative;
-    top: 25px;
-    left: 10px;
+    height: 70px;
+    width: 56px;
+    top: 20px;
+    left: 7px;
     border-radius: 5px;
 }
 
