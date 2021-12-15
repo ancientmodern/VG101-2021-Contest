@@ -1,4 +1,4 @@
-define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin", "matchDisp.js/../../../core/game"], function ($, Promise, Vector, check, Game) {
+define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function ($, Promise, Vector, check) {
     check().then(function (result) {
         if (result) {
             $("#signin").children().html(result).attr("href", "/profile");
@@ -219,19 +219,22 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin", "matchDisp.
         this.direction = bullet.direction;
         this.parent = $(parent);
         // console.log(bullet.owner);
-        if (bullet.owner === 0 && skin1 !== "") {
-            this.self = $("<div class='bullet'>" +
-                "<img src=\"" + skin1 + "\" alt='Bullet'/>" +
-                "</div>");
-        } else if (bullet.owner === 1 && skin2 !== "") {
-            this.self = $("<div class='bullet'>" +
-                "<img src=\"" + skin2 + "\" alt='Bullet'/>" +
-                "</div>");
-        } else {
-            this.self = $("<div class='bullet'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
-                "    <rect width=\"5\" height=\"30\" x=\"32.5\" y=\"40\" style=\";fill:#ffc927\" />\n" +
-                "</svg></div>");
-        }
+        this.self = $("<div class='bullet'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
+            "    <rect width=\"5\" height=\"30\" x=\"32.5\" y=\"40\" style=\";fill:#ffc927\" />\n" +
+            "</svg></div>");
+        // if (bullet.owner === 0 && skin1 !== "") {
+        //     this.self = $("<div class='bullet'>" +
+        //         "<img src=\"" + skin1 + "\" alt='Bullet'/>" +
+        //         "</div>");
+        // } else if (bullet.owner === 1 && skin2 !== "") {
+        //     this.self = $("<div class='bullet'>" +
+        //         "<img src=\"" + skin2 + "\" alt='Bullet'/>" +
+        //         "</div>");
+        // } else {
+        //     this.self = $("<div class='bullet'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
+        //         "    <rect width=\"5\" height=\"30\" x=\"32.5\" y=\"40\" style=\";fill:#ffc927\" />\n" +
+        //         "</svg></div>");
+        // }
         this.self.css({
             transform: "rotate(" + rotationDeg[this.direction].toString() + "deg) translate(-50%, -50%)",
             top: ((bullet.position[1] + 5) / 29 * 100).toString() + "%",
