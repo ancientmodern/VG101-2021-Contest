@@ -182,7 +182,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
                 "</svg></div>");
         } else {
             this.self = $("<div class='tank'>" +
-                "<img src='../img/zombie.jpg' alt='Tank' height='49' width='56'/>" +
+                "<img src='../img/zombie.jpg' alt='Tank' height='60' width='50'/>" +
                 "</div>");
         }
         this.self.css({
