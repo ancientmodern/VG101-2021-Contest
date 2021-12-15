@@ -179,7 +179,7 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         //     "        <rect x=\"32\" y=\"0\" rx=\"5\" ry=\"5\" width=\"6\" height=\"10\" style=\"fill:#8d8d8d;\" />\n" +
         //     "    </g>\n" +
         //     "</svg></div>");
-        this.self = $("<div class='tank'><img src='../img/zombie.jpg' alt=\"Tank\"/></div>");
+        this.self = $("<div class='tank'><img src='../img/zombie.jpg' alt=\"Tank\" height='110' width='70'/></div>");
         this.self.css({
             transform: "rotate(" + rotationDeg[this.direction].toString() + "deg) translate(-50%, -50%)",
             top: this.position[1].toString() + "%",
