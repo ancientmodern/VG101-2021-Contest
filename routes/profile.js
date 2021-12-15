@@ -50,7 +50,7 @@ module.exports = {
                     wrongPassword = true;
                 }
             } else {
-                await db.collection("user").updateOne({_id: ObjectID(req.session.uid)}, {$set: {dispName: req.body.name}});
+                await db.collection("user").updateOne({_id: ObjectID(req.session.uid)}, {$set: {dispName: req.body.name, tankSkin: req.body.skin}});
             }
 
             let rec = await db.collection("user").find({_id: ObjectID(req.session.uid)}).toArray();
