@@ -20,8 +20,8 @@ class Bullet {
     constructor(position, direction, owner) {
         this.position = position;
         this.direction = direction;
-        this.busted = false;
         this.owner = owner;
+        this.busted = false;
     }
 }
 
@@ -137,7 +137,8 @@ class Game {
             bullets: this.bullets.reduce((list, item) => {
                 list.push({
                     position: [item.position.x, item.position.y],
-                    direction: item.direction
+                    direction: item.direction,
+                    owner: item.owner
                 });
                 return list;
             }, []),
