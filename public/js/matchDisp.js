@@ -218,10 +218,6 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         this.position = bullet.position;
         this.direction = bullet.direction;
         this.parent = $(parent);
-        // console.log(bullet.owner);
-        this.self = $("<div class='bullet'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
-            "    <rect width=\"5\" height=\"30\" x=\"32.5\" y=\"40\" style=\";fill:#ffc927\" />\n" +
-            "</svg></div>");
         if (bullet.owner === 0 && skin1 !== "") {
             this.self = $("<div class='bullet'>" +
                 "<img src=\"" + skin1 + "\" alt='Bullet'/>" +
