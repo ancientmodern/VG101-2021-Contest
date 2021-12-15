@@ -166,19 +166,20 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
         this.life = tank.life;
         this.index = index;
         this.parent = $(parent);
-        this.self = $("<div class='tank'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
-            "    <rect width=\"70\" height=\"70\" x=\"0\" y=\"30\" rx=\"10\" ry=\"10\" style=\"fill:#333\" />\n" +
-            "    <rect x=\"0\" y=\"25\" rx=\"10\" ry=\"10\" width=\"15\" height=\"80\" style=\"fill:#5c5c5c;\" />\n" +
-            "    <rect x=\"55\" y=\"25\" rx=\"10\" ry=\"10\" width=\"15\" height=\"80\" style=\"fill:#5c5c5c;\" />\n" +
-            "    <rect x=\"20\" y=\"90\" rx=\"10\" ry=\"10\" width=\"30\" height=\"15\" style=\"" + ((this.index !== 0) ? "fill:#c9a26c;" : "fill:#fb5555;") + "\" />\n" +
-            "    <circle cx=\"35\" cy=\"65\" r=\"15\" style=\"fill-opacity: .2\" fill=\"white\" />\n" +
-            "    <circle cx=\"35\" cy=\"65\" r=\"10\" style=\"fill-opacity: .3\" fill=\"white\" />\n" +
-            "    <circle cx=\"35\" cy=\"65\" r=\"5\" style=\"fill-opacity: .5\" fill=\"white\" />\n" +
-            "    <g id=\"gun\">\n" +
-            "        <line x1=\"35\" y1=\"5\" x2=\"35\" y2=\"57.5\" style=\"stroke: #8d8d8d; stroke-width: 8\" />\n" +
-            "        <rect x=\"32\" y=\"0\" rx=\"5\" ry=\"5\" width=\"6\" height=\"10\" style=\"fill:#8d8d8d;\" />\n" +
-            "    </g>\n" +
-            "</svg></div>");
+        // this.self = $("<div class='tank'><svg version=\"1.1\" xmlns=\"https://www.w3.org/2000/svg\" xmlns:xlink=\"https://www.w3.org/1999/xlink\" width=\"70\" height=\"110\">\n" +
+        //     "    <rect width=\"70\" height=\"70\" x=\"0\" y=\"30\" rx=\"10\" ry=\"10\" style=\"fill:#333\" />\n" +
+        //     "    <rect x=\"0\" y=\"25\" rx=\"10\" ry=\"10\" width=\"15\" height=\"80\" style=\"fill:#5c5c5c;\" />\n" +
+        //     "    <rect x=\"55\" y=\"25\" rx=\"10\" ry=\"10\" width=\"15\" height=\"80\" style=\"fill:#5c5c5c;\" />\n" +
+        //     "    <rect x=\"20\" y=\"90\" rx=\"10\" ry=\"10\" width=\"30\" height=\"15\" style=\"" + ((this.index !== 0) ? "fill:#c9a26c;" : "fill:#fb5555;") + "\" />\n" +
+        //     "    <circle cx=\"35\" cy=\"65\" r=\"15\" style=\"fill-opacity: .2\" fill=\"white\" />\n" +
+        //     "    <circle cx=\"35\" cy=\"65\" r=\"10\" style=\"fill-opacity: .3\" fill=\"white\" />\n" +
+        //     "    <circle cx=\"35\" cy=\"65\" r=\"5\" style=\"fill-opacity: .5\" fill=\"white\" />\n" +
+        //     "    <g id=\"gun\">\n" +
+        //     "        <line x1=\"35\" y1=\"5\" x2=\"35\" y2=\"57.5\" style=\"stroke: #8d8d8d; stroke-width: 8\" />\n" +
+        //     "        <rect x=\"32\" y=\"0\" rx=\"5\" ry=\"5\" width=\"6\" height=\"10\" style=\"fill:#8d8d8d;\" />\n" +
+        //     "    </g>\n" +
+        //     "</svg></div>");
+        this.self = $("<div class='tank'><img src='../img/zombie.jpg' alt=\"Tank\"/></div>");
         this.self.css({
             transform: "rotate(" + rotationDeg[this.direction].toString() + "deg) translate(-50%, -50%)",
             top: this.position[1].toString() + "%",
