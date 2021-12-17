@@ -19,6 +19,7 @@ module.exports = {
             let rec = await db.collection("user").find({_id: ObjectID(req.session.uid)}).toArray();
 
             let data = rec[0];
+            console.log(data);
             data.post = false;
 
             await client.close();
