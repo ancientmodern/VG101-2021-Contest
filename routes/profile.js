@@ -19,9 +19,10 @@ module.exports = {
             let rec = await db.collection("user").find({_id: ObjectID(req.session.uid)}).toArray();
 
             let data = rec[0];
-            data.tankSkin = rec[0].tankSkin;
+            data.tankSkin = rec[0].tankSkin; // I don't know why, but it works
+            data.bulletSkin = rec[0].bulletSkin; // I don't know why, but it works
             data.post = false;
-            console.log(data);
+            // console.log(data);
 
             await client.close();
             res.render("profile/profile", data);
