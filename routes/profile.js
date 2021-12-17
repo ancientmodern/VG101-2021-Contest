@@ -19,6 +19,7 @@ module.exports = {
             let rec = await db.collection("user").find({_id: ObjectID(req.session.uid)}).toArray();
 
             let data = rec[0];
+            data.tankSkin = rec[0].tankSkin;
             data.post = false;
             console.log(data);
 
