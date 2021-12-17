@@ -23,7 +23,7 @@ module.exports = {
             data.post = false;
 
             await client.close();
-            res.render("profile/profile", data);
+            res.render("profile/profile", {data});
         }
     },
     async update(req, res) {
