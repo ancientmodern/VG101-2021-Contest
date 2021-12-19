@@ -19,7 +19,7 @@ async function create() {
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
     // client.then();
     let db = client.db("user");
-    rec = db.collection("user").find({"score": 2000}).toArray();
+    rec = await db.collection("user").find({"score": 2000}).toArray();
     // if (!stop && activeProcess < config.worker.maxProcessCnt) {
     //     activeProcess++;
     //     let sub = fork("./core/final_worker.js");
