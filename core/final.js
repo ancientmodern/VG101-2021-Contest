@@ -14,8 +14,7 @@ process.on("message", (msg) => {
 });
 
 function create() {
-    let client = MongoClient.connect(mongoPath, {useUnifiedTopology: true});
-    let db = client.db("tank");
+    let db = MongoClient.connect(mongoPath, {useUnifiedTopology: true}).db("tank");
     let rec = db.collection("user").find({"score": {$ne: 2000}}).toArray();
 
     console.log(rec[0])
