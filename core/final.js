@@ -15,8 +15,10 @@ process.on("message", (msg) => {
 
 async function create() {
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
+    console.log(client);
     // client.then();
     let db = client.db("user");
+    console.log(db);
     let rec = await db.collection("user").find({"score": 2000}).toArray();
     console.log(rec);
     console.log(rec[0]);
