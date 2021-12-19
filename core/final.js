@@ -33,4 +33,5 @@ function create() {
     // }
 }
 
+create();
 // for (let i = 0; i < config.worker.maxProcessCnt; i++) create();
