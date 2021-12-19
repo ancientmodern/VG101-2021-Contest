@@ -13,8 +13,8 @@ process.on("message", (msg) => {
     if (msg === "stop") stop = true;
 });
 
-function create() {
-    let client = MongoClient.connect(mongoPath, {useUnifiedTopology: true});
+async function create() {
+    let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
     let db = client.db("tank");
     let rec = db.collection("user").find({"score": {$ne: 2000}}).toArray();
 
