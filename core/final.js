@@ -31,5 +31,5 @@ async function create() {
     // }
 }
 
-create();
+create().then();
 // for (let i = 0; i < config.worker.maxProcessCnt; i++) create();
