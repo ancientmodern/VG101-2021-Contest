@@ -13,13 +13,14 @@ process.on("message", (msg) => {
     if (msg === "stop") stop = true;
 });
 
-async function create() {
-    let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
-    let db = client.db("tank");
-    let rec = db.collection("user").find({"score": {$ne: 2000}}).toArray();
-
-    console.log(rec[0])
-    console.log(rec[1])
+function create() {
+    MongoClient.connect(mongoPath, function (err, db) {
+        if (err) throw err;
+        let dbo = db.db("user");
+        let rec = dbo.collection("user").find({"score": {$ne: 2000}}).toArray();
+        console.log(rec[0])
+        console.log(rec[1])
+    });
 
     // if (!stop && activeProcess < config.worker.maxProcessCnt) {
     //     activeProcess++;
