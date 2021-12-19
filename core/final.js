@@ -13,12 +13,13 @@ process.on("message", (msg) => {
     if (msg === "stop") stop = true;
 });
 
+let rec = [];
+
 async function create() {
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
+    // client.then();
     let db = client.db("user");
-    let rec = db.collection("user").find({"score": 2000}).toArray();
-    console.log(rec);
-    console.log(rec[0]);
+    rec = db.collection("user").find({"score": 2000}).toArray();
     // if (!stop && activeProcess < config.worker.maxProcessCnt) {
     //     activeProcess++;
     //     let sub = fork("./core/final_worker.js");
@@ -32,4 +33,6 @@ async function create() {
 }
 
 create().then();
+console.log(rec);
+console.log(rec[0]);
 // for (let i = 0; i < config.worker.maxProcessCnt; i++) create();
