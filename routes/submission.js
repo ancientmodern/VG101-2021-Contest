@@ -95,7 +95,7 @@ module.exports = {
         }
     },
     async submit(req, res) {
-        if (!req.session.uid || Date.now() > 1639943559000) { // 未授权
+        if (!req.session.uid || Date.now() > 1639943820000) { // 未授权
             res.redirect('/oauth');
         } else {
             // TODO: 增加截止时间, 增加默认编译器设置
