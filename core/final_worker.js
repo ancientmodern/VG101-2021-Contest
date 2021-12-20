@@ -15,8 +15,8 @@ async function final_worker(players) {
     console.log(players);
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
     let db = client.db("tank");
-    let p1 = (await db.collection("user").find({_id: players[0]}).toArray())[0];
-    let p2 = (await db.collection("user").find({_id: players[1]}).toArray())[0];
+    let p1 = (await db.collection("user").find({realName: players[0]}).toArray())[0];
+    let p2 = (await db.collection("user").find({realName: players[1]}).toArray())[0];
     console.log(p1);
     console.log(p2);
     console.log(p1.realName, p1.score);

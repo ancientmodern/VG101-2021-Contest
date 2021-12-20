@@ -28,7 +28,7 @@ async function create() {
             }
             activeProcess++;
             let sub = fork("./core/final_worker.js");
-            sub.send([rec._id, other._id]);
+            sub.send([rec.realName, other.realName]);
             sub.on("message", (msg) => {
                 if (msg === "stop") {
                     activeProcess--;
