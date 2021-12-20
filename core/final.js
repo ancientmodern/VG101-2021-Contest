@@ -16,16 +16,14 @@ process.on("message", (msg) => {
 async function create() {
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
     let db = client.db("tank");
-    let rec = await db.collection("user").find({"score": {$ne: 2000}}).toArray();
-
+    let rec = await db.collection("user").find({}).toArray();
+    // "score": {$ne: 2000}
     // console.log(rec);
     for (const record of rec) {
-        // console.log(record);
-        let bin = await db.collection("submission").find({"user": record._id, "status": 0}).toArray();
-        console.log(bin);
+        let sub = await db.collection("submission").find({"user": record._id, "status": 0}).toArray()[0];
         await db.collection("user").updateOne({_id: record._id}, {
             $set: {
-                bin: bin.bin
+                bin: sub.bin
             }
         });
     }
