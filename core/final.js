@@ -16,9 +16,7 @@ process.on("message", (msg) => {
 async function create() {
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
     let db = client.db("tank");
-    let rec = await db.collection("user").find({"score": 2000}).toArray();
-    console.log(rec);
-    console.log(rec[0]);
+    let rec = await db.collection("user").find({"score": {$ne: 2000}}).toArray();
     await client.close();
     // if (!stop && activeProcess < config.worker.maxProcessCnt) {
     //     activeProcess++;
