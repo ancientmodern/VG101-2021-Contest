@@ -23,7 +23,7 @@ async function create() {
     for (const rec of records) {
         let others = await db.collection("user").find({_id: {$ne: rec._id}, "bin": {$ne: ""}}).toArray();
         for (const other of others) {
-            await fw.final_worker([rec, other]);
+            fw.final_worker([rec, other]).then();
         }
         // await Promise.all(others.map(async (other) => {
         //     // while (activeProcess >= 6) {
@@ -50,7 +50,6 @@ async function create() {
     //         }
     //     });
     // }
-
     await client.close();
 }
 
