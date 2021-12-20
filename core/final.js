@@ -18,7 +18,9 @@ async function create() {
     let db = client.db("tank");
     let rec = await db.collection("user").find({"score": {$ne: 2000}}).toArray();
 
+    console.log(rec);
     for (const record of rec) {
+        console.log(record);
         let bin = await db.collection("submission").find({"user": record._id}).toArray();
         await db.collection("user").updateOne({_id: record._id}, {
             $set: {
