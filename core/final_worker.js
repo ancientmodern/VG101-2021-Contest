@@ -38,8 +38,8 @@ Final_Worker.prototype.final_worker = async function (players) {
     try {
         let result = await match.execute();
 
-        // let user1 = (await db.collection("user").find({_id: p1.user}).toArray())[0];
-        // let user2 = (await db.collection("user").find({_id: p2.user}).toArray())[0];
+        p1 = (await db.collection("user").find({_id: p1._id}).toArray())[0];
+        p2 = (await db.collection("user").find({_id: p2._id}).toArray())[0];
         console.log(result.winner);
         if (result.winner === -1) { // 平局
             p1.newScore = p1.score + 1;
