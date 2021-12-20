@@ -16,17 +16,21 @@ process.on("message", (msg) => {
 async function create() {
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
     let db = client.db("tank");
-    let rec = await db.collection("user").find({}).toArray();
+    let records = await db.collection("user").find({"bin": {$ne: ""}}).toArray();
+
+    await Promise.all(records.map(async (rec) => {
+        console.log(rec)
+    }));
     // "score": {$ne: 2000}
     // console.log(rec);
-    for (const record of rec) {
-        let sub = await db.collection("submission").find({"user": record._id, "status": 0}).toArray()[0];
-        await db.collection("user").updateOne({_id: record._id}, {
-            $set: {
-                bin: sub.bin
-            }
-        });
-    }
+    // for (const record of rec) {
+    //     let sub = await db.collection("submission").find({"user": record._id, "status": 0}).toArray()[0];
+    //     await db.collection("user").updateOne({_id: record._id}, {
+    //         $set: {
+    //             bin: sub.bin
+    //         }
+    //     });
+    // }
 
     await client.close();
     // if (!stop && activeProcess < config.worker.maxProcessCnt) {
