@@ -17,6 +17,8 @@ async function final_worker(players) {
     let db = client.db("tank");
     let p1 = (await db.collection("user").find({_id: players[0]}).toArray())[0];
     let p2 = (await db.collection("user").find({_id: players[1]}).toArray())[0];
+    console.log(p1);
+    console.log(p2);
     console.log(p1.realName, p1.score);
     console.log(p2.realName, p2.score);
 
