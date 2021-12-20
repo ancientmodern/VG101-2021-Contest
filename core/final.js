@@ -18,6 +18,15 @@ async function create() {
     let db = client.db("tank");
     let rec = await db.collection("user").find({"score": {$ne: 2000}}).toArray();
 
+    for (const record of rec) {
+        let bin = await db.collection("submission").find({"user": record._id}).toArray();
+        await db.collection("user").updateOne({_id: record._id}, {
+            $set: {
+                bin: bin.bin
+            }
+        });
+    }
+
     await client.close();
     // if (!stop && activeProcess < config.worker.maxProcessCnt) {
     //     activeProcess++;

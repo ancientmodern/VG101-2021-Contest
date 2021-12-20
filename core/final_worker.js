@@ -5,23 +5,25 @@ const config = require("../config/config.json");
 const MongoClient = require("mongodb").MongoClient;
 const mongoPath = "mongodb://" + config.db.user + ":" + config.db.password + "@" + config.db.ip + ":" + config.db.port + "/" + config.db.db;
 
-async function final_worker() {
+async function final_worker(sid1, sid2) {
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
     let db = client.db("tank");
 
-    let rec = await db.collection("submission").aggregate([{$match: {status: 0}}, {$sample: {size: 2}}]).toArray();
-
-    if (rec.length < 2) {
-        await client.close();
-        process.send("stop");
-        process.exit(-1);
-    }
+    // let rec = await db.collection("submission").aggregate([{$match: {status: 0}}, {$sample: {size: 2}}]).toArray();
+    //
+    // if (rec.length < 2) {
+    //     await client.close();
+    //     process.send("stop");
+    //     process.exit(-1);
+    // }
 
     let count = await db.collection("match").find({}).count();
     if (count > config.maxGameRecord) {
         let deleteId = await db.collection("match").find({}).limit(1).toArray();
         await db.collection("match").deleteOne({_id: deleteId[0]._id});
     }
+
+    let
 
     let id = (await db.collection("match").insertOne({status: 0, p1: rec[0].user, p2: rec[1].user})).insertedId;
 
