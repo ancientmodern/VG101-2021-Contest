@@ -1,6 +1,7 @@
 let {fork} = require("child_process");
 
 let config = require("../config/config.json");
+let Final_Worker = require("./final_worker");
 
 let activeProcess = 0;
 
@@ -18,19 +19,21 @@ async function create() {
     let db = client.db("tank");
     let records = await db.collection("user").find({"bin": {$ne: ""}}).toArray();
 
+    let fw = new Final_Worker();
     for (const rec of records) {
         let others = await db.collection("user").find({_id: {$ne: rec._id}, "bin": {$ne: ""}}).toArray();
         await Promise.all(others.map(async (other) => {
-            while (activeProcess >= 6) {
-            }
-            activeProcess++;
-            let sub = fork("./core/final_worker.js");
-            sub.send([rec, other]);
-            sub.on("message", (msg) => {
-                if (msg === "stop") {
-                    activeProcess--;
-                }
-            });
+            // while (activeProcess >= 6) {
+            // }
+            // activeProcess++;
+            // let sub = fork("./core/final_worker.js");
+            // sub.send([rec, other]);
+            // sub.on("message", (msg) => {
+            //     if (msg === "stop") {
+            //         activeProcess--;
+            //     }
+            // });
+            await fw.final_worker([rec, other]);
         }));
     }
 
