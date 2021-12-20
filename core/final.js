@@ -22,7 +22,7 @@ async function create() {
     for (const record of rec) {
         // console.log(record);
         let bin = await db.collection("submission").find({"user": record._id, "status": 0}).toArray();
-        console.log(bin.bin);
+        console.log(bin);
         await db.collection("user").updateOne({_id: record._id}, {
             $set: {
                 bin: bin.bin
