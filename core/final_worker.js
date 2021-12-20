@@ -6,6 +6,7 @@ const MongoClient = require("mongodb").MongoClient;
 const mongoPath = "mongodb://" + config.db.user + ":" + config.db.password + "@" + config.db.ip + ":" + config.db.port + "/" + config.db.db;
 
 async function final_worker(players) {
+    console.log(players);
     let p1 = players[0], p2 = players[1];
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
     let db = client.db("tank");
@@ -33,7 +34,7 @@ async function final_worker(players) {
 
         // let user1 = (await db.collection("user").find({_id: p1.user}).toArray())[0];
         // let user2 = (await db.collection("user").find({_id: p2.user}).toArray())[0];
-
+        console.log(result.winner);
         if (result.winner === -1) { // 平局
             p1.newScore = p1.score + 1;
             p2.newScore = p2.score + 1;
@@ -112,7 +113,6 @@ async function final_worker(players) {
 }
 
 process.on("message", function (message) {
-    console.log(message);
     final_worker(message).then();
 });
 
