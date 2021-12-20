@@ -22,19 +22,22 @@ async function create() {
     let fw = new Final_Worker();
     for (const rec of records) {
         let others = await db.collection("user").find({_id: {$ne: rec._id}, "bin": {$ne: ""}}).toArray();
-        await Promise.all(others.map(async (other) => {
-            // while (activeProcess >= 6) {
-            // }
-            // activeProcess++;
-            // let sub = fork("./core/final_worker.js");
-            // sub.send([rec, other]);
-            // sub.on("message", (msg) => {
-            //     if (msg === "stop") {
-            //         activeProcess--;
-            //     }
-            // });
+        for (const other of others) {
             await fw.final_worker([rec, other]);
-        }));
+        }
+        // await Promise.all(others.map(async (other) => {
+        //     // while (activeProcess >= 6) {
+        //     // }
+        //     // activeProcess++;
+        //     // let sub = fork("./core/final_worker.js");
+        //     // sub.send([rec, other]);
+        //     // sub.on("message", (msg) => {
+        //     //     if (msg === "stop") {
+        //     //         activeProcess--;
+        //     //     }
+        //     // });
+        //
+        // }));
     }
 
     // "score": {$ne: 2000}
