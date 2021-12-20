@@ -112,6 +112,7 @@ async function final_worker(players) {
 }
 
 process.on("message", function (message) {
+    console.log(message);
     final_worker(message).then();
 });
 
