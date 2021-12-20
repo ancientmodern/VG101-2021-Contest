@@ -21,7 +21,7 @@ async function create() {
     for (const rec of records) {
         let others = await db.collection("user").find({_id: {$ne: rec._id}, "bin": {$ne: ""}}).toArray();
         await Promise.all(others.map(async (other) => {
-            while (activeProcess < 6) {
+            while (activeProcess >= 6) {
             }
             activeProcess++;
             let sub = fork("./core/final_worker.js");
