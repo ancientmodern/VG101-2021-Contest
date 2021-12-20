@@ -15,12 +15,6 @@ async function final_worker(players) {
     console.log(players);
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
     let db = client.db("tank");
-    let p1 = (await db.collection("user").find({realName: players[0]}).toArray())[0];
-    let p2 = (await db.collection("user").find({realName: players[1]}).toArray())[0];
-    console.log(p1);
-    console.log(p2);
-    console.log(p1.realName, p1.score);
-    console.log(p2.realName, p2.score);
 
     // let rec = await db.collection("submission").aggregate([{$match: {status: 0}}, {$sample: {size: 2}}]).toArray();
     //
@@ -44,6 +38,8 @@ async function final_worker(players) {
         let result = await match.execute();
         console.log(result.winner);
 
+        let p1 = (await db.collection("user").find({realName: players[0]}).toArray())[0];
+        let p2 = (await db.collection("user").find({realName: players[1]}).toArray())[0];
         if (result.winner === -1) { // 平局
             p1.newScore = p1.score + 1;
             p2.newScore = p2.score + 1;
