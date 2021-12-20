@@ -32,6 +32,7 @@ async function create() {
             sub.on("message", (msg) => {
                 if (msg === "stop") {
                     activeProcess--;
+                    console.log("active: ", activeProcess);
                 }
             });
         }
