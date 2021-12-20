@@ -5,11 +5,12 @@ const config = require("../config/config.json");
 const MongoClient = require("mongodb").MongoClient;
 const mongoPath = "mongodb://" + config.db.user + ":" + config.db.password + "@" + config.db.ip + ":" + config.db.port + "/" + config.db.db;
 
-function Final_Worker() {
+// function Final_Worker() {
+//
+// }
 
-}
-
-Final_Worker.prototype.final_worker = async function (players) {
+// Final_Worker.prototype.final_worker =
+async function final_worker(players) {
     // console.log(players);
     let p1 = players[0], p2 = players[1];
     console.log(p1.realName);
@@ -109,17 +110,17 @@ Final_Worker.prototype.final_worker = async function (players) {
         });
 
         await client.close();
-        // process.send("stop");
-        // process.exit(0);
+        process.send("stop");
+        process.exit(0);
     } catch (e) {
         console.error(e);
-        // process.send("stop");
-        // process.exit(1);
+        process.send("stop");
+        process.exit(1);
     }
 }
 
-// process.on("message", function (message) {
-//     final_worker(message).then();
-// });
+process.on("message", function (message) {
+    final_worker(message).then();
+});
 
-module.exports = Final_Worker;
+// module.exports = Final_Worker;

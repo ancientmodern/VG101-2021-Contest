@@ -19,25 +19,22 @@ async function create() {
     let db = client.db("tank");
     let records = await db.collection("user").find({"bin": {$ne: ""}}).toArray();
 
-    let fw = new Final_Worker();
+    // let fw = new Final_Worker();
     for (const rec of records) {
         let others = await db.collection("user").find({_id: {$ne: rec._id}, "bin": {$ne: ""}}).toArray();
         for (const other of others) {
-            await fw.final_worker([rec, other]).then();
+            // await fw.final_worker([rec, other]).then();
+            while (activeProcess >= 6) {
+            }
+            activeProcess++;
+            let sub = fork("./core/final_worker.js");
+            sub.send([rec, other]);
+            sub.on("message", (msg) => {
+                if (msg === "stop") {
+                    activeProcess--;
+                }
+            });
         }
-        // await Promise.all(others.map(async (other) => {
-        //     // while (activeProcess >= 6) {
-        //     // }
-        //     // activeProcess++;
-        //     // let sub = fork("./core/final_worker.js");
-        //     // sub.send([rec, other]);
-        //     // sub.on("message", (msg) => {
-        //     //     if (msg === "stop") {
-        //     //         activeProcess--;
-        //     //     }
-        //     // });
-        //
-        // }));
     }
 
     // "score": {$ne: 2000}
