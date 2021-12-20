@@ -18,9 +18,22 @@ async function create() {
     let db = client.db("tank");
     let records = await db.collection("user").find({"bin": {$ne: ""}}).toArray();
 
-    await Promise.all(records.map(async (rec) => {
-        console.log(rec)
-    }));
+    for (const rec of records) {
+        let others = await db.collection("user").find({_id: {$ne: rec._id}, "bin": {$ne: ""}}).toArray();
+        await Promise.all(others.map(async (other) => {
+            while (activeProcess < 6) {
+            }
+            activeProcess++;
+            let sub = fork("./core/final_worker.js");
+            sub.send([rec, other]);
+            sub.on("message", (msg) => {
+                if (msg === "stop") {
+                    activeProcess--;
+                }
+            });
+        }));
+    }
+
     // "score": {$ne: 2000}
     // console.log(rec);
     // for (const record of rec) {
@@ -33,16 +46,6 @@ async function create() {
     // }
 
     await client.close();
-    // if (!stop && activeProcess < config.worker.maxProcessCnt) {
-    //     activeProcess++;
-    //     let sub = fork("./core/final_worker.js");
-    //     sub.on("message", (msg) => {
-    //         if (msg === "stop") {
-    //             activeProcess--;
-    //             create();
-    //         }
-    //     });
-    // }
 }
 
 create().then();
