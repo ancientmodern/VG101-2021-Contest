@@ -12,11 +12,13 @@ const mongoPath = "mongodb://" + config.db.user + ":" + config.db.password + "@"
 // Final_Worker.prototype.final_worker =
 async function final_worker(players) {
     // console.log(players);
-    let p1 = players[0], p2 = players[1];
-    console.log(p1.realName);
-    console.log(p2.realName);
+    console.log(players);
     let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
     let db = client.db("tank");
+    let p1 = (await db.collection("user").find({_id: players[0]}).toArray())[0];
+    let p2 = (await db.collection("user").find({_id: players[1]}).toArray())[0];
+    console.log(p1.realName, p1.score);
+    console.log(p2.realName, p2.score);
 
     // let rec = await db.collection("submission").aggregate([{$match: {status: 0}}, {$sample: {size: 2}}]).toArray();
     //
@@ -38,10 +40,8 @@ async function final_worker(players) {
     match.setExecutable(((p1.bin[0] === "/" || p1.bin[0] === ".") ? "" : config.executable.root) + p1.bin, ((p2.bin[0] === "/" || p2.bin[0] === ".") ? "" : config.executable.root) + p2.bin);
     try {
         let result = await match.execute();
-
-        p1 = (await db.collection("user").find({_id: p1._id}).toArray())[0];
-        p2 = (await db.collection("user").find({_id: p2._id}).toArray())[0];
         console.log(result.winner);
+
         if (result.winner === -1) { // 平局
             p1.newScore = p1.score + 1;
             p2.newScore = p2.score + 1;
