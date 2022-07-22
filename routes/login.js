@@ -37,7 +37,7 @@ module.exports = {
                 userData.score = 2000;
                 userData.compiler = "c++17";
                 userData.student = true;
-                userData.tankSKin = "";
+                userData.tankSkin = "";
                 userData.bulletSkin = "";
 
                 let uid = await col.insertOne(userData);
