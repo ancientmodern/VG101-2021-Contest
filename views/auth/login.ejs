@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" class="page--login">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <title>Student Login - TankWar Lab</title>
+</head>
+<body>
+<nav class="nav">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li>
+                    <a href="/" class="nav__logo">TankWarJudge</a>
+                </li>
+                <li>
+                    <a href="/" class="nav__item">Scoreboard</a>
+                </li>
+                <li>
+                    <a href="/submission" class="nav__item">Submission</a>
+                </li>
+                <li>
+                    <a href="/match" class="nav__item">Match</a>
+                </li>
+                <li>
+                    <a href="/rules" class="nav__item">Rules</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel" id="panel">
+    <div class="main">
+        <div class="row">
+            <div class="columns">
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">
+                            <span class="icon icon-warning text-red"></span>
+                            Student Login
+                        </h1>
+                    </div>
+                    <div class="section__body">
+                        <% if (fail) {%>
+                        <div class="typo">
+                            <blockquote class="error">
+                                Login Failure.
+                            </blockquote>
+                        </div>
+                        <% } else if (nouser) {%>
+                        <div class="typo">
+                            <blockquote class="success">
+                                User doesn't exist.
+                            </blockquote>
+                        </div>
+                        <% } %>
+                        <form method="post" action="/oauth">
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Login ID</label>
+                                    <input type="text" name="studentId" class="textbox" required="">
+                                    <p class="help-text">When you log in for the first time, we will automatically
+                                        create an account for you. For Jigang's students, directly use your student ID
+                                        and you will be logged in.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Password</label>
+                                    <input type="password" name="password" class="textbox" required="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <input type="hidden" name="_csrf" value="<%= CSRF %>">
+                                    <button class="primary rounded button" type="submit">Sign In</button>
+                                    <p><a href="/forgetPassword">Forget Password</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+</div>
+<script src="/js/jsUtils/jsUtils.js"></script>
+<script src="/js/login.js"></script>
+</body>
+</html>

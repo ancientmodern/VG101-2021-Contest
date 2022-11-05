@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" class="layout--basic page--round_detail hasjs">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/vendor.css"/>
+    <link rel="stylesheet" href="/css/general.css"/>
+    <title>View a match - TankWar Lab</title>
+</head>
+<body>
+<nav class="nav">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li>
+                    <a href="/" class="nav__logo">TankWarJudge</a>
+                </li>
+                <li>
+                    <a href="/" class="nav__item">Scoreboard</a>
+                </li>
+                <li>
+                    <a href="/submission" class="nav__item">Submission</a>
+                </li>
+                <li>
+                    <a href="/match" class="nav__item active">Match</a>
+                </li>
+                <li>
+                    <a href="/rules" class="nav__item">Rules</a>
+                </li>
+            </ol>
+            <ol class="nav__container-item">
+                <li id="signin">
+                    <a href="/oauth" class="nav__item">Login</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel" id="panel">
+    <div class="main">
+        <div class="row">
+            <div class="columns">
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">
+                            <span class="icon icon-warning text-red"></span>
+                            Version 1.0.0
+                        </h1>
+                    </div>
+                    <div class="section__body">
+                        <p>Happy VG101 Lab6!</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">Game between <%= p1 %> and <%= p2 %></h1>
+                    </div>
+                    <div class="section__body">
+                        <ol class="supplementary dot list">
+                            <li><span class="round-status--text win">
+                                    <% if (winner !== -1) { %>
+                                        <span class="icon round-status--icon win"></span>
+                                        Win
+                                        :
+                                        <% if (winner === 0) { %>
+                                            <%= p1 %><% } else { %>
+                                            <%= p2 %><% } %>
+                                        <div class="field-icon field--<%= (winner === 0) ? 'black' : 'white' %>"></div>
+                                </span>
+                            </li>
+                            <li><span class="round-status--text lose">
+              <span class="icon round-status--icon lose"></span>
+              Lose
+              :
+                                    <% if (winner === 1) { %>
+                                        <%= p1 %>
+                                    <% } else { %>
+                                        <%= p2 %>
+                                    <% } %>
+                                    <div class="field-icon field--<%= (winner === 1) ? 'black' : 'white' %>"></div>
+            </span>
+                            </li>
+                        </ol>
+                        <% } else { %>
+                            <ol class="supplementary dot list">
+                                <li><span class="round-status--text draw">
+              <span class="icon round-status--icon draw"></span>
+              Draw
+              :
+                <%= p1 %>
+              <div class="field-icon field--black"></div>
+            </span>
+                                </li>
+                                <li><span class="round-status--text draw">
+              <span class="icon round-status--icon draw"></span>
+              Draw
+              :
+                <%= p2 %>
+              <div class="field-icon field--white"></div>
+            </span>
+                                </li>
+                            </ol>
+                        <% } %>
+                    </div>
+                    <div class="section__body">Exit caused by: <%= error %>
+                    </div>
+                    <div class="section__body" name="step-toolbar" layout="row center-left" style="">
+                        <div>
+                            <button class="button" name="toggle-mode">STDIO</button>
+                        </div>
+                        <div class="separator" control="animation"></div>
+                        <div control="animation">
+                            <button class="button" name="step-pause">Pause</button>
+                        </div>
+                        <div class="separator" control="animation"></div>
+                        <div control="animation">Speed:</div>
+                        <div control="animation"><input type="number" class="textbox" name="step-speed" value="5"></div>
+                        <div control="animation"> Frame / Second</div>
+                        <div control="animation">
+                            <button class="primary button" name="step-go">Apply</button>
+                        </div>
+                    </div>
+                    <div class="section__body">
+                        <div class="board-container">
+                        </div>
+                        <div class="row std" style="display: none;">
+                            <div class="columns medium-6" style="width: 50%" >
+                                <div class="section visible" id="stdout">
+                                    <div class="section__header">
+                                        <h1 class="section__title">
+                                            <span class="icon submission-status--icon effective"></span>
+                                            <span class="submission-status--text effective">STDOUT A</span>
+                                        </h1>
+                                    </div>
+                                    <div class="section__body">
+                                        <pre class="compiler-text" data="stdout-A">
+
+                                        </pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns medium-6" style="width: 50%">
+                                <div class="section visible" id="stdout">
+                                    <div class="section__header">
+                                        <h1 class="section__title">
+                                            <span class="icon submission-status--icon effective"></span>
+                                            <span class="submission-status--text effective">STDOUT B</span>
+                                        </h1>
+                                    </div>
+                                    <div class="section__body">
+                                        <pre class="compiler-text" data="stdout-B">
+
+                                        </pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row std" style="display: none;">
+                            <div class="columns medium-6" style="width: 50%">
+                                <div class="section visible" id="stdout">
+                                    <div class="section__header">
+                                        <h1 class="section__title">
+                                            <span class="icon submission-status--icon pending"></span>
+                                            <span class="submission-status--text pending">STDERR B</span>
+                                        </h1>
+                                    </div>
+                                    <div class="section__body">
+                                        <pre class="compiler-text" data="stderr-B">
+
+                                        </pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns medium-6" style="width: 50%">
+                                <div class="section visible" id="stdout">
+                                    <div class="section__header">
+                                        <h1 class="section__title">
+                                            <span class="icon submission-status--icon pending"></span>
+                                            <span class="submission-status--text pending">STDERR A</span>
+                                        </h1>
+                                    </div>
+                                    <div class="section__body">
+                                        <pre class="compiler-text" data="stderr-A">
+
+                                        </pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+</div>
+<script src="/js/jsUtils/jsUtils.js"></script>
+<script>
+    require("/js/matchDisp");
+</script>
+</body>
+</html>

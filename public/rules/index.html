@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" class="page--scoreboard">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <title>Rules - TankWar Lab</title>
+</head>
+<body>
+<nav class="nav">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li>
+                    <a href="/" class="nav__logo">TankWarJudge</a>
+                </li>
+                <li>
+                    <a href="/" class="nav__item">Scoreboard</a>
+                </li>
+                <li>
+                    <a href="/submission" class="nav__item">Submission</a>
+                </li>
+                <li>
+                    <a href="/match" class="nav__item">Match</a>
+                </li>
+                <li>
+                    <a href="/rules" class="nav__item active">Rules</a>
+                </li>
+            </ol>
+            <ol class="nav__container-item">
+                <li id="signin">
+                    <a href="/oauth" class="nav__item">Login</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel" id="panel">
+    <div class="main">
+        <div class="row">
+            <div class="columns">
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">
+                            <span class="icon icon-warning text-red"></span>
+                            Version 1.0.0
+                        </h1>
+                    </div>
+                    <div class="section__body">
+                        <p>Happy VG101 Lab6!</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <iframe src="/rules/details.html" width="100%" height="5500px" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+</div>
+<script src="/js/jsUtils/jsUtils.js"></script>
+<script>
+    require(["jquery", "/js/checkLogin"], function ($, check) {
+        check().then(function (result) {
+            if (result) {
+                $("#signin").children().html(result).attr("href", "/profile");
+            }
+        });
+
+        $("iframe").on("load", function() {
+            $(this).attr("height", this.contentWindow.document.body.scrollHeight);
+        });
+    });
+</script>
+</body>
+</html>

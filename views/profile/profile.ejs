@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <title>My Profile - TankWar Lab</title>
+</head>
+<body>
+<nav class="nav">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li>
+                    <a href="/" class="nav__logo">TankWarJudge</a>
+                </li>
+                <li>
+                    <a href="/" class="nav__item">Scoreboard</a>
+                </li>
+                <li>
+                    <a href="/submission" class="nav__item">Submission</a>
+                </li>
+                <li>
+                    <a href="/match" class="nav__item">Match</a>
+                </li>
+                <li>
+                    <a href="/rules" class="nav__item">Rules</a>
+                </li>
+            </ol>
+            <ol class="nav__container-item">
+                <li id="signin">
+                    <a href="/profile" class="nav__item active"><%= realName%></a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel slideout-panel-left" id="panel">
+    <nav class="nav--slideout-trigger">
+        <div class="row">
+            <div class="columns">
+                <button type="button" class="nav__hamburger">
+                    <div class="hamburger hamburger--spin">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+                    </div>
+                    Menu
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="main">
+        <div class="row">
+            <div class="medium-9 columns">
+
+                <div class="section">
+                    <div class="section__header">
+                        <h1 class="section__title">My Profile</h1>
+                    </div>
+                    <div class="section__body">
+                        <form method="post">
+                            <% if (post) { %>
+                            <% if (wrongPassword) {%>
+                                <div class="typo">
+                                    <blockquote class="error">
+                                        Wrong Password
+                                    </blockquote>
+                                </div>
+                                <% } else { %>
+                                <div class="typo">
+                                    <blockquote class="success">
+                                        Your settings has been updated.
+                                    </blockquote>
+                                </div>
+                                <% } %>
+                            <% } %>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Student ID</label>
+                                    <input type="text" name="studentId" class="textbox" readonly=""
+                                           value="<%= studentId%>">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Real Name (required)</label>
+                                    <input type="text" name="realname" class="textbox" autofocus="" readonly="" value="<%= realName%>"
+                                           required="">
+                                    <p class="help-text">Your real name is only visible to TAs. Others will not know who
+                                        you are.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Display Name (required)</label>
+                                    <input type="text" name="name" class="textbox" value="<%= dispName%>"
+                                           required="">
+                                    <p class="help-text">Will be displayed <span class="text-red">publicly</span> in
+                                        scoreboard.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <label>Original Password</label>
+                                    <input type="password" name="password" class="textbox">
+                                    <p class="help-text">Leave it blank to keep your password.</p>
+                                </div>
+                            </div>
+                            <div class="row" id="password" style="display: none">
+                                <div class="medium-5 columns">
+                                    <label>New Password</label>
+                                    <input type="password" name="newpassword" class="textbox">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="medium-5 columns">
+                                    <input type="hidden" name="_csrf" value="">
+                                    <button class="primary rounded button" type="submit">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class="medium-3 columns">
+                <div data-sticky="medium">
+                    <div class="section side">
+                        <ol class="menu">
+                            <li class="menu__item">
+                                <a href="/profile" class="menu__link active">
+                                    <span class="icon icon-account--circle"></span>
+                                    My Profile
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="/profile/settings" class="menu__link">
+                                    <span class="icon icon-wrench"></span>
+                                    Settings
+                                </a>
+                            </li>
+                            <li class="menu__seperator"></li>
+                            <li class="menu__item">
+                                <a href="/logout" class="menu__link">
+                                        <span class="icon icon-close"></span>
+                                        Logout
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+        </div>
+    </div>
+</div>
+<script src="/js/jsUtils/jsUtils.js"></script>
+<script>
+    require(["jquery", "/js/security/hash"], function($, hash) {
+        function onChange() {
+            if ($("[name='password']").val() || $("[name='newpassword']").val()) {
+                $("#password").show("slow");
+            } else {
+                $("#password").hide("slow");
+            }
+
+        }
+
+        $("[name='newpassword']").on("keydown", onChange)
+        .on("keyup", onChange)
+        .on("change", onChange);
+
+        $("[name='password']").on("keydown", onChange)
+        .on("keyup", onChange)
+        .on("change", onChange);
+
+        $("form").on("submit", function () {
+            var pwd = $("[name=password]");
+            var npwd = $("[name=newpassword]");
+            if (pwd.val() && npwd.val()) {
+                pwd.val(hash.SHA256(pwd.val()));
+                npwd.val(hash.SHA256(npwd.val()));
+            } else return false;
+        })
+    })
+</script>
+</body>
+</html>
