@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" class="page--login">
+<html lang="en" class="site page--login">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/general.css"/>
-    <title>Student Login - Create New Account</title>
+    <link rel="stylesheet" href="/css/site.css"/>
+    <title>Create account - TankWar Lab</title>
 </head>
 <body>
-<nav class="nav">
+<!-- Not rendered by any route (guest registration was never enabled); kept
+     in the site style in case it is. It still uses the old {{ }} syntax. -->
+<nav class="nav" aria-label="Main">
     <div class="row">
         <div class="column nav__container">
             <ol class="nav__container-item">
                 <li>
-                    <a href="/" class="nav__logo">GreedySnakeJudge</a>
+                    <a href="/" class="nav__logo">TankWarJudge</a>
                 </li>
                 <li>
                     <a href="/" class="nav__item">Scoreboard</a>
@@ -28,87 +32,62 @@
             </ol>
             <ol class="nav__container-item">
                 <li id="signin">
-                    <a href="/oauth/login" class="nav__item">Loading...</a>
+                    <a href="/oauth" class="nav__item">Login</a>
                 </li>
             </ol>
         </div>
     </div>
 </nav>
 <div class="slideout-panel" id="panel">
-    <div class="main">
-        <div class="row">
-            <div class="columns">
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">
-                            <span class="icon icon-warning text-red"></span>
-                            Guest Registration
-                        </h1>
-                    </div>
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <section class="tw-card tw-auth" aria-labelledby="authTitle">
+                <div class="tw-card__body">
+                    <span class="tw-auth__mark" aria-hidden="true">NEW PLAYER</span>
+                    <h1 class="tw-auth__title" id="authTitle">Create a guest account</h1>
+                    <p class="tw-auth__lede">Students on the course list don't need this: sign in with your student ID.</p>
                     {{if fail == 1}}
-                    <div class="typo">
-                        <blockquote class="success">
-                            Login Name already exists
-                        </blockquote>
-                    </div>
+                    <p class="tw-alert tw-alert--error" role="alert">
+                        <strong>That login ID is taken.</strong> Pick another one.
+                    </p>
                     {{else if fail == 2}}
-                    <div class="typo">
-                        <blockquote class="success">
-                            Please directly login with your student ID
-                        </blockquote>
-                    </div>
+                    <p class="tw-alert tw-alert--error" role="alert">
+                        <strong>You're on the course list.</strong> <a class="tw-link" href="/oauth">Sign in</a> with your student ID instead.
+                    </p>
                     {{/if}}
-                    <div class="section__body">
-                        <form method="post" action="/oauth/register">
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Login ID</label>
-                                    <input type="text" name="studentId" class="textbox" autofocus="" required="">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Real Name (required)</label>
-                                    <input type="text" name="realname" class="textbox"
-                                           required="">
-                                    <p class="help-text">Your real name is only visible to TAs. Others will not know who
-                                        you are.</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Display Name (required)</label>
-                                    <input type="text" name="name" class="textbox"
-                                           required="">
-                                    <p class="help-text">Will be displayed <span class="text-red">publicly</span> in
-                                        scoreboard.</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Password</label>
-                                    <input type="password" name="password" class="textbox" required="">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Confirm Password</label>
-                                    <input type="password" name="confirm" class="textbox" required="">
-                                    <p class="help-text warn">Password should be the same as confirm password</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <input type="hidden" name="_csrf" value="{{token}}">
-                                    <button class="primary rounded button" type="submit">Register</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                    <form method="post" action="/oauth/register" class="tw-form">
+                        <div class="tw-field">
+                            <label class="tw-label" for="studentId">Login ID</label>
+                            <input type="text" id="studentId" name="studentId" class="tw-input" autofocus="" required="">
+                        </div>
+                        <div class="tw-field">
+                            <label class="tw-label" for="realname">Real name</label>
+                            <input type="text" id="realname" name="realname" class="tw-input" required="">
+                            <p class="tw-help">Only TAs can see your real name.</p>
+                        </div>
+                        <div class="tw-field">
+                            <label class="tw-label" for="name">Display name</label>
+                            <input type="text" id="name" name="name" class="tw-input" required="">
+                            <p class="tw-help">Shown publicly on the scoreboard and match list.</p>
+                        </div>
+                        <div class="tw-field">
+                            <label class="tw-label" for="password">Password</label>
+                            <input type="password" id="password" name="password" class="tw-input" required=""
+                                   autocomplete="new-password">
+                        </div>
+                        <div class="tw-field">
+                            <label class="tw-label" for="confirm">Confirm password</label>
+                            <input type="password" id="confirm" name="confirm" class="tw-input" required=""
+                                   autocomplete="new-password">
+                            <p class="tw-help">Type the same password again.</p>
+                        </div>
+                        <input type="hidden" name="_csrf" value="{{token}}">
+                        <button class="tw-btn tw-btn--block" type="submit">Create account</button>
+                    </form>
                 </div>
-            </div>
+            </section>
         </div>
-    </div>
+    </main>
     <div class="footer">
     </div>
 </div>
