@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="site page--profile">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/general.css"/>
+    <link rel="stylesheet" href="/css/site.css"/>
     <title>My Profile - TankWar Lab</title>
 </head>
 <body>
-<nav class="nav">
+<nav class="nav" aria-label="Main">
     <div class="row">
         <div class="column nav__container">
             <ol class="nav__container-item">
@@ -28,175 +30,175 @@
             </ol>
             <ol class="nav__container-item">
                 <li id="signin">
-                    <a href="/profile" class="nav__item active"><%= realName %></a>
+                    <a href="/profile" class="nav__item active" aria-current="page"><%= realName || studentId %></a>
                 </li>
             </ol>
         </div>
     </div>
 </nav>
-<div class="slideout-panel slideout-panel-left" id="panel">
-    <nav class="nav--slideout-trigger">
-        <div class="row">
-            <div class="columns">
-                <button type="button" class="nav__hamburger">
-                    <div class="hamburger hamburger--spin">
-          <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-          </span>
-                    </div>
-                    Menu
-                </button>
-            </div>
-        </div>
-    </nav>
-    <div class="main">
-        <div class="row">
-            <div class="medium-9 columns">
+<div class="slideout-panel" id="panel">
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <header class="tw-head">
+                <div>
+                    <p class="tw-head__eyebrow">Account</p>
+                    <h1 class="tw-head__title">My profile</h1>
+                </div>
+            </header>
+            <div class="tw-layout">
+                <div class="tw-layout__main">
+                    <% if (post) { %>
+                        <% if (wrongPassword) { %>
+                            <p class="tw-alert tw-alert--error" role="alert">
+                                <strong>Current password is incorrect.</strong> Nothing was changed; your password
+                                is still the old one.
+                            </p>
+                        <% } else { %>
+                            <p class="tw-alert tw-alert--ok" role="status">
+                                <strong>Changes saved.</strong>
+                            </p>
+                        <% } %>
+                    <% } %>
 
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">My Profile</h1>
-                    </div>
-                    <div class="section__body">
-                        <form method="post">
-                            <% if (post) { %>
-                                <% if (wrongPassword) { %>
-                                    <div class="typo">
-                                        <blockquote class="error">
-                                            Wrong Password
-                                        </blockquote>
+                    <section class="tw-card" aria-labelledby="publicTitle">
+                        <div class="tw-card__head">
+                            <h2 class="tw-card__title" id="publicTitle">Public profile</h2>
+                            <span class="tw-card__hint">What other players see</span>
+                        </div>
+                        <div class="tw-card__body">
+                            <form method="post" action="/profile" class="tw-form" id="profileForm">
+                                <dl class="tw-readonly">
+                                    <dt>Student ID</dt>
+                                    <dd><%= studentId %></dd>
+                                    <dt>Real name</dt>
+                                    <dd><%= realName %> <span class="tw-help">(only TAs can see this)</span></dd>
+                                </dl>
+                                <div class="tw-field">
+                                    <label class="tw-label" for="name">Display name</label>
+                                    <input type="text" id="name" name="name" class="tw-input" value="<%= dispName %>"
+                                           required="" autocomplete="nickname">
+                                    <p class="tw-help">Shown publicly on the scoreboard and the match list.</p>
+                                </div>
+                                <div class="tw-skin">
+                                    <div class="tw-field">
+                                        <label class="tw-label" for="tskin">Tank skin</label>
+                                        <input type="text" inputmode="url" spellcheck="false" id="tskin" name="tskin" class="tw-input" value="<%= tankSkin %>"
+                                               placeholder="https://&hellip;/tank.png" data-preview="tskinPreview">
+                                        <p class="tw-help">Link to an image of your tank facing up. Leave empty for
+                                            the default tank.</p>
                                     </div>
-                                <% } else { %>
-                                    <div class="typo">
-                                        <blockquote class="success">
-                                            Your settings has been updated.
-                                        </blockquote>
+                                    <div class="tw-skin__preview" id="tskinPreview" aria-live="polite"></div>
+                                </div>
+                                <div class="tw-skin">
+                                    <div class="tw-field">
+                                        <label class="tw-label" for="bskin">Bullet skin</label>
+                                        <input type="text" inputmode="url" spellcheck="false" id="bskin" name="bskin" class="tw-input" value="<%= bulletSkin %>"
+                                               placeholder="https://&hellip;/bullet.png" data-preview="bskinPreview">
+                                        <p class="tw-help">Link to an image of your bullet facing up. Leave empty for
+                                            the default bullet.</p>
                                     </div>
-                                <% } %>
-                            <% } %>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Student ID</label>
-                                    <input type="text" name="studentId" class="textbox" readonly=""
-                                           value="<%= studentId %>">
+                                    <div class="tw-skin__preview" id="bskinPreview" aria-live="polite"></div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Real Name (required)</label>
-                                    <input type="text" name="realname" class="textbox" autofocus="" readonly=""
-                                           value="<%= realName %>"
-                                           required="">
-                                    <p class="help-text">Your real name is only visible to TAs. Others will not know who
-                                        you are.</p>
+                                <input type="hidden" name="_csrf" value="">
+                                <div class="tw-actions">
+                                    <button class="tw-btn" type="submit">Save profile</button>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Display Name (required)</label>
-                                    <input type="text" name="name" class="textbox" value="<%= dispName %>"
-                                           required="">
-                                    <p class="help-text">Will be displayed <span class="text-red">publicly</span> in
-                                        scoreboard.</p>
+                            </form>
+                        </div>
+                    </section>
+
+                    <section class="tw-card" aria-labelledby="passwordTitle">
+                        <div class="tw-card__head">
+                            <h2 class="tw-card__title" id="passwordTitle">Change password</h2>
+                        </div>
+                        <div class="tw-card__body">
+                            <form method="post" action="/profile" class="tw-form" id="passwordForm">
+                                <%# The server updates the display name together with the password. %>
+                                <input type="hidden" name="name" value="<%= dispName %>">
+                                <input type="text" name="username" value="<%= studentId %>" autocomplete="username"
+                                       hidden aria-hidden="true" tabindex="-1">
+                                <div class="tw-field">
+                                    <label class="tw-label" for="password">Current password</label>
+                                    <input type="password" id="password" name="password" class="tw-input" required=""
+                                           autocomplete="current-password">
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Tank Skin</label>
-                                    <input type="text" name="tskin" class="textbox" value="<%= tankSkin %>">
+                                <div class="tw-field" id="newPasswordField">
+                                    <label class="tw-label" for="newpassword">New password</label>
+                                    <input type="password" id="newpassword" name="newpassword" class="tw-input"
+                                           required="" autocomplete="new-password">
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Bullet Skin</label>
-                                    <input type="text" name="bskin" class="textbox" value="<%= bulletSkin %>">
+                                <input type="hidden" name="_csrf" value="">
+                                <div class="tw-actions">
+                                    <button class="tw-btn tw-btn--quiet" type="submit">Change password</button>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Original Password</label>
-                                    <input type="password" name="password" class="textbox">
-                                    <p class="help-text">Leave it blank to keep your password.</p>
-                                </div>
-                            </div>
-                            <div class="row" id="password" style="display: none">
-                                <div class="medium-5 columns">
-                                    <label>New Password</label>
-                                    <input type="password" name="newpassword" class="textbox">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <input type="hidden" name="_csrf" value="">
-                                    <button class="primary rounded button" type="submit">Save</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                            </form>
+                        </div>
+                    </section>
                 </div>
 
-            </div>
-            <div class="medium-3 columns">
-                <div data-sticky="medium">
-                    <div class="section side">
-                        <ol class="menu">
-                            <li class="menu__item">
-                                <a href="/profile" class="menu__link active">
-                                    <span class="icon icon-account--circle"></span>
-                                    My Profile
-                                </a>
+                <aside class="tw-layout__side">
+                    <nav class="tw-card tw-side tw-side--menu" aria-label="Account">
+                        <ol class="tw-menu">
+                            <li>
+                                <a href="/profile" class="tw-menu__link" aria-current="page">My profile</a>
                             </li>
-                            <li class="menu__item">
-                                <a href="/profile/settings" class="menu__link">
-                                    <span class="icon icon-wrench"></span>
-                                    Settings
-                                </a>
+                            <li>
+                                <a href="/profile/settings" class="tw-menu__link">Settings</a>
                             </li>
-                            <li class="menu__seperator"></li>
-                            <li class="menu__item">
-                                <a href="/logout" class="menu__link">
-                                    <span class="icon icon-close"></span>
-                                    Logout
-                                </a>
+                            <li class="tw-menu__sep" role="separator"></li>
+                            <li>
+                                <a href="/logout" class="tw-menu__link">Log out</a>
                             </li>
                         </ol>
-                    </div>
-                </div>
+                    </nav>
+                </aside>
             </div>
         </div>
-        <div class="footer">
-        </div>
+    </main>
+    <div class="footer">
     </div>
 </div>
 <script src="/js/jsUtils/jsUtils.js"></script>
 <script>
     require(["jquery", "/js/security/hash"], function ($, hash) {
-        function onChange() {
-            if ($("[name='password']").val() || $("[name='newpassword']").val()) {
-                $("#password").show("slow");
-            } else {
-                $("#password").hide("slow");
-            }
-
-        }
-
-        $("[name='newpassword']").on("keydown", onChange)
-            .on("keyup", onChange)
-            .on("change", onChange);
-
-        $("[name='password']").on("keydown", onChange)
-            .on("keyup", onChange)
-            .on("change", onChange);
-
-        $("form").on("submit", function () {
+        // Passwords are hashed in the browser before they are sent, as before.
+        $("#passwordForm").on("submit", function () {
             var pwd = $("[name=password]");
             var npwd = $("[name=newpassword]");
             if (pwd.val() && npwd.val()) {
                 pwd.val(hash.SHA256(pwd.val()));
                 npwd.val(hash.SHA256(npwd.val()));
             }
-        })
-    })
+        });
+
+        // Skin previews. The URL only ever goes into an <img> src attribute.
+        $("[data-preview]").each(function () {
+            var input = $(this);
+            var box = $("#" + input.attr("data-preview"));
+            var fallback = input.attr("name") === "tskin" ? "Default tank" : "Default bullet";
+
+            function update() {
+                var url = $.trim(input.val());
+                box.removeClass("is-broken").empty();
+                if (!url) {
+                    box.text(fallback);
+                    return;
+                }
+                var img = $("<img>").attr("alt", "Preview").on("error", function () {
+                    box.addClass("is-broken").empty().text("Can't load image");
+                });
+                img.attr("src", url);
+                box.append(img);
+            }
+
+            var timer;
+            input.on("input change", function () {
+                clearTimeout(timer);
+                timer = setTimeout(update, 300);
+            });
+            update();
+        });
+    });
 </script>
 </body>
 </html>

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="site page--profile">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/general.css"/>
+    <link rel="stylesheet" href="/css/site.css"/>
     <title>My Settings - TankWar Lab</title>
 </head>
 <body>
-<nav class="nav">
+<nav class="nav" aria-label="Main">
     <div class="row">
         <div class="column nav__container">
             <ol class="nav__container-item">
@@ -28,102 +30,81 @@
             </ol>
             <ol class="nav__container-item">
                 <li id="signin">
-                    <a href="/profile" class="nav__item active"><%= realName%></a>
+                    <a href="/profile" class="nav__item active"><%= realName || studentId %></a>
                 </li>
             </ol>
         </div>
     </div>
 </nav>
-<div class="slideout-panel slideout-panel-left" id="panel">
-    <nav class="nav--slideout-trigger">
-        <div class="row">
-            <div class="columns">
-                <button type="button" class="nav__hamburger">
-                    <div class="hamburger hamburger--spin">
-          <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-          </span>
-                    </div>
-                    Menu
-                </button>
-            </div>
-        </div>
-    </nav>
-    <div class="main">
-        <div class="row">
-            <div class="medium-9 columns">
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">Settings</h1>
-                    </div>
-                    <div class="section__body">
-                        <form method="post" action="/profile/settings">
-                            <% if (post) { %>
-                            <div class="typo">
-                                <blockquote class="success">
-                                    Your settings has been updated.
-                                </blockquote>
-                            </div>
-                            <% } %>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Default Compiler</label>
-                                    <select class="select" name="compiler">
-                                        <option value="c++98" <% if(compiler === "c++98") { %>selected<% } %>>GNU C++ 8.3.0 (-O3
-                                            -std=c++98)
-                                        </option>
-                                        <option value="c++11" <% if(compiler === "c++11") { %>selected<% } %>>GNU C++ 8.3.0 (-O3
-                                            -std=c++11)
-                                        </option>
-                                        <option value="c++14" <% if(compiler === "c++14") { %>selected<% } %>>GNU C++ 8.3.0 (-O3
-                                            -std=c++14)
-                                        </option>
-                                        <option value="c++17" <% if(compiler === "c++17") { %>selected<% } %>>GNU C++ 8.3.0 (-O3
-                                            -std=c++17)
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <input type="hidden" name="_csrf" value="">
-                                    <button class="primary rounded button" type="submit">Save</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+<%
+    var compilers = [
+        ["c++98", "GNU C++ 8.3.0 (-O3 -std=c++98)"],
+        ["c++11", "GNU C++ 8.3.0 (-O3 -std=c++11)"],
+        ["c++14", "GNU C++ 8.3.0 (-O3 -std=c++14)"],
+        ["c++17", "GNU C++ 8.3.0 (-O3 -std=c++17)"]
+    ];
+%>
+<div class="slideout-panel" id="panel">
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <header class="tw-head">
+                <div>
+                    <p class="tw-head__eyebrow">Account</p>
+                    <h1 class="tw-head__title">Settings</h1>
                 </div>
-            </div>
-            <div class="medium-3 columns">
-                <div data-sticky="medium">
-                    <div class="section side">
-                        <ol class="menu">
-                            <li class="menu__item">
-                                <a href="/profile" class="menu__link">
-                                    <span class="icon icon-account--circle"></span>
-                                    My Profile
-                                </a>
+            </header>
+            <div class="tw-layout">
+                <div class="tw-layout__main">
+                    <% if (post) { %>
+                        <p class="tw-alert tw-alert--ok" role="status">
+                            <strong>Settings saved.</strong>
+                        </p>
+                    <% } %>
+                    <section class="tw-card" aria-labelledby="compilerTitle">
+                        <div class="tw-card__head">
+                            <h2 class="tw-card__title" id="compilerTitle">Compiler</h2>
+                        </div>
+                        <div class="tw-card__body">
+                            <form method="post" action="/profile/settings" class="tw-form">
+                                <div class="tw-field">
+                                    <label class="tw-label" for="compiler">Default compiler</label>
+                                    <select class="tw-select" id="compiler" name="compiler">
+                                        <% compilers.forEach(function (c) { %>
+                                            <option value="<%= c[0] %>" <% if (compiler === c[0]) { %>selected<% } %>><%= c[1] %></option>
+                                        <% }) %>
+                                    </select>
+                                    <p class="tw-help">Saved with your account. The submit form always starts on C++17 for now, so
+                                        pick the compiler there too.</p>
+                                </div>
+                                <input type="hidden" name="_csrf" value="">
+                                <div class="tw-actions">
+                                    <button class="tw-btn" type="submit">Save settings</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="tw-layout__side">
+                    <nav class="tw-card tw-side tw-side--menu" aria-label="Account">
+                        <ol class="tw-menu">
+                            <li>
+                                <a href="/profile" class="tw-menu__link">My profile</a>
                             </li>
-                            <li class="menu__item">
-                                <a href="/profile/settings" class="menu__link active">
-                                    <span class="icon icon-wrench"></span>
-                                    Settings
-                                </a>
+                            <li>
+                                <a href="/profile/settings" class="tw-menu__link" aria-current="page">Settings</a>
                             </li>
-                            <li class="menu__seperator"></li>
-                            <li class="menu__item">
-                                <a href="/logout" class="menu__link">
-                                        <span class="icon icon-close"></span>
-                                        Logout
-                                </a>
+                            <li class="tw-menu__sep" role="separator"></li>
+                            <li>
+                                <a href="/logout" class="tw-menu__link">Log out</a>
                             </li>
                         </ol>
-                    </div>
-                </div>
+                    </nav>
+                </aside>
             </div>
         </div>
-        <div class="footer">
-        </div>
+    </main>
+    <div class="footer">
     </div>
 </div>
 </body>
