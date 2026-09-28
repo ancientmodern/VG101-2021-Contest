@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="page--scoreboard">
+<html lang="en" class="site page--submissions">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/general.css"/>
+    <link rel="stylesheet" href="/css/site.css"/>
     <title>My Submissions - TankWar Lab</title>
 </head>
 <body>
-<nav class="nav">
+<nav class="nav" aria-label="Main">
     <div class="row">
         <div class="column nav__container">
             <ol class="nav__container-item">
@@ -17,7 +19,7 @@
                     <a href="/" class="nav__item">Scoreboard</a>
                 </li>
                 <li>
-                    <a href="/submission" class="nav__item active">Submission</a>
+                    <a href="/submission" class="nav__item active" aria-current="page">Submission</a>
                 </li>
                 <li>
                     <a href="/match" class="nav__item">Match</a>
@@ -28,108 +30,102 @@
             </ol>
             <ol class="nav__container-item">
                 <li id="signin">
-                    <a href="/profile" class="nav__item"><%= realName%></a>
+                    <a href="/profile" class="nav__item"><%= realName || "My profile" %></a>
                 </li>
             </ol>
         </div>
     </div>
 </nav>
+<%
+    // submission.status: -1 pending, 0 effective, 1 inactive, 2 compile error
+    var STATUS = {
+        "-1": {text: "Pending", badge: "wait"},
+        "0": {text: "Effective", badge: "win"},
+        "1": {text: "Inactive", badge: "wait"},
+        "2": {text: "Compile error", badge: "lose"}
+    };
+    function statusOf(s) {
+        return STATUS[String(s)] || {text: "Unknown", badge: "wait"};
+    }
+    function iso(t) {
+        var d = new Date(t);
+        return isNaN(d) ? "" : d.toISOString();
+    }
+    function when(t) {
+        var d = new Date(t);
+        if (isNaN(d)) return "Unknown";
+        function p(n) { return (n < 10 ? "0" : "") + n; }
+        return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) + " " + p(d.getHours()) + ":" + p(d.getMinutes());
+    }
+%>
 <div class="slideout-panel" id="panel">
-    <div class="main">
-        <div class="row">
-            <div class="medium-9 columns">
-<!--                <div class="section">-->
-<!--                    <div class="section__header">-->
-<!--                        <h1 class="section__title">-->
-<!--                            <span class="icon icon-warning text-red"></span>-->
-<!--                            Version 0.0.1-->
-<!--                        </h1>-->
-<!--                    </div>-->
-<!--                    <div class="section__body">-->
-<!--                        <p>Good morning, and in case I don't see ya: Good afternoon, good evening, and good night!</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">My Submissions</h1>
-                    </div>
-                    <div class="section__body no-padding">
-                        <div class="section__table-container">
-                            <table class="data-table submissions-table section__table-header">
-                                <colgroup>
-                                    <col class="col--status submission-status--border">
-                                    <col class="col--time">
-                                    <col class="col--by">
-                                    <col class="col--compiler">
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th class="col--status submission-status--border">Status</th>
-                                    <th class="col--time">At</th>
-                                    <th class="col--by">By</th>
-                                    <th class="col--compiler">Compiler</th>
-                                </tr>
-                                </thead>
-                            </table>
-                            <table class="data-table submissions-table">
-                                <colgroup>
-                                    <col class="col--status submission-status--border">
-                                    <col class="col--time">
-                                    <col class="col--by">
-                                    <col class="col--compiler">
-                                </colgroup>
-                                <tbody id="datagrid">
-                                    <% submissions.forEach((submission) => {%>
-                                <tr>
-                                    <td class="col--status submission-status--border <%= ["pending", "effective", "inactive", "ce"][submission.status + 1] %>">
-                                        <span class="icon submission-status--icon <%= ["pending", "effective", "inactive", "ce"][submission.status + 1] %>"></span>
-                                        <a href="/submission/check/<%= submission._id%>"><%= ["Pending", "Effective", "Inactive", "Compile Error"][submission.status + 1] %></a>
-                                    </td>
-                                    <td class="col--time"><%= (new Date(submission.time)).toLocaleDateString()%></td>
-                                    <td class="col--by"><%= realName%></td>
-                                    <td class="col--compiler"><%= submission.compiler%></td>
-                                </tr>
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <header class="tw-head">
+                <div>
+                    <p class="tw-head__eyebrow">Submission</p>
+                    <h1 class="tw-head__title">My submissions</h1>
+                </div>
+            </header>
+            <div class="tw-layout">
+                <div class="tw-layout__main">
+                    <section class="tw-card" aria-labelledby="listTitle">
+                        <div class="tw-card__head">
+                            <h2 class="tw-card__title" id="listTitle">Brains you've submitted</h2>
+                            <span class="tw-card__hint">Your newest brain that compiles is <b>Effective</b> and plays
+                                matches; older ones become <b>Inactive</b>.</span>
+                        </div>
+                        <% if (submissions.length === 0) { %>
+                            <div class="tw-empty">
+                                <p class="tw-empty__title">No submissions yet</p>
+                                <p class="tw-empty__text">Submit your brain's C++ source and the judge will compile it
+                                    and start scheduling matches.</p>
+                                <a class="tw-btn" href="/submission/submit">Submit a brain</a>
+                            </div>
+                        <% } else { %>
+                            <div class="tw-table-scroll">
+                                <table class="tw-table submissions-table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Submitted</th>
+                                        <th scope="col">Compiler</th>
+                                        <th class="tw-go" scope="col"><span class="tw-sr">Details</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="datagrid">
+                                    <% submissions.forEach((submission) => { var st = statusOf(submission.status); %>
+                                        <tr>
+                                            <td><span class="tw-badge tw-badge--<%= st.badge %>"><%= st.text %></span></td>
+                                            <td class="tw-time">
+                                                <time datetime="<%= iso(submission.time) %>"><%= when(submission.time) %></time>
+                                            </td>
+                                            <td><%= submission.compiler %></td>
+                                            <td class="tw-go">
+                                                <a class="tw-link" href="/submission/check/<%= submission._id %>">Details &rarr;</a>
+                                            </td>
+                                        </tr>
                                     <% }); %>
-                                    <% if (submissions.length === 0) {%>
-                                        <h2>No Submission.</h2>
-                                    <% } %>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <% } %>
+                    </section>
                 </div>
-            </div>
-            <div class="medium-3 columns">
-                <div data-sticky="medium">
-                    <div class="section side">
-                        <div class="section__header">
-                            <h1 class="section__title">Submission</h1>
-                        </div>
-                        <ol class="menu">
-                            <li class="menu__item">
-                                <a href="/submission" class="menu__link active">
-                                    <span class="icon icon-flag"></span>
-                                    My Submissions
-                                </a>
-                            </li>
-                            <li class="menu__item">
-                                <a href="/submission/O1" class="menu__link">
-                                    <span class="icon icon-flag"></span>
-                                    Task1 Submissions
-                                </a>
-                            </li>
-                            <li class="menu__item">
-                                <a href="/submission/submit" class="menu__link">
-                                    <span class="icon icon-send"></span>
-                                    Submit New Brain
-                                </a>
-                            </li>
+
+                <aside class="tw-layout__side">
+                    <nav class="tw-card tw-side tw-side--menu" aria-label="Submission">
+                        <p class="tw-menu__title">Submission</p>
+                        <ol class="tw-menu">
+                            <li><a href="/submission" class="tw-menu__link" aria-current="page">My submissions</a></li>
+                            <li><a href="/submission/O1" class="tw-menu__link">Task 1 results</a></li>
+                            <li><a href="/submission/submit" class="tw-menu__link">Submit new brain</a></li>
                         </ol>
-                    </div>
-                </div>
+                    </nav>
+                </aside>
             </div>
         </div>
-    </div>
+    </main>
     <div class="footer">
     </div>
 </div>

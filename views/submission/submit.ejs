@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="page--scoreboard">
+<html lang="en" class="site page--submissions">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/general.css"/>
+    <link rel="stylesheet" href="/css/site.css"/>
     <title>Submit My Brain - TankWar Lab</title>
 </head>
 <body>
-<nav class="nav">
+<nav class="nav" aria-label="Main">
     <div class="row">
         <div class="column nav__container">
             <ol class="nav__container-item">
@@ -17,7 +19,7 @@
                     <a href="/" class="nav__item">Scoreboard</a>
                 </li>
                 <li>
-                    <a href="/submission" class="nav__item active">Submission</a>
+                    <a href="/submission" class="nav__item active" aria-current="page">Submission</a>
                 </li>
                 <li>
                     <a href="/match" class="nav__item">Match</a>
@@ -28,178 +30,132 @@
             </ol>
             <ol class="nav__container-item">
                 <li id="signin">
-                    <a href="/profile" class="nav__item"><%= realName %></a>
+                    <a href="/profile" class="nav__item"><%= realName || "My profile" %></a>
                 </li>
             </ol>
         </div>
     </div>
 </nav>
+<%
+    var compilers = [
+        ["c++98", "GNU C++ 8.3.0 (-O3 -std=c++98)"],
+        ["c++11", "GNU C++ 8.3.0 (-O3 -std=c++11)"],
+        ["c++14", "GNU C++ 8.3.0 (-O3 -std=c++14)"],
+        ["c++17", "GNU C++ 8.3.0 (-O3 -std=c++17)"]
+    ];
+%>
 <div class="slideout-panel" id="panel">
-    <div class="main">
-
-        <div class="row" data-sticky-parent="">
-            <div class="medium-9 columns">
-
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">Submit New Brain</h1>
-                    </div>
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <header class="tw-head">
+                <div>
+                    <p class="tw-head__eyebrow">Submission</p>
+                    <h1 class="tw-head__title">Submit new brain</h1>
+                    <p class="tw-head__lede">Paste the C++ source of your brain. It's compiled together with the
+                        TA-provided files, and once it compiles it replaces your previous brain in matches.</p>
+                </div>
+            </header>
+            <div class="tw-layout">
+                <div class="tw-layout__main">
                     <% if (post) { %>
                         <% if (late) { %>
-                            <div class="typo">
-                                <blockquote class="success">
-                                    Submission channel is closed
-                                </blockquote>
-                            </div>
+                            <p class="tw-alert tw-alert--error" role="alert">
+                                <strong>Submissions are closed.</strong> Your code wasn't submitted.
+                            </p>
                         <% } else { %>
-                            <div class="typo">
-                                <blockquote class="success">
-                                    Submission Succeeded
-                                </blockquote>
-                            </div>
+                            <p class="tw-alert tw-alert--ok" role="status">
+                                <strong>Submitted.</strong> Check <a class="tw-link" href="/submission">My submissions</a>
+                                to see whether it compiled.
+                            </p>
                         <% } %>
                     <% } %>
-                    <div class="section__body typo">
-                        <blockquote class="warn">
-                            <ul>
-                                <li class="text-red">Do not copy others' source code. All the code you submitted will be
-                                    checked for plagiarism. Copycats will be submitted to the honor council if they
-                                    claimed it as a progress of their academic work for certain courses (eg. VG101)!
+
+                    <section class="tw-card" aria-labelledby="rulesTitle">
+                        <div class="tw-card__head">
+                            <h2 class="tw-card__title" id="rulesTitle">Before you submit</h2>
+                        </div>
+                        <div class="tw-card__body">
+                            <ul class="tw-rules">
+                                <li class="tw-rules__warn">Do not copy others' source code. All submitted code is
+                                    checked for plagiarism, and copies claimed as your own coursework (e.g. VG101)
+                                    are reported to the honor council.
                                 </li>
-                                <li>Do not share your source code with others. Similar submissions will be treated as
+                                <li>Do not share your source code with others. Similar submissions are treated as
                                     plagiarism.
                                 </li>
-                                <li>Do not use alternative account to submit your code, otherwise you will be recognized
-                                    as a copycat.
-                                </li>
-                                <li>Do not abuse our cloud execution service, such as intentionally trying to shutdown
-                                    our judge machine.
-                                </li>
-                                <li>Your C++ program will be compiled on Linux, linking libm (so you can use math.h
-                                    or cmath), but without linking pthread (so you can't use multi-threading library).
+                                <li>Do not submit from a second account; you'll be treated as a copycat.</li>
+                                <li>Do not abuse the judge, for example by trying to shut the machine down.</li>
+                                <li>Your program is compiled on Linux and linked with libm (so <span class="tw-code">math.h</span>
+                                    and <span class="tw-code">cmath</span> work), but not with pthread (no
+                                    multi-threading).
                                 </li>
                             </ul>
-                        </blockquote>
-                        <p>Please paste your C++ source code of your brain in the text box below. Your code will be
-                            automatically compiled with other files that are supported by TAs.</p>
-                    </div>
-                    <div class="section__body">
-                        <form method="post" action="/submission/submit">
-                            <div class="row">
-                                <div class="columns">
-                                    <label>Source Code:</label>
-                                    <textarea name="code" class="monospace textbox" autofocus="" required=""
-                                              style="height: 50em"></textarea>
+                        </div>
+                    </section>
+
+                    <section class="tw-card" aria-labelledby="codeTitle">
+                        <div class="tw-card__head">
+                            <h2 class="tw-card__title" id="codeTitle">Your brain</h2>
+                        </div>
+                        <div class="tw-card__body">
+                            <form method="post" action="/submission/submit" class="tw-form tw-form--wide">
+                                <div class="tw-field">
+                                    <label class="tw-label" for="code">Source code</label>
+                                    <textarea id="code" name="code" class="tw-textarea" autofocus="" required=""
+                                              spellcheck="false" autocapitalize="off" wrap="off"
+                                              placeholder="// paste lab7.cpp here"></textarea>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Environment:</label>
-                                    <select class="select" name="compiler">
-                                        <option value="c++98"
-                                        <% if (compiler === "c++98") { %>>
-                                            selected
-                                            <% } %>
-                                            >GNU C++ 8.3.0 (-O3
-                                            -std=c++98)
-                                        </option>
-                                        <option value="c++11"
-                                        <% if (compiler === "c++11") { %>>
-                                            selected
-                                            <% } %>
-                                            >GNU C++ 8.3.0 (-O3
-                                            -std=c++11)
-                                        </option>
-                                        <option value="c++14"
-                                        <% if (compiler === "c++14") { %>>
-                                            selected
-                                            <% } %>
-                                            >GNU C++ 8.3.0 (-O3
-                                            -std=c++14)
-                                        </option>
-                                        <option value="c++17" <% if (compiler === "c++17") { %>selected
-                                                <% } %>
-                                        >GNU C++ 8.3.0 (-O3
-                                            -std=c++17)
-                                        </option>
+                                <div class="tw-field tw-field--narrow">
+                                    <label class="tw-label" for="compiler">Environment</label>
+                                    <select class="tw-select" id="compiler" name="compiler">
+                                        <% compilers.forEach(function (c) { %>
+                                            <option value="<%= c[0] %>" <% if (compiler === c[0]) { %>selected<% } %>><%= c[1] %></option>
+                                        <% }) %>
                                     </select>
-                                    <p class="help-text">
-                                        <nobr>
-                                            You can change your default compiler in
-                                            <a href="/profile/settings">
-                                                Settings
-                                            </a>
-                                        </nobr>
-                                    </p>
+                                    <p class="tw-help">You can change your default compiler in
+                                        <a class="tw-link" href="/profile/settings">Settings</a>.</p>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <input type="checkbox" name="judge"> Send to Task 1 Judge
+                                <label class="tw-check" for="judge">
+                                    <input type="checkbox" id="judge" name="judge">
+                                    <span>Also send to the Task 1 judge</span>
+                                </label>
+                                <input type="hidden" name="_csrf" value="">
+                                <div class="tw-actions">
+                                    <button class="tw-btn" type="submit">Submit brain</button>
                                 </div>
-                            </div>
-                            <br/>
-                            <div class="row">
-                                <div class="columns">
-                                    <input type="hidden" name="_csrf" value="">
-                                    <button class="primary rounded button" type="submit">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                            </form>
+                        </div>
+                    </section>
                 </div>
 
-            </div>
-            <div class="medium-3 columns">
-                <div data-sticky="medium" class="" style="">
-
-                    <div class="side section">
-                        <div class="section__header">
-                            <h1 class="section__title">Current Limits</h1>
-                        </div>
-                        <div class="section__body typo">
-                            <ul>
-                                <li><p>Max judge time consumption: <span data-tooltip="36000000ms">10 hours</span> per
-                                        day</p> (consumed <span data-tooltip="0ms">a few seconds</span>)
-                                </li>
-                                <li><p>Min interval between submissions:
-                                        a minute
-                                    </p></li>
-                                <li><p>Max size of Source code: 1 MB</p></li>
-                                <li><p>Max size of compiled exe: 1 MB</p></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="section side">
-                        <div class="section__header">
-                            <h1 class="section__title">Submission</h1>
-                        </div>
-                        <ol class="menu">
-                            <li class="menu__item">
-                                <a href="/submission/" class="menu__link">
-                                    <span class="icon icon-flag"></span>
-                                    My Submissions
-                                </a>
-                            </li>
-                            <li class="menu__item">
-                                <a href="/submission/O1" class="menu__link">
-                                    <span class="icon icon-flag"></span>
-                                    Task1 Submissions
-                                </a>
-                            </li>
-                            <li class="menu__item">
-                                <a href="/submission/submit" class="menu__link active">
-                                    <span class="icon icon-send"></span>
-                                    Submit New Brain
-                                </a>
-                            </li>
+                <aside class="tw-layout__side">
+                    <nav class="tw-card tw-side tw-side--menu" aria-label="Submission">
+                        <p class="tw-menu__title">Submission</p>
+                        <ol class="tw-menu">
+                            <li><a href="/submission" class="tw-menu__link">My submissions</a></li>
+                            <li><a href="/submission/O1" class="tw-menu__link">Task 1 results</a></li>
+                            <li><a href="/submission/submit" class="tw-menu__link" aria-current="page">Submit new brain</a></li>
                         </ol>
-                    </div>
-                </div>
+                    </nav>
+                </aside>
+                <aside class="tw-layout__side--after">
+                    <section class="tw-card tw-side" aria-labelledby="limitsTitle">
+                        <p class="tw-menu__title" id="limitsTitle">Current limits</p>
+                        <dl class="tw-facts">
+                            <dt>Judge time per day</dt>
+                            <dd>10 hours (used: a few seconds)</dd>
+                            <dt>Time between submissions</dt>
+                            <dd>At least a minute</dd>
+                            <dt>Source code size</dt>
+                            <dd>Up to 1 MB</dd>
+                            <dt>Compiled program size</dt>
+                            <dd>Up to 1 MB</dd>
+                        </dl>
+                    </section>
+                </aside>
             </div>
         </div>
-    </div>
+    </main>
     <div class="footer">
     </div>
 </div>

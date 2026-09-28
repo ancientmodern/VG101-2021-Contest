@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="page--scoreboard">
+<html lang="en" class="site page--submissions">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/general.css"/>
-    <title>Check Submission Status - TankWar Lab</title>
+    <link rel="stylesheet" href="/css/site.css"/>
+    <title>Task 1 Test Case - TankWar Lab</title>
 </head>
 <body>
-<nav class="nav">
+<nav class="nav" aria-label="Main">
     <div class="row">
         <div class="column nav__container">
             <ol class="nav__container-item">
@@ -17,7 +19,7 @@
                     <a href="/" class="nav__item">Scoreboard</a>
                 </li>
                 <li>
-                    <a href="/submission" class="nav__item active">Submission</a>
+                    <a href="/submission" class="nav__item active" aria-current="page">Submission</a>
                 </li>
                 <li>
                     <a href="/match" class="nav__item">Match</a>
@@ -28,194 +30,82 @@
             </ol>
             <ol class="nav__container-item">
                 <li id="signin">
-                    <a href="/profile" class="nav__item"><%= realName %></a>
+                    <a href="/profile" class="nav__item"><%= realName || "My profile" %></a>
                 </li>
             </ol>
         </div>
     </div>
 </nav>
+<%
+    // Task 1 judge status codes (core/judge.js).
+    var JUDGE = ["Waiting", "Fetched", "Compiling", "Judging", "Accepted", "Wrong answer",
+        "Time limit exceeded", "Memory limit exceeded", "Runtime error", "Compile error", "System error"];
+    var text = JUDGE[testcase.status] || "Unknown";
+    var badge = testcase.status < 4 ? "wait" : testcase.status === 4 ? "win" : testcase.status === 10 ? "draw" : "lose";
+%>
 <div class="slideout-panel" id="panel">
-    <div class="main">
-
-        <div class="row" data-sticky-parent="">
-            <div class="medium-9 columns">
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">View Submission:</h1>
-                        <span class="icon submission-status--icon <%
-                        if (testcase.status === 0) {
-                        %> pending <%
-                        } else if (testcase.status < 4) {
-                        %> compiling <%
-                        } else if (testcase.status === 4) {
-                        %> effective <%
-                        } else {
-                        %> ce <%
-                        }
-                        %>"></span>
-                        <span class="submission-status--text">
-                            <% switch(testcase.status) {
-                            case 0:
-                            %>
-                            Waiting
-                            <% break;
-                            case 1: %>
-                            Fetched
-                            <% break;
-                            case 2: %>
-                            Compiling
-                            <% break;
-                            case 3: %>
-                            Judging
-                            <% break;
-                            case 4: %>
-                            Accepted
-                            <% break;
-                            case 5: %>
-                            Wrong Answer
-                            <% break;
-                            case 6: %>
-                            Time Exceeded
-                            <% break;
-                            case 7: %>
-                            Memory Exceeded
-                            <% break;
-                            case 8: %>
-                            Runtime Error
-                            <% break;
-                            case 9: %>
-                            Compile Error
-                            <% break;
-                                case 10: %>
-                            System Error
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <header class="tw-head">
+                <div>
+                    <p class="tw-head__eyebrow"><a class="tw-link" href="/submission/O1">&larr; Task 1 results</a></p>
+                    <h1 class="tw-head__title tw-status-line">
+                        <span>Test case output</span>
+                        <span class="tw-badge tw-badge--<%= badge %> submission-status--text"><%= text %></span>
+                    </h1>
+                </div>
+            </header>
+            <div class="tw-layout">
+                <div class="tw-layout__main">
+                    <section class="tw-card" aria-labelledby="outTitle">
+                        <div class="tw-card__head">
+                            <h2 class="tw-card__title" id="outTitle">What your program printed</h2>
+                        </div>
+                        <div class="tw-card__body">
+                            <h3 class="tw-output__title">Hint (stdout)</h3>
+                            <% if (testcase.stdout) { %>
+                                <pre class="tw-output"><%= testcase.stdout %></pre>
+                            <% } else { %>
+                                <p class="tw-output tw-output--empty">Nothing on stdout.</p>
                             <% } %>
-                        </span>
-                    </div>
+                            <h3 class="tw-output__title">Stderr</h3>
+                            <% if (testcase.stderr) { %>
+                                <pre class="tw-output"><%= testcase.stderr %></pre>
+                            <% } else { %>
+                                <p class="tw-output tw-output--empty">Nothing on stderr.</p>
+                            <% } %>
+                        </div>
+                    </section>
                 </div>
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">
-                            <span class="icon submission-status--icon compiling"></span>
-                            <span class="submission-status--text compiling">Stderr</span>
-                        </h1>
-                    </div>
-                    <div class="section__body">
-                        <pre class="compiler-text">
-                            <%= testcase.stderr %>
-                        </pre>
-                    </div>
-                </div>
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">
-                            <span class="icon submission-status--icon ce"></span>
-                            <span class="submission-status--text ce">Hint</span>
-                        </h1>
-                    </div>
-                    <div class="section__body">
-                        <pre class="compiler-text">
-                            <%= testcase.stdout %>
-                        </pre>
-                    </div>
-                </div>
-            </div>
-        <div class="medium-3 columns">
-            <div data-sticky="medium" class="" style="">
-                <div class="side section">
-                    <div class="section__header">
-                        <h1 class="section__title">Submission Info</h1>
-                    </div>
-                    <div class="section__body typo">
-                        <dl class="large horizontal">
-                            <dt>Status</dt>
-                            <dd data-id="submission_status">
-                                    <span class="icon submission-status--icon <%
-                                    if (testcase.status === 0) {
-                                    %> pending <%
-                                    } else if (testcase.status < 4) {
-                                    %> compiling <%
-                                    } else if (testcase.status === 4) {
-                                    %> effective <%
-                                    } else {
-                                    %> ce <%
-                                    }
-                                    %>">
-                                    </span>
-                                <span class="submission-status--text">
-                                    <% switch(testcase.status) {
-                                    case 0:
-                                    %>
-                                    Waiting
-                                    <% break;
-                                    case 1: %>
-                                    Fetched
-                                    <% break;
-                                    case 2: %>
-                                    Compiling
-                                    <% break;
-                                    case 3: %>
-                                    Judging
-                                    <% break;
-                                    case 4: %>
-                                    Accepted
-                                    <% break;
-                                    case 5: %>
-                                    Wrong Answer
-                                    <% break;
-                                    case 6: %>
-                                    Time Exceeded
-                                    <% break;
-                                    case 7: %>
-                                    Memory Exceeded
-                                    <% break;
-                                    case 8: %>
-                                    Runtime Error
-                                    <% break;
-                                    case 9: %>
-                                    Compile Error
-                                    <% break;
-                                        case 10: %>
-                                    System Error
-                                    <% } %>
-                                </span>
-                                </span>
-                            </dd>
-                            <dt>Compiler</dt>
-                            <dd id="compiler"></dd>
+
+                <aside class="tw-layout__side">
+                    <nav class="tw-card tw-side tw-side--menu" aria-label="Submission">
+                        <p class="tw-menu__title">Submission</p>
+                        <ol class="tw-menu">
+                            <li><a href="/submission" class="tw-menu__link">My submissions</a></li>
+                            <li><a href="/submission/O1" class="tw-menu__link" aria-current="page">Task 1 results</a></li>
+                            <li><a href="/submission/submit" class="tw-menu__link">Submit new brain</a></li>
+                        </ol>
+                    </nav>
+                </aside>
+                <aside class="tw-layout__side--after">
+                    <section class="tw-card tw-side" aria-labelledby="infoTitle">
+                        <p class="tw-menu__title" id="infoTitle">Test case info</p>
+                        <dl class="tw-facts">
+                            <dt>Result</dt>
+                            <dd data-id="submission_status"><%= text %></dd>
+                            <% if (testcase.code !== undefined && testcase.code !== null) { %>
+                                <dt>Exit code</dt>
+                                <dd><%= testcase.code %></dd>
+                            <% } %>
                         </dl>
-                    </div>
-                </div>
-                <div class="section side">
-                    <div class="section__header">
-                        <h1 class="section__title">Submission</h1>
-                    </div>
-                    <ol class="menu">
-                        <li class="menu__item">
-                            <a href="/submission/" class="menu__link active">
-                                <span class="icon icon-flag"></span>
-                                My Submissions
-                            </a>
-                        </li>
-                            <li class="menu__item">
-                                <a href="/submission/O1" class="menu__link active">
-                                    <span class="icon icon-flag"></span>
-                                    Task1 Submissions
-                                </a>
-                            </li>
-                        <li class="menu__item">
-                            <a href="/submission/submit" class="menu__link">
-                                <span class="icon icon-send"></span>
-                                Submit New Brain
-                            </a>
-                        </li>
-                    </ol>
-                </div>
+                    </section>
+                </aside>
             </div>
         </div>
+    </main>
+    <div class="footer">
     </div>
-</div>
-<div class="footer">
-</div>
 </div>
 <script src="/js/jQuery.js"></script>
 </body>
