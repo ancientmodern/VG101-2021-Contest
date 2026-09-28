@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" class="site layout--basic">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <link rel="stylesheet" href="/css/site.css"/>
+    <title>Page not found - TankWar Lab</title>
+</head>
+<body>
+<nav class="nav" aria-label="Main">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li><a href="/" class="nav__logo">TankWarJudge</a></li>
+                <li><a href="/" class="nav__item">Scoreboard</a></li>
+                <li><a href="/submission" class="nav__item">Submission</a></li>
+                <li><a href="/match" class="nav__item">Match</a></li>
+                <li><a href="/rules" class="nav__item">Rules</a></li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel" id="panel">
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <section class="tw-card tw-lost" aria-labelledby="lostTitle">
+                <p class="tw-lost__code" aria-hidden="true">404</p>
+                <h1 class="tw-lost__title" id="lostTitle">Page not found</h1>
+                <p class="tw-lost__text">Nothing lives at this address. If you followed a link to a match, it may
+                    have been removed; the match list has everything that's left.</p>
+                <div class="tw-actions">
+                    <a href="/match" class="tw-btn">Browse matches</a>
+                    <a href="/" class="tw-btn tw-btn--quiet">Scoreboard</a>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>
