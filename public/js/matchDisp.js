@@ -1,7 +1,7 @@
 define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function ($, Promise, Vector, check) {
     check().then(function (result) {
         if (result) {
-            $("#signin").children().html(result).attr("href", "/profile");
+            $("#signin").children().text(result).attr("href", "/profile");
         }
     });
 
@@ -290,10 +290,10 @@ define("disp", ["jquery", "promise", "/js/vector", "/js/checkLogin"], function (
             bs2 = result.bs2;
             result = result.record;
 
-            $("[data='stdout-A']").html(A.stdout);
-            $("[data='stderr-A']").html(A.stderr);
-            $("[data='stdout-B']").html(B.stdout);
-            $("[data='stderr-B']").html(B.stderr);
+            $("[data='stdout-A']").text(A.stdout);
+            $("[data='stderr-A']").text(A.stderr);
+            $("[data='stdout-B']").text(B.stdout);
+            $("[data='stderr-B']").text(B.stderr);
 
             result[0].tanks.forEach(function (item, index) {
                 tanks.push(new TankSpirit(container, item, index, ts1, ts2));

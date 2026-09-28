@@ -63,7 +63,7 @@
     require(["jquery", "/js/checkLogin"], function ($, check) {
         check().then(function (result) {
             if (result) {
-                $("#signin").children().html(result).attr("href", "/profile");
+                $("#signin").children().text(result).attr("href", "/profile");
             }
         });
 

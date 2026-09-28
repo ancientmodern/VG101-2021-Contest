@@ -1,7 +1,13 @@
 require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) {
+    function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+            return {"&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"}[c];
+        });
+    }
+
     check().then(function (result) {
         if (result) {
-            $("#signin").children().html(result).attr("href", "/profile");
+            $("#signin").children().text(result).attr("href", "/profile");
         }
     });
 
@@ -28,7 +34,7 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
                     }
                     container.append($("<tr>\n" +
                         "                                    <td class=\"col--rank\">#" + rank.toString() + "</td>\n" +
-                        "                                    <td class=\"col--user\" style=\"color:" + color.scoreToColor(item.score) + ";font-weight:bold;\">" + item.dispName + "</td>\n" +
+                        "                                    <td class=\"col--user\" style=\"color:" + color.scoreToColor(item.score) + ";font-weight:bold;\">" + escapeHtml(item.dispName) + "</td>\n" +
                         "                                    <td class=\"col--score\" style=\"color:" + color.scoreToColor(item.score) + ";font-weight:bold;\">" + item.score.toString() + "</td>\n" +
                         "                                    <td class=\"col--wins\">" + item.win.toString() + "</td>\n" +
                         "                                    <td class=\"col--loses\">" + item.lose.toString() + "</td>\n" +
@@ -44,7 +50,7 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
             unrated.forEach(function (item, count) {
                 container.append($("<tr>\n" +
                     "                                    <td class=\"col--rank\">#" + rank.toString() + "</td>\n" +
-                    "                                    <td class=\"col--user\" style=\"color:" + color.scoreToColor(item.score) + ";font-weight:bold;\">" + item.dispName + "</td>\n" +
+                    "                                    <td class=\"col--user\" style=\"color:" + color.scoreToColor(item.score) + ";font-weight:bold;\">" + escapeHtml(item.dispName) + "</td>\n" +
                     "                                    <td class=\"col--score\" style=\"color:" + color.scoreToColor(item.score) + ";font-weight:bold;\">" + item.score.toString() + "</td>\n" +
                     "                                    <td class=\"col--wins\">" + item.win.toString() + "</td>\n" +
                     "                                    <td class=\"col--loses\">" + item.lose.toString() + "</td>\n" +

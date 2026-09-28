@@ -1,7 +1,13 @@
 require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) {
+    function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+            return {"&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"}[c];
+        });
+    }
+
     check().then(function (result) {
         if (result) {
-            $("#signin").children().html(result).attr("href", "/profile");
+            $("#signin").children().text(result).attr("href", "/profile");
         }
     });
 
@@ -62,7 +68,7 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
                     "  <td class=\"col--challenger\">\n" +
                     "      \n" +
                     "      <span class=\"player\" style=\"color:" + (match.status ? color.scoreToColor(match.scores.p1[1]) : color.scoreToColor(match.p1.score)) + ";font-weight:bold;\">\n" +
-                    "        <span>" + match.p1.dispName + "</span>\n" +
+                    "        <span>" + escapeHtml(match.p1.dispName) + "</span>\n" +
                     "      </span>\n" +
                     "  </td>\n" +
                     "  <td class=\"col--rating\">\n" +
@@ -74,7 +80,7 @@ require(["jquery", "/js/checkLogin", "/js/cfColor"], function ($, check, color) 
                     "  <td class=\"col--challengee\">\n" +
                     "      \n" +
                     "      <span class=\"player\" style=\"color:" + (match.status ? color.scoreToColor(match.scores.p2[1]) : color.scoreToColor(match.p2.score)) + ";font-weight:bold;\">\n" +
-                    "        " + match.p2.dispName + "\n" +
+                    "        " + escapeHtml(match.p2.dispName) + "\n" +
                     "      </span>\n" +
                     "    \n" +
                     "  </td>\n" +
