@@ -5424,11 +5424,6 @@ a.menu__link.active, button.menu__link.active {
     }
 }
 
-svg {
-    display: block;
-    transform: scale(0.7, 0.7);
-}
-
 /* press-start-2p-regular - latin-ext_latin_greek_cyrillic-ext_cyrillic */
 @font-face {
     font-family: 'Press Start 2P';
@@ -5436,94 +5431,4 @@ svg {
     font-weight: 400;
     src: local(''),
     url('../fonts/press-start-2p-v9-latin-ext_latin_greek_cyrillic-ext_cyrillic-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */ url('../fonts/press-start-2p-v9-latin-ext_latin_greek_cyrillic-ext_cyrillic-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-}
-
-.lifeFixed {
-    position: absolute;
-    top: 0;
-    width: 500px;
-    height: 60px;
-    z-index: 3;
-    line-height: 60px;
-    font-family: "Press Start 2P", "Hiragino Sans GB", "Microsoft Yahei";
-    font-size: 20px;
-    color: black;
-    font-smooth: antialiased;
-}
-
-.lifepointA {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 500px;
-    height: 60px;
-    background-color: rgb(253, 120, 225);
-    z-index: 2;
-}
-
-.lifepointB {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 500px;
-    height: 60px;
-    background-color: #68cee7;
-    z-index: 2;
-}
-
-.tank {
-    position: absolute;
-    width: 70px;
-    height: 110px;
-    z-index: 1;
-    transform-origin: 0 0;
-}
-
-.tank img {
-    position: relative;
-    height: 70px;
-    width: 56px;
-    top: 20px;
-    left: 7px;
-    border-radius: 5px;
-}
-
-.bullet {
-    position: absolute;
-    width: 70px;
-    height: 110px;
-    z-index: 1;
-    transform-origin: 0 0;
-}
-
-.bullet img {
-    position: relative;
-    height: 36px;
-    width: 20px;
-    top: 37px;
-    left: 25px;
-    border-radius: 5px;
-}
-
-.border {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #ffffff;
-    z-index: 0;
-}
-
-.board-container {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    padding: 0;
-    background-color: #eeeeee;
-}
-
-.board-container::before {
-    content: "";
-    padding-top: 100%;
-    display: block;
 }

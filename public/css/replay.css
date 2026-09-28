@@ -1,0 +1,1682 @@
+/*
+ * Match replay page (views/match/disp.ejs).
+ *
+ * The replay is the one dark band on an otherwise light site: the lights go
+ * down for the match. Colours are the site's own, lifted for a dark stage:
+ * pink (nav active underline) is tank A, cyan (nav hover) is tank B, gold
+ * (the logo) marks whatever the viewer controls, red means danger.
+ */
+
+/* Light tokens: used by the program output card below the stage. */
+.replay-stdio {
+    --rp-a: #e0508f;
+    --rp-b: #1b9cbd;
+    --rp-gold-tint: rgba(201, 162, 108, .18);
+    --rp-ink: #343a40;
+    --rp-text: #555;
+    --rp-muted: #8a939b;
+    --rp-line: #e9ecef;
+    --rp-sunk: #f8f9fa;
+    --rp-font-mono: monaco, "Source Code Pro", Consolas, "Courier New", monospace;
+}
+
+/* Stage tokens. The board and timeline canvases read these via cssVar(). */
+.replay-stage {
+    --rp-a: #ff5fa2;
+    --rp-a-ink: #ff7fb5;
+    --rp-a-soft: rgba(255, 95, 162, .30);
+    --rp-b: #3cc8ea;
+    --rp-b-ink: #6fd8f1;
+    --rp-b-soft: rgba(60, 200, 234, .28);
+    --rp-gold: #e6bd7c;
+    --rp-gold-tint: rgba(230, 189, 124, .13);
+    --rp-ink: #eef1f6;
+    --rp-text: #c9d0dc;
+    --rp-muted: #7f8aa0;
+    --rp-line: #2b3446;
+    --rp-grid: #273044;
+    --rp-paper: #1c2332;
+    --rp-panel: #1b2130;
+    --rp-raise: #262e40;
+    --rp-outside: #0c1018;
+    --rp-danger: #ff5d6c;
+    --rp-danger-ink: #ff8791;
+    --rp-danger-tint: #1f1b27;
+    --rp-tread: #0e121b;
+    --rp-spark: #ffc15e;
+    --rp-win: #3ec46d;
+    --rp-draw: #f5a524;
+    --rp-wash: rgba(21, 26, 37, .66);
+    /* v4 arena: walls are raised slate blocks; destroyed units are greyed in the HUD. */
+    --rp-wall-top: #3b4559;
+    --rp-wall-side: #222938;
+    --rp-wall-edge: #5b6781;
+    --rp-wreck: #4a5162;
+    /* v5 items: one hue and one silhouette each, clear of the team colours,
+       gold and red. The board canvas reads these too. */
+    --rp-item-heal: #5ee08a;
+    --rp-item-shield: #b596ff;
+    --rp-item-wide: #ff8f45;
+    --rp-item-rapid: #ffe14d;
+    --rp-item-bounce: #a8e34f;
+    --rp-item-speed: #6f8dff;
+    --rp-item-jam: #c9cfda;
+    --rp-item-tile: #0f131c;
+    --rp-next-zone: #eef1f6;
+    --rp-font-pixel: "Press Start 2P", monospace;
+    --rp-font-mono: monaco, "Source Code Pro", Consolas, "Courier New", monospace;
+
+    display: block;
+    color: var(--rp-text);
+    background:
+        radial-gradient(ellipse 70% 60% at 42% 52%, #1f2738 0%, rgba(31, 39, 56, 0) 70%),
+        #151a25;
+    border-bottom: 1px solid #0d1119;
+}
+
+.replay-stage svg {
+    display: block;
+    transform: none;
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+.replay-stage button, .replay-stage summary {
+    font-family: inherit;
+}
+
+.replay-stage :focus-visible, .replay-stdio :focus-visible {
+    outline: 2px solid var(--rp-gold);
+    outline-offset: 2px;
+}
+
+/* ---------- Layout ---------- */
+
+/* Board size is whatever fits both the width next to the feed and the
+   viewport height left after the nav, scoreboard and controls. */
+.replay-stage__inner {
+    --log-w: 17rem;
+    --gap: .875rem;
+    --board: max(20rem, min(calc(100vw - var(--log-w) - var(--gap) - 3rem),
+                            calc(100vh - 16.5rem), 58rem));
+    display: grid;
+    grid-template-columns: var(--board) var(--log-w);
+    grid-template-areas:
+        "meta  meta"
+        "hud   hud"
+        "board log"
+        "ctl   ctl";
+    gap: var(--gap);
+    width: calc(var(--board) + var(--gap) + var(--log-w));
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 1.25rem;
+}
+
+.replay-stage__inner > * {
+    min-width: 0;
+}
+
+/* ---------- Meta line ---------- */
+
+.replay-meta {
+    grid-area: meta;
+    display: flex;
+    align-items: baseline;
+    gap: .35rem 1rem;
+    font-size: .8125rem;
+    line-height: 1.5;
+}
+
+.replay-meta__back, .replay-meta__back:visited {
+    flex: none;
+    white-space: nowrap;
+    color: var(--rp-muted);
+    text-decoration: none;
+    transition: color .15s;
+}
+
+.replay-meta__back:hover {
+    color: var(--rp-ink);
+}
+
+.replay-meta__title {
+    display: flex;
+    flex: none;
+    max-width: 55%;
+    align-items: baseline;
+    gap: 0 .5rem;
+    margin: 0;
+    font-size: .9375rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--rp-ink);
+}
+
+.replay-meta__name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* The nav's active-item underline, in each player's colour. */
+    box-shadow: inset 0 -2px 0 var(--rp-a);
+}
+
+.replay-meta__name--b {
+    box-shadow: inset 0 -2px 0 var(--rp-b);
+}
+
+.replay-meta__vs {
+    font-family: var(--rp-font-pixel);
+    font-size: .5rem;
+    font-weight: 400;
+    color: var(--rp-gold);
+}
+
+/* One line; the full reason is also in the end banner and the feed. */
+.replay-meta__result {
+    flex: 0 1 auto;
+    min-width: 0;
+    margin: 0 0 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--rp-muted);
+}
+
+.replay-meta__result > * + * {
+    margin-left: .45rem;
+}
+
+.replay-meta__badge {
+    display: inline-block;
+    vertical-align: .1em;
+    font-family: var(--rp-font-pixel);
+    font-size: .5rem;
+    line-height: 1;
+    padding: .35rem .45rem .3rem;
+    color: #0e1a12;
+    background: var(--rp-win);
+    text-transform: uppercase;
+}
+
+.replay-meta__result--draw .replay-meta__badge {
+    color: #231704;
+    background: var(--rp-draw);
+}
+
+.replay-meta__winner--a { color: var(--rp-a-ink); }
+.replay-meta__winner--b { color: var(--rp-b-ink); }
+
+.replay-meta__exit {
+    color: var(--rp-danger-ink);
+}
+
+/* ---------- Scoreboard ---------- */
+
+.replay-hud {
+    grid-area: hud;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    padding: .55rem .75rem;
+    border-radius: 6px;
+    background:
+        linear-gradient(90deg, rgba(255, 95, 162, .16), rgba(255, 95, 162, 0) 38%,
+                               rgba(60, 200, 234, 0) 62%, rgba(60, 200, 234, .16)),
+        var(--rp-panel);
+    box-shadow: inset 0 0 0 1px var(--rp-line);
+}
+
+.replay-player {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    min-width: 0;
+}
+
+.replay-player--b {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.replay-player__tag {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 4px;
+    font-family: var(--rp-font-pixel);
+    font-size: .75rem;
+    line-height: 1;
+    color: #1a0d14;
+    background: var(--rp-a);
+    box-shadow: 0 0 14px rgba(255, 95, 162, .45);
+}
+
+.replay-player--b .replay-player__tag, .replay-team--b .replay-player__tag {
+    color: #071a20;
+    background: var(--rp-b);
+    box-shadow: 0 0 14px rgba(60, 200, 234, .45);
+}
+
+.replay-player__id {
+    min-width: 0;
+    flex: 0 1 auto;
+}
+
+.replay-player__name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--rp-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.replay-player__move {
+    margin-top: .15rem;
+    font-size: .75rem;
+    color: var(--rp-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.replay-player__life {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    margin-left: auto;
+    flex: none;
+}
+
+.replay-player--b .replay-player__life {
+    margin: 0 auto 0 0;
+}
+
+.replay-player__hp {
+    font-family: var(--rp-font-pixel);
+    font-size: .875rem;
+    line-height: 1;
+    color: var(--rp-ink);
+    min-width: 1em;
+    text-align: center;
+}
+
+/* Five-segment life bar. ::before is the "damage ghost" that lags behind
+   the real value (::after), so a hit reads as a flash of lost life. */
+.replay-lifebar {
+    --life: 1;
+    --seg: 22px;
+    position: relative;
+    display: block;
+    width: calc(var(--seg) * var(--segs, 5));
+    height: 12px;
+    flex: none;
+    background: rgba(255, 255, 255, .06);
+}
+
+.replay-lifebar::before, .replay-lifebar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: calc(var(--life) * 100%);
+}
+
+.replay-lifebar::before {
+    background: var(--rp-danger);
+    opacity: .55;
+    transition: width .5s cubic-bezier(.215, .61, .355, 1) .3s;
+}
+
+.replay-lifebar::after {
+    background: linear-gradient(90deg, transparent calc(100% - 3px), var(--rp-panel) 0) 0 0 / var(--seg) 100% repeat-x, var(--rp-a);
+    box-shadow: 0 0 10px rgba(255, 95, 162, .35);
+    transition: width .2s cubic-bezier(.215, .61, .355, 1);
+}
+
+.replay-player--b .replay-lifebar::before, .replay-player--b .replay-lifebar::after,
+.replay-team--b .replay-lifebar::before, .replay-team--b .replay-lifebar::after {
+    left: auto;
+    right: 0;
+}
+
+.replay-player--b .replay-lifebar::after, .replay-team--b .replay-lifebar::after {
+    background: linear-gradient(90deg, var(--rp-panel) 3px, transparent 0) 100% 0 / var(--seg) 100% repeat-x, var(--rp-b);
+    box-shadow: 0 0 10px rgba(60, 200, 234, .35);
+}
+
+.replay-player.is-hurt .replay-player__hp {
+    color: var(--rp-danger-ink);
+    animation: replay-shake .35s steps(4);
+}
+
+.replay-player.is-dead .replay-player__name, .replay-team.is-dead .replay-player__name {
+    color: var(--rp-muted);
+    text-decoration: line-through;
+}
+
+.replay-player.is-dead .replay-player__tag, .replay-team.is-dead .replay-player__tag {
+    opacity: .35;
+    box-shadow: none;
+}
+
+@keyframes replay-shake {
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+.replay-round {
+    text-align: center;
+    padding: 0 .5rem;
+}
+
+.replay-round__value {
+    font-family: var(--rp-font-pixel);
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--rp-gold);
+    white-space: nowrap;
+    text-shadow: 0 0 12px rgba(230, 189, 124, .35);
+}
+
+.replay-round__label {
+    font-size: .5rem;
+    margin-right: .45em;
+    color: var(--rp-muted);
+    text-shadow: none;
+    vertical-align: .35em;
+}
+
+.replay-round__total {
+    font-size: .5625rem;
+    color: var(--rp-muted);
+    margin-left: .3em;
+    text-shadow: none;
+}
+
+.replay-round__zone {
+    margin-top: .45rem;
+    font-size: .6875rem;
+    letter-spacing: .02em;
+    color: var(--rp-danger-ink);
+    white-space: nowrap;
+}
+
+/* ---------- Scoreboard, 2v2 (v4) ---------- */
+
+/* Each side: team tag, name with the team's total life, then one row per
+   tank. Bars are sized by the tank's max life (one segment per point), so
+   the heavy's longer bar is part of how it reads. */
+.replay-team {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    min-width: 0;
+}
+
+.replay-team .replay-player__name {
+    font-size: .9375rem;
+}
+
+.replay-team--b {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+.replay-team__id {
+    min-width: 0;
+    flex: 0 1 auto;
+}
+
+.replay-team__total {
+    margin-top: .2rem;
+    font-size: .75rem;
+    line-height: 1.3;
+    color: var(--rp-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.replay-team__life {
+    margin-right: .4em;
+    font-family: var(--rp-font-pixel);
+    font-size: .625rem;
+    color: var(--rp-ink);
+}
+
+.replay-team__max {
+    color: var(--rp-muted);
+}
+
+.replay-team__units {
+    display: grid;
+    gap: .3rem;
+    flex: none;
+    margin-left: auto;
+}
+
+.replay-team--b .replay-team__units {
+    margin: 0 auto 0 0;
+}
+
+.replay-unit {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    height: 1rem;
+}
+
+.replay-team--b .replay-unit {
+    flex-direction: row-reverse;
+}
+
+.replay-stage .replay-unit__icon {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    color: var(--rp-a);
+    filter: drop-shadow(0 0 4px rgba(255, 95, 162, .45));
+}
+
+.replay-team--b .replay-unit__icon {
+    color: var(--rp-b);
+    transform: scaleX(-1);
+    filter: drop-shadow(0 0 4px rgba(60, 200, 234, .45));
+}
+
+.replay-unit__label {
+    flex: none;
+    width: 2.25em;
+    font-family: var(--rp-font-pixel);
+    font-size: .5rem;
+    line-height: 1;
+    color: var(--rp-ink);
+}
+
+.replay-unit .replay-lifebar {
+    --seg: 10px;
+    height: 8px;
+}
+
+.replay-team__unit {
+    display: none;
+}
+
+.replay-unit__hp {
+    flex: none;
+    min-width: 1em;
+    font-family: var(--rp-font-pixel);
+    font-size: .625rem;
+    line-height: 1;
+    text-align: center;
+    color: var(--rp-ink);
+}
+
+.replay-unit__move {
+    flex: none;
+    width: 1.2em;
+    font-size: .75rem;
+    line-height: 1;
+    color: var(--rp-muted);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.replay-unit__move-name {
+    display: none;
+    margin-left: .35em;
+}
+
+.replay-unit.is-hurt .replay-unit__hp {
+    color: var(--rp-danger-ink);
+    animation: replay-shake .35s steps(4);
+}
+
+.replay-unit.is-dead .replay-unit__label {
+    color: var(--rp-muted);
+    text-decoration: line-through;
+}
+
+.replay-unit.is-dead .replay-unit__icon {
+    color: var(--rp-wreck);
+    filter: none;
+}
+
+.replay-unit.is-dead .replay-unit__move {
+    color: var(--rp-danger-ink);
+}
+
+/* Wider screens: bigger bars, then the "team life" caption, then the move
+   name next to the arrow. The team name keeps priority over all of them. */
+@media only screen and (min-width: 1280px) {
+    .replay-unit .replay-lifebar {
+        --seg: 12px;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .replay-team__unit {
+        display: inline;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    .replay-unit__move {
+        width: 6.5em;
+    }
+
+    .replay-unit__move-name {
+        display: inline;
+    }
+}
+
+/* ---------- Scoreboard, v5: shield / buff / jam chips ---------- */
+
+/* Each chip: the item's glyph and the turns left (none for the shield).
+   The slot keeps room for two chips so the row rarely jumps. */
+.replay-unit__fx {
+    display: flex;
+    flex: none;
+    gap: 2px;
+}
+
+.replay-stage--v5 .replay-unit__fx {
+    min-width: 2.75rem;
+}
+
+/* The chips need room the v4 scoreboard gave to the team letter blocks:
+   on a narrow scoreboard, v5 drops those (colour already tells A from B)
+   and slims the bars, so the team name keeps priority. */
+.replay-stage--v5 .replay-hud {
+    container: rp-hud / inline-size;
+}
+
+@container rp-hud (max-width: 1060px) {
+    .replay-team .replay-player__tag {
+        display: none;
+    }
+
+    .replay-unit .replay-lifebar {
+        --seg: 9px;
+    }
+}
+
+.replay-team--b .replay-unit__fx {
+    flex-direction: row-reverse;
+}
+
+.replay-chip {
+    --c: var(--rp-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    height: 14px;
+    padding: 0 3px 0 2px;
+    border-radius: 3px;
+    color: var(--c);
+    background: rgba(255, 255, 255, .06);
+    background: color-mix(in srgb, var(--c) 15%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 42%, transparent);
+    animation: replay-fade .25s ease-out;
+}
+
+.replay-stage .replay-chip .replay-glyph {
+    width: 10px;
+    height: 10px;
+}
+
+.replay-chip b {
+    font-family: var(--rp-font-pixel);
+    font-size: .4375rem;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--rp-ink);
+}
+
+.replay-chip--heal, .replay-item--heal { --c: var(--rp-item-heal); color: var(--rp-item-heal); }
+.replay-chip--shield, .replay-item--shield { --c: var(--rp-item-shield); color: var(--rp-item-shield); }
+.replay-chip--wide, .replay-item--wide { --c: var(--rp-item-wide); color: var(--rp-item-wide); }
+.replay-chip--rapid, .replay-item--rapid { --c: var(--rp-item-rapid); color: var(--rp-item-rapid); }
+.replay-chip--bounce, .replay-item--bounce { --c: var(--rp-item-bounce); color: var(--rp-item-bounce); }
+.replay-chip--speed, .replay-item--speed { --c: var(--rp-item-speed); color: var(--rp-item-speed); }
+.replay-chip--jam, .replay-item--jam { --c: var(--rp-item-jam); color: var(--rp-item-jam); }
+
+.replay-symbols {
+    position: absolute;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden;
+}
+
+/* ---------- Board ---------- */
+
+.replay-board {
+    grid-area: board;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--rp-outside);
+    box-shadow: 0 0 0 1px var(--rp-line), 0 24px 60px -24px rgba(0, 0, 0, .6);
+}
+
+.replay-board__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.replay-board__status {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 1rem;
+    text-align: center;
+    color: var(--rp-muted);
+    font-size: .875rem;
+}
+
+.replay-board__status[hidden], .replay-board__overlay[hidden] {
+    display: none;
+}
+
+.replay-board__overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 12%;
+    padding: 1.25rem 1rem 1.1rem;
+    text-align: center;
+    background: rgba(12, 16, 24, .86);
+    border-top: 1px solid rgba(230, 189, 124, .45);
+    border-bottom: 1px solid rgba(230, 189, 124, .45);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    pointer-events: none;
+    animation: replay-fade .4s ease-out;
+}
+
+.replay-board__overlay--top {
+    top: 12%;
+    bottom: auto;
+}
+
+.replay-board__overlay-title {
+    font-family: var(--rp-font-pixel);
+    font-size: 1.125rem;
+    line-height: 1.5;
+    color: var(--rp-ink);
+    overflow-wrap: anywhere;
+}
+
+.replay-board__overlay-title--a { color: var(--rp-a); text-shadow: 0 0 18px rgba(255, 95, 162, .5); }
+.replay-board__overlay-title--b { color: var(--rp-b); text-shadow: 0 0 18px rgba(60, 200, 234, .5); }
+.replay-board__overlay-title--draw { color: var(--rp-draw); text-shadow: 0 0 18px rgba(245, 165, 36, .45); }
+
+.replay-board__overlay-text {
+    margin-top: .5rem;
+    font-size: .8125rem;
+    line-height: 1.45;
+    color: var(--rp-text);
+}
+
+@keyframes replay-fade {
+    from { opacity: 0; }
+}
+
+/* ---------- Match feed ---------- */
+
+/* Events appear as the replay reaches them, like live commentary; the
+   timeline markers are the way to jump ahead. */
+.replay-log {
+    grid-area: log;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    border-radius: 6px;
+    background: var(--rp-panel);
+    box-shadow: inset 0 0 0 1px var(--rp-line);
+    overflow: hidden;
+}
+
+.replay-log__title {
+    margin: 0;
+    padding: .75rem .9rem .6rem;
+    font-size: .6875rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--rp-muted);
+    border-bottom: 1px solid var(--rp-line);
+}
+
+.replay-log__scroll {
+    position: relative;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rp-line) transparent;
+}
+
+.replay-log__list {
+    list-style: none;
+    margin: 0;
+    padding: .25rem 0;
+}
+
+.replay-log__item.is-future {
+    display: none;
+}
+
+.replay-log__btn {
+    display: flex;
+    gap: .6rem;
+    width: 100%;
+    padding: .4rem .9rem .4rem .75rem;
+    border: 0;
+    border-left: 2px solid transparent;
+    background: none;
+    text-align: left;
+    font-size: .8125rem;
+    line-height: 1.45;
+    color: var(--rp-text);
+    cursor: pointer;
+    transition: background-color .15s;
+}
+
+.replay-log__btn:hover {
+    background: rgba(255, 255, 255, .04);
+}
+
+.replay-log__round {
+    flex: none;
+    font-family: var(--rp-font-mono);
+    font-size: .6875rem;
+    color: var(--rp-muted);
+    padding-top: .1em;
+}
+
+.replay-log__text {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.replay-log__item--hit .replay-log__btn,
+.replay-log__item--border .replay-log__btn { border-left-color: var(--rp-danger); }
+.replay-log__item--zone .replay-log__btn { color: var(--rp-muted); }
+.replay-log__item--collision .replay-log__btn,
+.replay-log__item--destroyed .replay-log__btn,
+.replay-log__item--end .replay-log__btn { border-left-color: var(--rp-ink); color: var(--rp-ink); font-weight: 600; }
+
+/* A tank going down is the key moment of a match: red rule, red tint and a
+   wreck cross, like the kill marks on the tape. */
+.replay-log__item--destroyed .replay-log__btn {
+    border-left-color: var(--rp-danger);
+    background: rgba(255, 93, 108, .1);
+}
+
+.replay-log__item--destroyed .replay-log__btn:hover {
+    background: rgba(255, 93, 108, .16);
+}
+
+.replay-log__item--destroyed .replay-log__text::before {
+    content: "";
+    display: inline-block;
+    width: .7em;
+    height: .7em;
+    margin-right: .45em;
+    background:
+        linear-gradient(45deg, transparent 38%, var(--rp-danger-ink) 38% 62%, transparent 62%),
+        linear-gradient(-45deg, transparent 38%, var(--rp-danger-ink) 38% 62%, transparent 62%);
+}
+.replay-log__item--start .replay-log__btn { color: var(--rp-muted); }
+
+/* v5: shield blocks and jams are plays worth seeing; drops and buffs
+   wearing off are bookkeeping, so they sit smaller and quieter. */
+.replay-log__item--shield .replay-log__btn { border-left-color: var(--rp-item-shield); }
+.replay-log__item--jam .replay-log__btn { border-left-color: var(--rp-item-jam); }
+
+.replay-log__item--spawn .replay-log__btn,
+.replay-log__item--expire .replay-log__btn {
+    padding-top: .2rem;
+    padding-bottom: .2rem;
+    font-size: .75rem;
+    color: var(--rp-muted);
+}
+
+.replay-log__item--spawn .replay-item,
+.replay-log__item--expire .replay-item,
+.replay-log__item--expire .replay-tag {
+    font-weight: 400;
+    opacity: .85;
+}
+
+/* Item name in the feed: glyph plus name in the item's colour. */
+.replay-item {
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.replay-stage .replay-item .replay-glyph {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: .25em;
+    vertical-align: -.14em;
+}
+
+.replay-heal {
+    font-family: var(--rp-font-pixel);
+    font-size: .5625rem;
+    font-weight: 400;
+    color: var(--rp-item-heal);
+}
+
+.replay-log__item.is-current .replay-log__btn {
+    border-left-color: var(--rp-gold);
+    background: var(--rp-gold-tint);
+}
+
+.replay-log__item.is-current .replay-log__round {
+    color: var(--rp-gold);
+}
+
+.replay-tag {
+    display: inline-block;
+    max-width: 10em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+    font-weight: 600;
+}
+
+.replay-keep {
+    white-space: nowrap;
+}
+
+.replay-tag--a { color: var(--rp-a-ink); }
+.replay-tag--b { color: var(--rp-b-ink); }
+
+.replay-dmg {
+    font-family: var(--rp-font-pixel);
+    font-size: .5625rem;
+    font-weight: 400;
+    color: var(--rp-danger-ink);
+}
+
+/* ---------- Controls: one full-width transport bar ---------- */
+
+.replay-controls {
+    grid-area: ctl;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .5rem;
+    border-radius: 6px;
+    background: var(--rp-panel);
+    box-shadow: inset 0 0 0 1px var(--rp-line);
+}
+
+.replay-transport, .replay-speed {
+    display: flex;
+    flex: none;
+    gap: 2px;
+}
+
+.replay-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 4px;
+    background: var(--rp-raise);
+    color: var(--rp-text);
+    cursor: pointer;
+    transition: background-color .15s, color .15s, box-shadow .15s;
+}
+
+.replay-btn:enabled:hover, summary.replay-btn:hover {
+    background: #313a4f;
+    color: var(--rp-ink);
+}
+
+.replay-btn--play {
+    width: 3rem;
+    background: var(--rp-gold);
+    color: #1d1508;
+}
+
+.replay-btn--play:enabled:hover {
+    background: #f0cb91;
+    color: #1d1508;
+    box-shadow: 0 0 18px rgba(230, 189, 124, .4);
+}
+
+.replay-btn:disabled, .replay-tape__range:disabled {
+    opacity: .4;
+    cursor: default;
+}
+
+.replay-icon-pause, .replay-btn--play.is-playing .replay-icon-play {
+    display: none !important;
+}
+
+.replay-btn--play.is-playing .replay-icon-pause {
+    display: block !important;
+}
+
+.replay-tape {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 2.25rem;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, .22);
+    overflow: hidden;
+}
+
+.replay-tape:focus-within {
+    outline: 2px solid var(--rp-gold);
+    outline-offset: 2px;
+}
+
+.replay-tape__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Invisible native slider on top of the tape: keeps keyboard and screen
+   reader support while the canvas draws the visuals. */
+.replay-tape__range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.replay-tape__range:focus-visible {
+    outline: none;
+}
+
+.replay-tape__range::-webkit-slider-runnable-track {
+    height: 100%;
+    background: transparent;
+}
+
+.replay-tape__range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 2.25rem;
+    background: transparent;
+    border: 0;
+}
+
+.replay-tape__range::-moz-range-track {
+    height: 100%;
+    background: transparent;
+}
+
+.replay-tape__range::-moz-range-thumb {
+    width: 16px;
+    height: 2.25rem;
+    background: transparent;
+    border: 0;
+}
+
+.replay-speed__opt {
+    min-width: 2.35rem;
+    height: 2.25rem;
+    padding: 0 .45rem;
+    margin: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--rp-muted);
+    font-size: .8125rem;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: background-color .15s, color .15s;
+}
+
+.replay-speed__opt:hover {
+    color: var(--rp-ink);
+}
+
+.replay-speed__opt[aria-pressed="true"] {
+    background: var(--rp-raise);
+    color: var(--rp-ink);
+    box-shadow: inset 0 -2px 0 var(--rp-gold);
+}
+
+/* Shortcuts and legend live behind "?" so the bar stays one quiet line. */
+.replay-help {
+    position: relative;
+    flex: none;
+}
+
+.replay-help__toggle {
+    list-style: none;
+    font-size: .875rem;
+    font-weight: 600;
+    user-select: none;
+}
+
+.replay-help__toggle::-webkit-details-marker {
+    display: none;
+}
+
+.replay-help[open] .replay-help__toggle {
+    background: var(--rp-ink);
+    color: var(--rp-panel);
+}
+
+.replay-help__panel {
+    position: absolute;
+    z-index: 5;
+    right: 0;
+    bottom: calc(100% + .6rem);
+    width: 17.5rem;
+    padding: .9rem 1rem 1rem;
+    border-radius: 6px;
+    background: #10141d;
+    box-shadow: 0 0 0 1px var(--rp-line), 0 18px 40px -12px rgba(0, 0, 0, .7);
+    font-size: .8125rem;
+    color: var(--rp-text);
+    animation: replay-fade .15s ease-out;
+}
+
+.replay-help__title {
+    margin: 0 0 .5rem;
+    font-size: .625rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--rp-muted);
+}
+
+.replay-help__title + * + .replay-help__title,
+.replay-help__keys + .replay-help__title {
+    margin-top: 1rem;
+}
+
+.replay-help__keys {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .4rem .75rem;
+    align-items: center;
+    margin: 0;
+}
+
+.replay-help__keys dt, .replay-help__keys dd {
+    margin: 0;
+}
+
+.replay-help kbd {
+    display: inline-block;
+    min-width: 1.6em;
+    margin-right: .2em;
+    padding: .05em .35em;
+    border-radius: 3px;
+    font-family: var(--rp-font-mono);
+    font-size: .6875rem;
+    line-height: 1.5;
+    text-align: center;
+    color: var(--rp-ink);
+    background: var(--rp-raise);
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .35);
+}
+
+.replay-help__marks {
+    display: grid;
+    gap: .4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.replay-mark {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: .55em;
+    vertical-align: -1px;
+}
+
+.replay-mark--hit {
+    border-radius: 50%;
+    background: linear-gradient(90deg, var(--rp-a) 50%, var(--rp-b) 0);
+}
+
+.replay-mark--crash {
+    width: 8px;
+    height: 8px;
+    margin: 0 calc(.55em + 1px) 0 1px;
+    background: var(--rp-ink);
+}
+
+.replay-mark--zone {
+    width: 2px;
+    margin: 0 calc(.55em + 4px) 0 4px;
+    border-left: 2px dotted var(--rp-danger);
+}
+
+.replay-mark--danger {
+    box-sizing: border-box;
+    background: repeating-linear-gradient(-45deg, var(--rp-danger-tint) 0 2px, rgba(255, 93, 108, .55) 2px 3px);
+    border: 1px dashed var(--rp-danger);
+}
+
+/* Tank types, shown only for v4 matches. */
+.replay-help__v4 {
+    display: none;
+}
+
+.replay-stage--v4 .replay-help__v4 {
+    display: block;
+    margin-top: 1rem;
+}
+
+.replay-stage--v4 li.replay-help__v4 {
+    display: list-item;
+    margin-top: 0;
+}
+
+.replay-help__v4 + .replay-help__title {
+    margin-top: 1rem;
+}
+
+.replay-help__tanks {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .4rem .75rem;
+    margin: 0;
+}
+
+.replay-help__tanks dt, .replay-help__tanks dd {
+    margin: 0;
+}
+
+.replay-help__tanks dt {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-weight: 600;
+    color: var(--rp-ink);
+}
+
+.replay-help__tanks svg {
+    color: var(--rp-gold);
+}
+
+/* v5: legend of items, and the marks only v5 has. */
+.replay-help__v5, .replay-stage--v5 .replay-help__nov5 {
+    display: none;
+}
+
+.replay-stage--v5 .replay-help__v5 {
+    display: block;
+}
+
+.replay-stage--v5 li.replay-help__v5 {
+    display: list-item;
+}
+
+/* Two columns: the usual keys and marks on the left, the items on the right. */
+.replay-stage--v5 .replay-help__panel {
+    display: grid;
+    grid-template-columns: 15rem 21.5rem;
+    column-gap: 1.5rem;
+    align-items: start;
+    width: auto;
+    max-height: calc(100vh - 7rem);
+    overflow-y: auto;
+}
+
+.replay-stage--v5 .replay-help__panel > * {
+    grid-column: 1;
+}
+
+.replay-stage--v5 .replay-help__panel > div.replay-help__v5 {
+    grid-column: 2;
+    grid-row: 1 / span 5;
+}
+
+.replay-help__items {
+    display: grid;
+    gap: .45rem;
+    margin: 0;
+}
+
+.replay-help__items > div {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: .75rem;
+    align-items: baseline;
+}
+
+.replay-help__items > div.is-off {
+    display: none;
+}
+
+.replay-help__items dt, .replay-help__items dd {
+    margin: 0;
+}
+
+.replay-help__items dt {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-weight: 600;
+    color: var(--rp-ink);
+    white-space: nowrap;
+}
+
+.replay-help__items dd {
+    line-height: 1.4;
+}
+
+.replay-help__items b, .replay-help__note b {
+    color: var(--rp-ink);
+}
+
+.replay-help__note {
+    margin: .75rem 0 0;
+    font-size: .75rem;
+    line-height: 1.45;
+    color: var(--rp-muted);
+}
+
+.replay-mark--pickup {
+    width: 2px;
+    height: 8px;
+    margin: 0 calc(.55em + 4px) 0 4px;
+    background: linear-gradient(var(--rp-a) 50%, var(--rp-b) 0);
+    box-shadow: 0 0 0 1px var(--rp-tread);
+}
+
+.replay-mark--next {
+    box-sizing: border-box;
+    border: 1.5px solid var(--rp-next-zone);
+    opacity: .8;
+}
+
+.replay-mark--kill {
+    background:
+        linear-gradient(45deg, transparent 36%, var(--rp-b) 36% 64%, transparent 64%),
+        linear-gradient(-45deg, transparent 36%, var(--rp-a) 36% 64%, transparent 64%);
+}
+
+/* ---------- Program output (light, below the stage) ---------- */
+
+.replay-after {
+    padding-top: 1.5rem;
+}
+
+.replay-stdio > summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .25rem 1rem;
+    padding-bottom: 1.25rem;
+    list-style: none;
+    cursor: pointer;
+}
+
+.replay-stdio > summary::-webkit-details-marker {
+    display: none;
+}
+
+.replay-stdio > summary .section__title {
+    font-size: 1.25rem;
+    line-height: 35px;
+}
+
+.replay-stdio > summary .section__title::after {
+    content: "";
+    display: inline-block;
+    width: 1.1em;
+    height: 1.1em;
+    margin-left: .3em;
+    vertical-align: -.2em;
+    background: url("/misc/icon/expand_more.svg") center / contain no-repeat;
+    opacity: .5;
+    transition: transform .2s;
+}
+
+.replay-stdio[open] > summary .section__title::after {
+    transform: rotate(180deg);
+}
+
+.replay-stdio__hint {
+    font-size: .8125rem;
+    color: var(--rp-muted);
+}
+
+.replay-stdio__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.25rem;
+    padding-bottom: 1.25rem;
+}
+
+.replay-stream__title {
+    margin: 0 0 .5rem;
+    padding-left: .5rem;
+    border-left: 3px solid var(--rp-a);
+    font-size: .8125rem;
+    font-weight: 600;
+    color: var(--rp-ink);
+    overflow-wrap: anywhere;
+}
+
+.replay-stream--b .replay-stream__title {
+    border-left-color: var(--rp-b);
+}
+
+.replay-stream__body {
+    position: relative;
+    margin: 0;
+    max-height: 18rem;
+    overflow: auto;
+    padding: .6rem .75rem;
+    background: var(--rp-sunk);
+    border: 1px solid var(--rp-line);
+    font-family: var(--rp-font-mono);
+    font-size: .75rem;
+    line-height: 1.55;
+    color: var(--rp-text);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.replay-stream__body.is-empty {
+    color: var(--rp-muted);
+    font-style: italic;
+}
+
+.replay-line {
+    display: block;
+    padding: 0 .25rem;
+}
+
+.replay-line::before {
+    content: attr(data-no);
+    display: inline-block;
+    width: 3.5ch;
+    margin-right: 1ch;
+    text-align: right;
+    color: var(--rp-muted);
+}
+
+.replay-line.is-current {
+    background: var(--rp-gold-tint);
+    color: var(--rp-ink);
+}
+
+/* ---------- Narrow screens ---------- */
+
+/* The theme's <=400px nav expects a slide-out menu this site never wired up
+   (white links on white). This page opts into a real mobile viewport, so it
+   keeps the desktop nav and lets the link row scroll sideways instead. */
+@media only screen and (max-width: 600px) {
+    .page--round_detail .nav__container,
+    .page--round_detail .nav__container-item {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .page--round_detail .nav__container-item:first-child {
+        min-width: 0;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .page--round_detail .nav__logo {
+        display: inline-block;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .page--round_detail .nav__item,
+    .page--round_detail .nav__item:visited {
+        display: inline-block;
+        line-height: 3.125rem;
+        padding: 0 .45rem;
+        margin: 0;
+        border: 0;
+        white-space: nowrap;
+        color: #adb5bd !important;
+    }
+
+    .page--round_detail .nav__item.active {
+        color: #212529 !important;
+    }
+}
+
+/* One column: the board takes the full width, the feed goes last. */
+@media only screen and (max-width: 900px) {
+    .replay-stage__inner {
+        --board: calc(100vw - 2rem);
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "meta" "hud" "board" "ctl" "log";
+        width: 100%;
+        padding: .875rem 1rem 1rem;
+    }
+
+    .replay-meta {
+        flex-wrap: wrap;
+        row-gap: .35rem;
+    }
+
+    .replay-meta__title {
+        max-width: 100%;
+    }
+
+    .replay-meta__result {
+        flex-basis: 100%;
+        margin-left: 0;
+    }
+
+    .replay-log {
+        height: 15rem;
+    }
+
+    .replay-controls {
+        flex-wrap: wrap;
+    }
+
+    .replay-tape {
+        order: -1;
+        flex-basis: 100%;
+    }
+
+    .replay-speed {
+        margin-left: auto;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .replay-hud {
+        gap: .5rem;
+        padding: .5rem;
+    }
+
+    .replay-player {
+        flex-wrap: wrap;
+        gap: .35rem .5rem;
+    }
+
+    /* Colour already tells A from B here; the letter blocks and the
+       keyboard help would only crowd a phone screen. */
+    .replay-player__tag, .replay-help {
+        display: none;
+    }
+
+    .replay-player__life {
+        order: 3;
+        flex-basis: 100%;
+        margin: 0;
+    }
+
+    .replay-player--b .replay-player__life {
+        justify-content: flex-end;
+        margin: 0;
+    }
+
+    .replay-player__move {
+        display: none;
+    }
+
+    .replay-lifebar {
+        --seg: 12px;
+        height: 9px;
+    }
+
+    .replay-team {
+        flex-wrap: wrap;
+        gap: .35rem .5rem;
+    }
+
+    .replay-team__units {
+        flex-basis: 100%;
+        margin: 0;
+    }
+
+    .replay-team--b .replay-team__units {
+        margin: 0;
+        justify-items: end;
+    }
+
+    .replay-team__unit, .replay-unit__move {
+        display: none;
+    }
+
+    .replay-unit {
+        gap: .3rem;
+    }
+
+    .replay-unit .replay-lifebar {
+        --seg: 8px;
+        height: 7px;
+    }
+
+    .replay-stage .replay-unit__icon {
+        width: 12px;
+        height: 12px;
+    }
+
+    /* Chips shrink to bare glyphs (the title still has the turns left),
+       bars slim down and the zone line wraps, so a tank row fits its
+       third of the screen; a fourth effect is clipped, never overlapping. */
+    .replay-stage--v5 .replay-round {
+        max-width: 5.75rem;
+        padding: 0;
+    }
+
+    .replay-stage--v5 .replay-unit .replay-lifebar {
+        --seg: 6px;
+    }
+
+    .replay-stage--v5 .replay-team__units {
+        max-width: 100%;
+    }
+
+    .replay-stage--v5 .replay-unit {
+        min-width: 0;
+    }
+
+    .replay-stage--v5 .replay-unit__fx {
+        flex: 0 1 auto;
+        min-width: 0;
+        gap: 1px;
+        overflow: hidden;
+    }
+
+    .replay-chip {
+        flex: none;
+        height: 11px;
+        padding: 0;
+        background: none;
+        box-shadow: none;
+    }
+
+    .replay-stage .replay-chip .replay-glyph {
+        width: 9px;
+        height: 9px;
+    }
+
+    .replay-chip b {
+        display: none;
+    }
+
+    .replay-round__value {
+        font-size: .875rem;
+    }
+
+    .replay-round__label {
+        display: none;
+    }
+
+    .replay-round__total {
+        display: block;
+        margin: .35rem 0 0;
+    }
+
+    .replay-round__zone {
+        white-space: normal;
+        font-size: .625rem;
+    }
+
+    .replay-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .replay-speed__opt {
+        height: 2.5rem;
+    }
+
+    .replay-help__panel {
+        width: min(17.5rem, calc(100vw - 2rem));
+    }
+
+    .replay-stdio__grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .replay-stage *, .replay-stage *::before, .replay-stage *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
