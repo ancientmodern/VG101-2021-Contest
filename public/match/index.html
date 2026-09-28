@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="layout--basic page--match_list hasjs">
+<html lang="en" class="site layout--basic page--match_list hasjs">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/general.css"/>
-    <title>List all matches - TankWar Lab</title>
+    <link rel="stylesheet" href="/css/site.css"/>
+    <title>Matches - TankWar Lab</title>
 </head>
 <body>
-<nav class="nav">
+<nav class="nav" aria-label="Main">
     <div class="row">
         <div class="column nav__container">
             <ol class="nav__container-item">
@@ -20,7 +22,7 @@
                     <a href="/submission" class="nav__item">Submission</a>
                 </li>
                 <li>
-                    <a href="/match" class="nav__item active">Match</a>
+                    <a href="/match" class="nav__item active" aria-current="page">Match</a>
                 </li>
                 <li>
                     <a href="/rules" class="nav__item">Rules</a>
@@ -35,74 +37,64 @@
     </div>
 </nav>
 <div class="slideout-panel" id="panel">
-    <div class="main">
-        <div class="row">
-            <div class="columns">
-                <!--                <div class="section">-->
-                <!--                    <div class="section__header">-->
-                <!--                        <h1 class="section__title">-->
-                <!--                            <span class="icon icon-warning text-red"></span>-->
-                <!--                            Version 0.0.1-->
-                <!--                        </h1>-->
-                <!--                    </div>-->
-                <!--                    <div class="section__body">-->
-                <!--                        <p>Good morning, and in case I don't see ya: Good afternoon, good evening, and good night!</p>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">Current Matches</h1>
-                        <div class="section__tools">Update at:
-                            <span id="refreshTime"></span>
-                            (refresh per minute)
-                        </div>
-                    </div>
-                    <div class="section__body">
-                        Target Player: <input type="text" id="search_name">
-                    </div>
-                    <div class="section__body">
-                        <input type="checkbox" id="filter"> Only show target player's matches (if it's empty, then the target player is yourself)
-                    </div>
-                    <div class="section__body no-padding">
-                        <div class="section__table-container">
-                            <table class="data-table section__table-header" style="">
-                                <colgroup>
-                                    <col class="col--status match-status--border">
-                                    <col class="col--challenger">
-                                    <col class="col--rating">
-                                    <col class="col--challengee">
-                                    <col class="col--rating">
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th class="col--status match-status--border">Status</th>
-                                    <th class="col--challenger">P1</th>
-                                    <th class="col--rating">Rating</th>
-                                    <th class="col--challengee">P2</th>
-                                    <th class="col--rating">Rating</th>
-                                </tr>
-                                </thead>
-                            </table>
-                            <table class="data-table submissions-table">
-                                <colgroup>
-                                    <col class="col--status match-status--border">
-                                    <col class="col--challenger">
-                                    <col class="col--rating">
-                                    <col class="col--challengee">
-                                    <col class="col--rating">
-                                </colgroup>
-                                <tbody id="datagrid">
-                                </tbody>
-                            </table>
-                        </div>
-                        <ul class="pager">
-
-                        </ul>
-                    </div>
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <header class="tw-head">
+                <div>
+                    <p class="tw-head__eyebrow">Every judged game, newest first</p>
+                    <h1 class="tw-head__title">Matches</h1>
                 </div>
-            </div>
+                <p class="tw-head__meta" aria-live="polite">
+                    <span id="refreshState">Loading&hellip;</span>
+                    <span id="refreshTime"></span>
+                </p>
+            </header>
+
+            <section class="tw-card" aria-labelledby="listTitle">
+                <div class="tw-card__body">
+                    <form class="tw-filter" id="filterForm" role="search" autocomplete="off">
+                        <div class="tw-field">
+                            <label class="tw-label" for="search_name">Player</label>
+                            <input type="text" id="search_name" class="tw-input" list="playerNames"
+                                   placeholder="Display name, or empty for you" spellcheck="false">
+                            <datalist id="playerNames"></datalist>
+                        </div>
+                        <label class="tw-check" for="filter">
+                            <input type="checkbox" id="filter">
+                            <span>Only show this player's matches</span>
+                        </label>
+                        <p class="tw-help tw-filter__note" id="filterNote">Names must match the scoreboard exactly.
+                            With the name left empty, the filter shows your own matches.</p>
+                    </form>
+                </div>
+                <h2 class="tw-sr" id="listTitle">Match results</h2>
+                <div class="tw-table-scroll">
+                    <table class="tw-table tw-matches submissions-table">
+                        <thead>
+                        <tr>
+                            <th class="col-result" scope="col">Result</th>
+                            <th class="col-a" scope="col">Player A</th>
+                            <th class="col-ra tw-num col-rating" scope="col">Rating</th>
+                            <th class="col-b" scope="col">Player B</th>
+                            <th class="col-rb tw-num col-rating" scope="col">Rating</th>
+                            <th class="tw-go" scope="col"><span class="tw-sr">Replay</span></th>
+                        </tr>
+                        </thead>
+                        <tbody id="datagrid">
+                        <tr class="tw-table__msg">
+                            <td colspan="6"><div class="tw-loading">Loading matches</div></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav aria-label="Pages">
+                    <ul class="pager">
+
+                    </ul>
+                </nav>
+            </section>
         </div>
-    </div>
+    </main>
     <div class="footer">
     </div>
 </div>
