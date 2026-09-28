@@ -44,7 +44,7 @@ module.exports = {
 
                 req.session.uid = uid.insertedId;
                 req.session.studentId = studentId;
-                req.realName = studentList[studentId].name;
+                req.session.realName = studentList[studentId].name;
 
                 res.redirect('/');
             } else { // 失败
