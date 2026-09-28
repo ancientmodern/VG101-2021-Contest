@@ -2,9 +2,11 @@
 <html lang="en" class="layout--basic page--round_detail hasjs">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/vendor.css"/>
     <link rel="stylesheet" href="/css/general.css"/>
-    <title>View a match - TankWar Lab</title>
+    <link rel="stylesheet" href="/css/replay.css"/>
+    <title><%= p1 %> vs <%= p2 %> - TankWar Lab</title>
 </head>
 <body>
 <nav class="nav">
@@ -35,163 +37,318 @@
         </div>
     </div>
 </nav>
+<%
+    var resultClass = winner === -1 ? "draw" : "win";
+    var winnerName = winner === 0 ? p1 : p2;
+    var abnormalExit = error && error !== "Normal Exit";
+%>
 <div class="slideout-panel" id="panel">
-    <div class="main">
-        <div class="row">
-            <div class="columns">
-<!--                <div class="section">-->
-<!--                    <div class="section__header">-->
-<!--                        <h1 class="section__title">-->
-<!--                            <span class="icon icon-warning text-red"></span>-->
-<!--                            Version 0.0.1-->
-<!--                        </h1>-->
-<!--                    </div>-->
-<!--                    <div class="section__body">-->
-<!--                        <p>Good morning, and in case I don't see ya: Good afternoon, good evening, and good night!</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">Game between <%= p1 %> and <%= p2 %></h1>
-                    </div>
-                    <div class="section__body">
-                        <ol class="supplementary dot list">
-                            <li><span class="round-status--text win">
-                                    <% if (winner !== -1) { %>
-                                        <span class="icon round-status--icon win"></span>
-                                        Win
-                                        :
-                                        <% if (winner === 0) { %>
-                                            <%= p1 %><% } else { %>
-                                            <%= p2 %><% } %>
-                                        <div class="field-icon field--<%= (winner === 0) ? 'white' : 'black' %>"></div>
-                                </span>
-                            </li>
-                            <li><span class="round-status--text lose">
-              <span class="icon round-status--icon lose"></span>
-              Lose
-              :
-                                    <% if (winner === 1) { %>
-                                        <%= p1 %>
-                                    <% } else { %>
-                                        <%= p2 %>
-                                    <% } %>
-                                    <div class="field-icon field--<%= (winner === 1) ? 'white' : 'black' %>"></div>
-            </span>
-                            </li>
-                        </ol>
-                        <% } else { %>
-                            <ol class="supplementary dot list">
-                                <li><span class="round-status--text draw">
-              <span class="icon round-status--icon draw"></span>
-              Draw
-              :
-                <%= p1 %>
-              <div class="field-icon field--white"></div>
-            </span>
-                                </li>
-                                <li><span class="round-status--text draw">
-              <span class="icon round-status--icon draw"></span>
-              Draw
-              :
-                <%= p2 %>
-              <div class="field-icon field--black"></div>
-            </span>
-                                </li>
-                            </ol>
-                        <% } %>
-                    </div>
-                    <div class="section__body">Exit caused by: <%= error %>
-                    </div>
-                    <div class="section__body" name="step-toolbar" layout="row center-left" style="">
-                        <div>
-                            <button class="button" name="toggle-mode">STDIO</button>
-                        </div>
-                        <div class="separator" control="animation"></div>
-                        <div control="animation">
-                            <button class="button" name="step-pause">Pause</button>
-                        </div>
-                        <div class="separator" control="animation"></div>
-                        <div control="animation">Speed:</div>
-                        <div control="animation"><input type="number" class="textbox" name="step-speed" value="5"></div>
-                        <div control="animation"> Frame / Second</div>
-                        <div control="animation">
-                            <button class="primary button" name="step-go">Apply</button>
-                        </div>
-                    </div>
-<!--                    <div class="section__body">-->
-<!--                        <div control="animation"> Tank A's Life Points: 5 </div>-->
-<!--                        <div control="animation"> Tank B's Life Points: 5 </div>-->
-<!--                    </div>-->
-                    <div class="section__body">
-                        <div class="board-container">
-                        </div>
-                        <div class="row std" style="display: none;">
-                            <div class="columns medium-6" style="width: 50%">
-                                <div class="section visible" id="stdout">
-                                    <div class="section__header">
-                                        <h1 class="section__title">
-                                            <span class="icon submission-status--icon effective"></span>
-                                            <span class="submission-status--text effective">STDOUT A</span>
-                                        </h1>
-                                    </div>
-                                    <div class="section__body">
-                                        <pre class="compiler-text" data="stdout-A">
+    <!-- The stage: the one dark, full-width band on the site, like the lights
+         going down for the match. Everything the viewer needs while watching
+         fits in it without scrolling. -->
+    <main class="replay replay-stage" id="replay" data-winner="<%= winner %>" data-exit="<%= error %>">
+        <div class="replay-stage__inner">
+            <header class="replay-meta">
+                <a href="/match" class="replay-meta__back">&larr; All matches</a>
+                <h1 class="replay-meta__title">
+                    <span class="replay-meta__name replay-meta__name--a"><%= p1 %></span>
+                    <span class="replay-meta__vs">vs</span>
+                    <span class="replay-meta__name replay-meta__name--b"><%= p2 %></span>
+                </h1>
+                <p class="replay-meta__result replay-meta__result--<%= resultClass %>">
+                    <span class="replay-meta__badge"><%= winner === -1 ? "Draw" : "Win" %></span>
+                    <% if (winner !== -1) { %>
+                        <strong class="replay-meta__winner replay-meta__winner--<%= winner === 0 ? 'a' : 'b' %>"><%= winnerName %></strong>
+                    <% } %>
+                    <span class="replay-meta__reason" data-role="end-reason"></span>
+                    <% if (abnormalExit) { %>
+                        <span class="replay-meta__exit">Judge: <%= error %></span>
+                    <% } %>
+                </p>
+            </header>
 
-                                        </pre>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="columns medium-6" style="width: 50%">
-                                <div class="section visible" id="stdout">
-                                    <div class="section__header">
-                                        <h1 class="section__title">
-                                            <span class="icon submission-status--icon effective"></span>
-                                            <span class="submission-status--text effective">STDOUT B</span>
-                                        </h1>
-                                    </div>
-                                    <div class="section__body">
-                                        <pre class="compiler-text" data="stdout-B">
-
-                                        </pre>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row std" style="display: none;">
-                            <div class="columns medium-6" style="width: 50%">
-                                <div class="section visible" id="stdout">
-                                    <div class="section__header">
-                                        <h1 class="section__title">
-                                            <span class="icon submission-status--icon pending"></span>
-                                            <span class="submission-status--text pending">STDERR A</span>
-                                        </h1>
-                                    </div>
-                                    <div class="section__body">
-                                        <pre class="compiler-text" data="stderr-A">
-
-                                        </pre>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="columns medium-6" style="width: 50%">
-                                <div class="section visible" id="stdout">
-                                    <div class="section__header">
-                                        <h1 class="section__title">
-                                            <span class="icon submission-status--icon pending"></span>
-                                            <span class="submission-status--text pending">STDERR B</span>
-                                        </h1>
-                                    </div>
-                                    <div class="section__body">
-                                        <pre class="compiler-text" data="stderr-B">
-
-                                        </pre>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Broadcast-style scoreboard: A on the left, B on the right. -->
+            <div class="replay-hud" data-role="hud">
+                <div class="replay-player replay-player--a" data-player="0">
+                    <span class="replay-player__tag" aria-hidden="true">A</span>
+                    <div class="replay-player__id">
+                        <div class="replay-player__name" title="<%= p1 %>"><%= p1 %></div>
+                        <div class="replay-player__move" data-role="move">&nbsp;</div>
+                    </div>
+                    <div class="replay-player__life">
+                        <span class="replay-lifebar" data-role="lifebar" role="meter"
+                              aria-label="<%= p1 %> life" aria-valuemin="0" aria-valuemax="5"
+                              aria-valuenow="5"></span>
+                        <span class="replay-player__hp" data-role="hp">5</span>
                     </div>
                 </div>
+                <div class="replay-round">
+                    <div class="replay-round__value">
+                        <span class="replay-round__label">R</span><span data-role="round">000</span><span class="replay-round__total">/<span data-role="total">000</span></span>
+                    </div>
+                    <div class="replay-round__zone" data-role="zone">&nbsp;</div>
+                </div>
+                <div class="replay-player replay-player--b" data-player="1">
+                    <div class="replay-player__life">
+                        <span class="replay-player__hp" data-role="hp">5</span>
+                        <span class="replay-lifebar" data-role="lifebar" role="meter"
+                              aria-label="<%= p2 %> life" aria-valuemin="0" aria-valuemax="5"
+                              aria-valuenow="5"></span>
+                    </div>
+                    <div class="replay-player__id">
+                        <div class="replay-player__name" title="<%= p2 %>"><%= p2 %></div>
+                        <div class="replay-player__move" data-role="move">&nbsp;</div>
+                    </div>
+                    <span class="replay-player__tag" aria-hidden="true">B</span>
+                </div>
+            </div>
+
+            <!-- 2v2 (v4, v5) scoreboard: swapped in by matchDisp.js for v4 and v5
+                 records. Each side is a team with its two tanks; in v5 each tank
+                 row ends with chips for its shield, buffs and jam. -->
+            <template id="replay-hud-v4">
+                <div class="replay-team replay-team--a" data-team="0">
+                    <span class="replay-player__tag" aria-hidden="true">A</span>
+                    <div class="replay-team__id">
+                        <div class="replay-player__name" data-role="team-name"></div>
+                        <div class="replay-team__total">
+                            <span class="replay-team__life"><span data-role="team-life"></span><span class="replay-team__max" data-role="team-max"></span></span>
+                            <span class="replay-team__unit">team life</span>
+                        </div>
+                    </div>
+                    <div class="replay-team__units">
+                    <div class="replay-unit">
+                        <svg class="replay-unit__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-icon-heavy"/></svg>
+                        <span class="replay-unit__label" data-role="unit-label"></span>
+                        <span class="replay-lifebar" data-role="lifebar" role="meter" aria-valuemin="0"></span>
+                        <span class="replay-unit__hp" data-role="hp"></span>
+                        <span class="replay-unit__move"><span data-role="move"></span><span class="replay-unit__move-name" data-role="move-name"></span></span>
+                        <span class="replay-unit__fx" data-role="fx"></span>
+                    </div>
+                    <div class="replay-unit">
+                        <svg class="replay-unit__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-icon-heavy"/></svg>
+                        <span class="replay-unit__label" data-role="unit-label"></span>
+                        <span class="replay-lifebar" data-role="lifebar" role="meter" aria-valuemin="0"></span>
+                        <span class="replay-unit__hp" data-role="hp"></span>
+                        <span class="replay-unit__move"><span data-role="move"></span><span class="replay-unit__move-name" data-role="move-name"></span></span>
+                        <span class="replay-unit__fx" data-role="fx"></span>
+                    </div>
+                    </div>
+                </div>
+                <div class="replay-round">
+                    <div class="replay-round__value">
+                        <span class="replay-round__label">R</span><span data-role="round">000</span><span class="replay-round__total">/<span data-role="total">000</span></span>
+                    </div>
+                    <div class="replay-round__zone" data-role="zone">&nbsp;</div>
+                </div>
+                <div class="replay-team replay-team--b" data-team="1">
+                    <span class="replay-player__tag" aria-hidden="true">B</span>
+                    <div class="replay-team__id">
+                        <div class="replay-player__name" data-role="team-name"></div>
+                        <div class="replay-team__total">
+                            <span class="replay-team__life"><span data-role="team-life"></span><span class="replay-team__max" data-role="team-max"></span></span>
+                            <span class="replay-team__unit">team life</span>
+                        </div>
+                    </div>
+                    <div class="replay-team__units">
+                    <div class="replay-unit">
+                        <svg class="replay-unit__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-icon-heavy"/></svg>
+                        <span class="replay-unit__label" data-role="unit-label"></span>
+                        <span class="replay-lifebar" data-role="lifebar" role="meter" aria-valuemin="0"></span>
+                        <span class="replay-unit__hp" data-role="hp"></span>
+                        <span class="replay-unit__move"><span data-role="move"></span><span class="replay-unit__move-name" data-role="move-name"></span></span>
+                        <span class="replay-unit__fx" data-role="fx"></span>
+                    </div>
+                    <div class="replay-unit">
+                        <svg class="replay-unit__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-icon-heavy"/></svg>
+                        <span class="replay-unit__label" data-role="unit-label"></span>
+                        <span class="replay-lifebar" data-role="lifebar" role="meter" aria-valuemin="0"></span>
+                        <span class="replay-unit__hp" data-role="hp"></span>
+                        <span class="replay-unit__move"><span data-role="move"></span><span class="replay-unit__move-name" data-role="move-name"></span></span>
+                        <span class="replay-unit__fx" data-role="fx"></span>
+                    </div>
+                    </div>
+                </div>
+            </template>
+            <svg class="replay-symbols" aria-hidden="true" focusable="false">
+                <!-- Tank silhouettes facing right; same shapes as on the board. -->
+                <symbol id="rp-icon-heavy" viewBox="0 0 16 16">
+                    <rect x="1" y="1" width="12.5" height="3.5" rx=".6" opacity=".5"/>
+                    <rect x="1" y="11.5" width="12.5" height="3.5" rx=".6" opacity=".5"/>
+                    <rect x="2" y="3.5" width="10.5" height="9" rx=".6"/>
+                    <rect x="9" y="6.3" width="6.5" height="3.4"/>
+                </symbol>
+                <symbol id="rp-icon-striker" viewBox="0 0 16 16">
+                    <path d="M12 8L1.5 2.5 4 8l-2.5 5.5z"/>
+                    <rect x="6" y="7.3" width="9.5" height="1.4"/>
+                </symbol>
+                <!-- v5 item glyphs (one even-odd path each). The board canvas
+                     reads these same paths, so every item looks identical on
+                     the board, in the scoreboard, the feed and the legend. -->
+                <symbol id="rp-item-heal" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M6 2.5h4v3.5h3.5v4H10v3.5H6V10H2.5V6H6z"/>
+                </symbol>
+                <symbol id="rp-item-shield" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.5l5.5 2.2v4c0 3.4-2.3 5.9-5.5 6.8-3.2-.9-5.5-3.4-5.5-6.8v-4zM8 3.7L4.5 5.1v2.6c0 2.2 1.4 4 3.5 4.8z"/>
+                </symbol>
+                <symbol id="rp-item-wide" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7 1.5h2v7H7zM7.6 8.3L4.4 2.7 2.6 3.7l3.3 5.6zM8.4 8.3l3.2-5.6 1.8 1-3.3 5.6zM8 9.8a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4z"/>
+                </symbol>
+                <symbol id="rp-item-rapid" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M9.8 1L3.5 9.2h3.9L6.2 15l6.3-8.3H8.6z"/>
+                </symbol>
+                <symbol id="rp-item-bounce" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1.6 2.6l1.8-1L8 9.4l4.6-7.8 1.8 1L8.9 12H7.1zM1.5 13.3h13v1.9h-13z"/>
+                </symbol>
+                <symbol id="rp-item-speed" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1.5 3h3.2l5 5-5 5H1.5l5-5zM7.3 3h3.2l5 5-5 5H7.3l5-5z"/>
+                </symbol>
+                <symbol id="rp-item-jam" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zM5.6 4.19A4.5 4.5 0 0 1 11.81 10.4zM10.4 11.81A4.5 4.5 0 0 1 4.19 5.6z"/>
+                </symbol>
+            </svg>
+
+            <div class="replay-board" data-role="board">
+                <canvas class="replay-board__canvas" data-role="canvas" role="img"
+                        aria-label="Match board"></canvas>
+                <div class="replay-board__overlay" data-role="overlay" hidden>
+                    <div class="replay-board__overlay-title" data-role="overlay-title"></div>
+                    <div class="replay-board__overlay-text" data-role="overlay-text"></div>
+                </div>
+                <p class="replay-board__status" data-role="status">Loading replay&hellip;</p>
+            </div>
+
+            <section class="replay-log" aria-labelledby="replay-log-title">
+                <h2 class="replay-log__title" id="replay-log-title">Match feed</h2>
+                <div class="replay-log__scroll" data-role="log-scroll">
+                    <ol class="replay-log__list" data-role="log" aria-live="off"></ol>
+                </div>
+            </section>
+
+            <div class="replay-controls" data-role="controls">
+                <div class="replay-transport" role="group" aria-label="Playback">
+                    <button type="button" class="replay-btn" data-action="start"
+                            aria-label="Go to start" title="Start (Home)">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h2v12H3zM14 2v12L6 8z"/></svg>
+                    </button>
+                    <button type="button" class="replay-btn" data-action="prev"
+                            aria-label="Previous round" title="Previous round (&larr;)">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11 2v12L3 8zM12 2h2v12h-2z"/></svg>
+                    </button>
+                    <button type="button" class="replay-btn replay-btn--play" data-action="play"
+                            aria-label="Play" title="Play / pause (Space)">
+                        <svg class="replay-icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>
+                        <svg class="replay-icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h4v12H3zM9 2h4v12H9z"/></svg>
+                    </button>
+                    <button type="button" class="replay-btn" data-action="next"
+                            aria-label="Next round" title="Next round (&rarr;)">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2v12l8-6zM2 2h2v12H2z"/></svg>
+                    </button>
+                    <button type="button" class="replay-btn" data-action="end"
+                            aria-label="Go to end" title="End (End)">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2v12l8-6zM11 2h2v12h-2z"/></svg>
+                    </button>
+                </div>
+
+                <!-- Timeline: A's life above the centre line, B's below. -->
+                <div class="replay-tape" data-role="tape">
+                    <canvas class="replay-tape__canvas" data-role="tape-canvas" aria-hidden="true"></canvas>
+                    <input type="range" class="replay-tape__range" data-role="scrubber"
+                           min="0" max="0" step="1" value="0" aria-label="Round">
+                </div>
+
+                <div class="replay-speed" role="group" aria-label="Playback speed">
+                    <button type="button" class="replay-speed__opt" data-speed="0.5" aria-pressed="false">&frac12;&times;</button>
+                    <button type="button" class="replay-speed__opt" data-speed="1" aria-pressed="true">1&times;</button>
+                    <button type="button" class="replay-speed__opt" data-speed="2" aria-pressed="false">2&times;</button>
+                </div>
+
+                <details class="replay-help">
+                    <summary class="replay-btn replay-help__toggle" aria-label="Keyboard shortcuts and legend"
+                             title="Shortcuts and legend">?</summary>
+                    <div class="replay-help__panel">
+                        <h2 class="replay-help__title">Keyboard</h2>
+                        <dl class="replay-help__keys">
+                            <dt><kbd>Space</kbd></dt><dd>Play / pause</dd>
+                            <dt><kbd>&larr;</kbd><kbd>&rarr;</kbd></dt><dd>Step one round</dd>
+                            <dt><kbd>Shift</kbd> <kbd>&larr;</kbd><kbd>&rarr;</kbd></dt><dd>Step 10 rounds</dd>
+                            <dt><kbd>Home</kbd><kbd>End</kbd></dt><dd>First / last round</dd>
+                            <dt><kbd>[</kbd><kbd>]</kbd></dt><dd>Slower / faster</dd>
+                        </dl>
+                        <div class="replay-help__v4">
+                            <h2 class="replay-help__title">Tanks</h2>
+                            <dl class="replay-help__tanks">
+                                <dt><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-icon-heavy"/></svg>Heavy</dt>
+                                <dd>6 life · fires every 3rd round · shell flies 2 cells</dd>
+                                <dt><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-icon-striker"/></svg>Striker</dt>
+                                <dd>4 life · fires every 2nd round · shell flies 3 cells</dd>
+                            </dl>
+                        </div>
+                        <h2 class="replay-help__title">Timeline</h2>
+                        <ul class="replay-help__marks">
+                            <li><i class="replay-mark replay-mark--hit"></i>Hit, on the victim's side</li>
+                            <li class="replay-help__nov5"><i class="replay-mark replay-mark--crash"></i>Collision</li>
+                            <li class="replay-help__v5"><i class="replay-mark replay-mark--pickup"></i>Item picked up, on the team&rsquo;s side</li>
+                            <li><i class="replay-mark replay-mark--kill"></i>Tank destroyed, on its team&rsquo;s side</li>
+                            <li><i class="replay-mark replay-mark--zone"></i>Safe zone closes</li>
+                            <li><i class="replay-mark replay-mark--danger"></i>Outside the zone: &minus;1 life per round</li>
+                            <li class="replay-help__v5"><i class="replay-mark replay-mark--next"></i>Where the zone closes next</li>
+                        </ul>
+                        <!-- v5 items; numbers are filled in from this match's rules. -->
+                        <div class="replay-help__v5">
+                            <h2 class="replay-help__title">Items</h2>
+                            <dl class="replay-help__items">
+                                <div data-item="heal"><dt><svg class="replay-glyph replay-item--heal" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-item-heal"/></svg>Heal</dt>
+                                    <dd>+<b data-rule="healAmount">2</b> life, up to full</dd></div>
+                                <div data-item="shield"><dt><svg class="replay-glyph replay-item--shield" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-item-shield"/></svg>Shield</dt>
+                                    <dd>Blocks the next shell (not the zone)</dd></div>
+                                <div data-item="wide"><dt><svg class="replay-glyph replay-item--wide" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-item-wide"/></svg>Wide shot</dt>
+                                    <dd>3 shells side by side &middot; <b data-rule="buffTurns">8</b> turns</dd></div>
+                                <div data-item="rapid"><dt><svg class="replay-glyph replay-item--rapid" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-item-rapid"/></svg>Rapid fire</dt>
+                                    <dd>Reloads 1 turn faster &middot; <b data-rule="buffTurns">8</b> turns</dd></div>
+                                <div data-item="bounce"><dt><svg class="replay-glyph replay-item--bounce" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-item-bounce"/></svg>Bounce</dt>
+                                    <dd>Shells ricochet once off walls and the edge &middot; <b data-rule="buffTurns">8</b> turns</dd></div>
+                                <div data-item="speed"><dt><svg class="replay-glyph replay-item--speed" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-item-speed"/></svg>Speed</dt>
+                                    <dd>Drives 2 cells per move &middot; <b data-rule="buffTurns">8</b> turns</dd></div>
+                                <div data-item="jam"><dt><svg class="replay-glyph replay-item--jam" viewBox="0 0 16 16" aria-hidden="true"><use href="#rp-item-jam"/></svg>Jam</dt>
+                                    <dd>Enemy tanks can&rsquo;t fire &middot; <b data-rule="jamTurns">4</b> turns</dd></div>
+                            </dl>
+                            <p class="replay-help__note">One drops every <b data-rule="itemEvery">8</b> rounds from round <b data-rule="itemStart">8</b>, at most <b data-rule="itemMax">3</b> on the board. Around a tank: coloured arcs are its buffs, a violet bubble its shield, a grey gun with static means jammed.</p>
+                            <p class="replay-help__note" data-role="push-note" hidden>Push back: a tank whose move is blocked is pushed one cell backwards instead of standing still.</p>
+                        </div>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </main>
+
+    <div class="main replay-after">
+        <div class="row">
+            <div class="columns">
+                <details class="section replay-stdio">
+                    <summary class="section__header replay-stdio__summary">
+                        <span class="section__title">Program output</span>
+                        <span class="replay-stdio__hint">One move per line on stdout: 0 straight, 1 left, 2 right</span>
+                    </summary>
+                    <div class="section__body replay-stdio__grid">
+                        <section class="replay-stream replay-stream--a">
+                            <h2 class="replay-stream__title"><%= p1 %> &middot; stdout</h2>
+                            <pre class="replay-stream__body replay-stream__body--lines" data-stream="stdout-A"></pre>
+                        </section>
+                        <section class="replay-stream replay-stream--b">
+                            <h2 class="replay-stream__title"><%= p2 %> &middot; stdout</h2>
+                            <pre class="replay-stream__body replay-stream__body--lines" data-stream="stdout-B"></pre>
+                        </section>
+                        <section class="replay-stream replay-stream--a">
+                            <h2 class="replay-stream__title"><%= p1 %> &middot; stderr</h2>
+                            <pre class="replay-stream__body" data-stream="stderr-A"></pre>
+                        </section>
+                        <section class="replay-stream replay-stream--b">
+                            <h2 class="replay-stream__title"><%= p2 %> &middot; stderr</h2>
+                            <pre class="replay-stream__body" data-stream="stderr-B"></pre>
+                        </section>
+                    </div>
+                </details>
             </div>
         </div>
     </div>
@@ -199,8 +356,6 @@
     </div>
 </div>
 <script src="/js/jsUtils/jsUtils.js"></script>
-<script>
-    require("/js/matchDisp");
-</script>
+<script src="/js/matchDisp.js"></script>
 </body>
 </html>

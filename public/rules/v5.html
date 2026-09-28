@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" class="site page--rules">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <link rel="stylesheet" href="/css/site.css"/>
+    <title>Tank War v5 rules - TankWar Lab</title>
+    <style>
+        .v5 h2 { margin: 2rem 0 .75rem; font-size: 1.15rem; color: #343a40; }
+        .v5 h2:first-child { margin-top: 0; }
+        .v5 p, .v5 li { line-height: 1.65; color: #495057; }
+        .v5 ol, .v5 ul { padding-left: 1.3rem; }
+        .v5 code, .v5 pre { font-family: monaco, "Source Code Pro", Consolas, monospace; font-size: .82rem; }
+        .v5 code { background: #f4f5f7; padding: .05rem .3rem; border-radius: 3px; }
+        .v5 pre { background: #151a25; color: #d6dce8; padding: .9rem 1rem; border-radius: 6px; overflow-x: auto; line-height: 1.55; }
+        .v5-lede { font-size: 1rem; }
+        .v5-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .75rem; }
+        .v5-tank { display: flex; gap: .8rem; align-items: flex-start; padding: .9rem 1rem; border: 1px solid #e9ecef; border-radius: 6px; }
+        .v5-tank svg { width: 2.2rem; height: 2.2rem; flex: none; }
+        .v5-tank strong { display: block; color: #343a40; }
+        .v5-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+        .v5-table th, .v5-table td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid #eef0f2; vertical-align: top; }
+        .v5-table th { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: #8a939b; font-weight: 600; }
+        .v5-item { display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 6px; background: #0f131c; }
+        .v5-item svg { width: 1.2rem; height: 1.2rem; fill: currentColor; }
+        .v5-map { display: inline-block; background: #151a25; color: #aeb7c7; padding: .8rem 1rem; border-radius: 6px; line-height: 1.25; }
+        .v5-map b { color: #ff5fa2; font-weight: 400; } .v5-map i { color: #3cc8ea; font-style: normal; }
+        .v5-note { border-left: 3px solid #c9a26c; background: rgba(201, 162, 108, .1); padding: .6rem .9rem; border-radius: 0 6px 6px 0; }
+        @media (max-width: 600px) { .v5-table { font-size: .82rem; } .v5-table th:nth-child(3), .v5-table td:nth-child(3) { display: none; } }
+    </style>
+</head>
+<body>
+<svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <symbol id="heavy" viewBox="0 0 16 16"><rect x="1" y="1" width="12.5" height="3.5" rx=".6" opacity=".5"/><rect x="1" y="11.5" width="12.5" height="3.5" rx=".6" opacity=".5"/><rect x="2" y="3.5" width="10.5" height="9" rx=".6"/><rect x="9" y="6.3" width="6.5" height="3.4"/></symbol>
+    <symbol id="striker" viewBox="0 0 16 16"><path d="M12 8L1.5 2.5 4 8l-2.5 5.5z"/><rect x="6" y="7.3" width="9.5" height="1.4"/></symbol>
+    <symbol id="i-heal" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 2.5h4v3.5h3.5v4H10v3.5H6V10H2.5V6H6z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.5l5.5 2.2v4c0 3.4-2.3 5.9-5.5 6.8-3.2-.9-5.5-3.4-5.5-6.8v-4zM8 3.7L4.5 5.1v2.6c0 2.2 1.4 4 3.5 4.8z"/></symbol>
+    <symbol id="i-wide" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M7 1.5h2v7H7zM7.6 8.3L4.4 2.7 2.6 3.7l3.3 5.6zM8.4 8.3l3.2-5.6 1.8 1-3.3 5.6zM8 9.8a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4z"/></symbol>
+    <symbol id="i-rapid" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M9.8 1L3.5 9.2h3.9L6.2 15l6.3-8.3H8.6z"/></symbol>
+    <symbol id="i-bounce" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.6 2.6l1.8-1L8 9.4l4.6-7.8 1.8 1L8.9 12H7.1zM1.5 13.3h13v1.9h-13z"/></symbol>
+    <symbol id="i-speed" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 3h3.2l5 5-5 5H1.5l5-5zM7.3 3h3.2l5 5-5 5H7.3l5-5z"/></symbol>
+    <symbol id="i-jam" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zM5.6 4.19A4.5 4.5 0 0 1 11.81 10.4zM10.4 11.81A4.5 4.5 0 0 1 4.19 5.6z"/></symbol>
+</svg>
+<nav class="nav" aria-label="Main">
+    <div class="row">
+        <div class="column nav__container">
+            <ol class="nav__container-item">
+                <li><a href="/" class="nav__logo">TankWarJudge</a></li>
+                <li><a href="/" class="nav__item">Scoreboard</a></li>
+                <li><a href="/submission" class="nav__item">Submission</a></li>
+                <li><a href="/match" class="nav__item">Match</a></li>
+                <li><a href="/rules" class="nav__item active" aria-current="page">Rules</a></li>
+            </ol>
+            <ol class="nav__container-item">
+                <li id="signin"><a href="/oauth" class="nav__item">Login</a></li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<div class="slideout-panel" id="panel">
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <header class="tw-head">
+                <div>
+                    <p class="tw-head__eyebrow">Tank War v5 &middot; 2 vs 2 with items</p>
+                    <h1 class="tw-head__title">Rules</h1>
+                </div>
+                <p class="tw-head__meta"><a class="tw-link" href="/rules">2021 Lab 7 handbook</a></p>
+            </header>
+            <article class="tw-card v5">
+                <h2>The game</h2>
+                <p class="v5-lede">Two teams of two tanks fight on a 20&times;20 grid with a few walls. Both teams move
+                    at the same time, every turn. Items drop onto the map at random, and the safe zone closes in on a
+                    random spot every 16 turns. Destroy both enemy tanks to win.</p>
+                <p>Each turn, each of your tanks chooses one move: <code>0</code> straight, <code>1</code> turn
+                    left, or <code>2</code> turn right. Turning also moves the tank one cell in its new direction.
+                    Guns fire automatically, straight ahead, whenever they are ready.</p>
+
+                <h2>Tanks</h2>
+                <div class="v5-grid">
+                    <div class="v5-tank" style="color: #e0508f">
+                        <svg aria-hidden="true"><use href="#heavy"/></svg>
+                        <div><strong>Heavy</strong>6 life &middot; fires every 3 turns &middot; bullets move 2
+                            cells a turn &middot; 2 damage</div>
+                    </div>
+                    <div class="v5-tank" style="color: #1b9cbd">
+                        <svg aria-hidden="true"><use href="#striker"/></svg>
+                        <div><strong>Striker</strong>4 life &middot; fires every 2 turns &middot; bullets move 3
+                            cells a turn &middot; 2 damage</div>
+                    </div>
+                </div>
+                <p>Each team has one of each. A bullet hits the first enemy tank on any cell it passes this turn,
+                    then disappears; bullets pass through your own tanks (no friendly fire) and stop at walls.</p>
+
+                <h2>Map and movement</h2>
+                <pre class="v5-map" aria-label="Map">....................
+....................
+....................
+....................
+.....#...##.........
+.....#.......##.....
+....................
+..<b>A</b>..............<i>B</i>..
+....................
+.....#........#.....
+.....#........#.....
+....................
+..<b>A</b>..............<i>B</i>..
+....................
+.....##.......#.....
+.........##...#.....
+....................
+....................
+....................
+....................</pre>
+                <p>The map is point-symmetric; team A starts on the left, team B on the right. Walls stop tanks and
+                    bullets. <strong>Tanks block each other, and nobody stands still:</strong> a tank can't move into a wall, into a
+                    cell another tank occupies at the start of the turn, or into a cell another tank is also
+                    entering. A blocked tank is <em>pushed one cell back</em> instead (it still turns); it only stays
+                    put if the cell behind it is blocked too. The map edge is not a wall: you can drive off it, but that cell is
+                    outside the safe zone.</p>
+
+                <h2>Items</h2>
+                <p>From turn 8, one item drops every 8 turns on a random empty cell inside the safe zone (at most 3
+                    on the map). Drive onto it to take it. Timed effects last 8 turns and can stack with each other.</p>
+                <table class="v5-table">
+                    <thead><tr><th></th><th>Item</th><th>Effect</th></tr></thead>
+                    <tbody>
+                    <tr><td><span class="v5-item" style="color: #5ee08a"><svg aria-hidden="true"><use href="#i-heal"/></svg></span></td><td>Heal</td><td>+2 life, up to the tank's maximum.</td></tr>
+                    <tr><td><span class="v5-item" style="color: #b596ff"><svg aria-hidden="true"><use href="#i-shield"/></svg></span></td><td>Shield</td><td>Absorbs the next bullet that hits this tank.</td></tr>
+                    <tr><td><span class="v5-item" style="color: #ff8f45"><svg aria-hidden="true"><use href="#i-wide"/></svg></span></td><td>Wide shot</td><td>Each shot fires three parallel bullets (8 turns).</td></tr>
+                    <tr><td><span class="v5-item" style="color: #ffe14d"><svg aria-hidden="true"><use href="#i-rapid"/></svg></span></td><td>Rapid fire</td><td>Cooldown after firing is one turn shorter (8 turns).</td></tr>
+                    <tr><td><span class="v5-item" style="color: #a8e34f"><svg aria-hidden="true"><use href="#i-bounce"/></svg></span></td><td>Bounce</td><td>Bullets turn back once at a wall or the map edge (8 turns).</td></tr>
+                    <tr><td><span class="v5-item" style="color: #6f8dff"><svg aria-hidden="true"><use href="#i-speed"/></svg></span></td><td>Speed</td><td>Moves go 2 cells, with the usual blocking rules (8 turns).</td></tr>
+                    <tr><td><span class="v5-item" style="color: #8a939b"><svg aria-hidden="true"><use href="#i-jam"/></svg></span></td><td>Jam</td><td>Both enemy tanks can't fire for 4 turns.</td></tr>
+                    </tbody>
+                </table>
+
+                <h2>Safe zone</h2>
+                <p>The safe zone starts as the whole map. Every 16 turns it shrinks by one cell on each side, to a
+                    new square that lies somewhere inside the old one. The next zone is announced as soon as the
+                    previous shrink happens, so you can get there in time. Every turn a tank ends outside the zone
+                    costs it 1 life (shields don't help). After turn 160 there is no safe zone left.</p>
+
+                <h2>Winning</h2>
+                <p>A team loses when both its tanks are destroyed; if both teams lose their last tank on the same
+                    turn, it's a draw. If the game reaches the end of the zone, the result is decided by, in
+                    order: more tanks alive, more total life, more bullet damage dealt. Matches are played in pairs
+                    with the same random seed and sides swapped, so both players face the same luck.</p>
+
+                <h2>One turn, in order</h2>
+                <ol>
+                    <li>All tanks turn and move; blocked tanks are pushed one cell back.</li>
+                    <li>Tanks standing on an item take it.</li>
+                    <li>Ready, unjammed tanks fire.</li>
+                    <li>The turn counter advances; the zone may shrink.</li>
+                    <li>Bullets fly and hit (shields absorb).</li>
+                    <li>Tanks outside the zone lose 1 life.</li>
+                    <li>Tanks at 0 life are destroyed.</li>
+                    <li>Items outside the zone vanish; a new item may drop.</li>
+                    <li>Timed effects count down.</li>
+                </ol>
+
+                <h2>Program input and output</h2>
+                <p>Your program talks to the judge over standard input and output. Everything is given from your
+                    point of view: your two tanks first, then the opponent's.</p>
+                <pre>RULES roundLimit=200 itemStart=8 itemEvery=8 ... zoneMode=1 item_heal=1 ...
+&lt;W&gt;                          number of walls, then W lines: x y
+x y direction type           4 lines: my tank 0, my tank 1, enemy tank 0, enemy tank 1
+ZONE x0 y0 size nx0 ny0 nsize
+
+each turn:
+  print   m0 m1              your two moves (0 straight, 1 left, 2 right)
+  read    o0 o1              the opponent's moves
+  read    k, then k lines    items dropped this turn: x y type (0 heal ... 6 jam)
+  read    ZONE ...           the current and next safe zone</pre>
+                <p class="v5-note">Everything except item drops and the next zone is deterministic, so your program
+                    can simulate the whole game exactly. Read the parameters from the <code>RULES</code> line instead
+                    of hard-coding them. You have 1 second per move.</p>
+            </article>
+        </div>
+    </main>
+    <div class="footer"></div>
+</div>
+<script src="/js/jsUtils/jsUtils.js"></script>
+<script>
+    require(["jquery", "/js/checkLogin"], function ($, check) {
+        check().then(function (result) {
+            if (result) $("#signin").children().text(result).attr("href", "/profile");
+        });
+    });
+</script>
+</body>
+</html>

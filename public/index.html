@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="page--scoreboard">
+<html lang="en" class="site page--scoreboard">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/general.css"/>
-    <title>VG101 2021FA Lab7 - Tank War (Beta)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/general.css"/>
+    <link rel="stylesheet" href="/css/site.css"/>
+    <title>Scoreboard - TankWar Lab</title>
 </head>
 <body>
-<nav class="nav">
+<nav class="nav" aria-label="Main">
     <div class="row">
         <div class="column nav__container">
             <ol class="nav__container-item">
@@ -14,7 +16,7 @@
                     <a href="/" class="nav__logo">TankWarJudge</a>
                 </li>
                 <li>
-                    <a href="/" class="nav__item active">Scoreboard</a>
+                    <a href="/" class="nav__item active" aria-current="page">Scoreboard</a>
                 </li>
                 <li>
                     <a href="/submission" class="nav__item">Submission</a>
@@ -35,68 +37,50 @@
     </div>
 </nav>
 <div class="slideout-panel" id="panel">
-    <div class="main">
-        <div class="row">
-            <div class="columns">
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">
-                            <span class="icon icon-warning text-red"></span>
-                            Version 0.0.1
-                        </h1>
-                    </div>
-                    <div class="section__body">
-                        <p>Good morning, and in case I don't see ya: Good afternoon, good evening, and good night!</p>
-                    </div>
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <header class="tw-head">
+                <div>
+                    <p class="tw-head__eyebrow">VG101 2021 Fall &middot; Lab 7 Tank War &middot; v0.0.1</p>
+                    <h1 class="tw-head__title">Scoreboard</h1>
+                    <p class="tw-quote">Good morning, and in case I don't see ya: good afternoon, good evening, and good night!</p>
                 </div>
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">Current Scoreboard</h1>
-                        <div class="section__tools">Update at:
-                            <span id="refreshTime"></span>
-                            (refresh per minute)
-                        </div>
-                    </div>
-                    <div class="section__body no-padding">
-                        <div class="section__table-container">
-                            <table class="data-table section__table-header">
-                                <colgroup>
-                                    <col class="col--rank">
-                                    <col class="col--user">
-                                    <col class="col--score">
-                                    <col class="col--wins">
-                                    <col class="col--loses">
-                                    <col class="col--draws">
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th class="col--rank">Rank</th>
-                                    <th class="col--user">User</th>
-                                    <th class="col--score">Rating</th>
-                                    <th class="col--wins">Win</th>
-                                    <th class="col--loses">Lose</th>
-                                    <th class="col--draws">Draw</th>
-                                </tr>
-                                </thead>
-                            </table>
-                            <table class="data-table">
-                                <colgroup>
-                                    <col class="col--rank">
-                                    <col class="col--user">
-                                    <col class="col--score">
-                                    <col class="col--wins">
-                                    <col class="col--loses">
-                                    <col class="col--draws">
-                                </colgroup>
-                                <tbody id="datagrid">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <p class="tw-head__meta" aria-live="polite">
+                    <span id="refreshState">Loading&hellip;</span>
+                    <span id="refreshTime"></span>
+                </p>
+            </header>
+
+            <ol class="tw-podium" id="podium" aria-label="Top three"></ol>
+
+            <section class="tw-card" aria-labelledby="boardTitle">
+                <div class="tw-card__head">
+                    <h2 class="tw-card__title" id="boardTitle">All players</h2>
+                    <span class="tw-card__hint">Rating starts at 2000. Click a name to see that player's matches.</span>
                 </div>
-            </div>
+                <div class="tw-table-scroll">
+                    <table class="tw-table tw-board">
+                        <thead>
+                        <tr>
+                            <th class="col-rank" scope="col">Rank</th>
+                            <th class="col-user" scope="col">Player</th>
+                            <th class="col-rating tw-num" scope="col">Rating</th>
+                            <th class="col-wld tw-num" scope="col"><abbr title="Wins">W</abbr></th>
+                            <th class="col-wld tw-num" scope="col"><abbr title="Losses">L</abbr></th>
+                            <th class="col-wld tw-num" scope="col"><abbr title="Draws">D</abbr></th>
+                            <th class="col-bar" scope="col"><span class="tw-sr">Record</span></th>
+                        </tr>
+                        </thead>
+                        <tbody id="datagrid">
+                        <tr class="tw-table__msg">
+                            <td colspan="7"><div class="tw-loading">Loading the scoreboard</div></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </div>
-    </div>
+    </main>
     <div class="footer">
     </div>
 </div>

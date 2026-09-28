@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="page--login">
+<html lang="en" class="site page--login">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/general.css"/>
-    <title>Student Login - TankWar Lab</title>
+    <link rel="stylesheet" href="/css/site.css"/>
+    <title>Sign in - TankWar Lab</title>
 </head>
 <body>
-<nav class="nav">
+<nav class="nav" aria-label="Main">
     <div class="row">
         <div class="column nav__container">
             <ol class="nav__container-item">
@@ -26,63 +28,51 @@
                     <a href="/rules" class="nav__item">Rules</a>
                 </li>
             </ol>
+            <ol class="nav__container-item">
+                <li>
+                    <a href="/oauth" class="nav__item active" aria-current="page">Login</a>
+                </li>
+            </ol>
         </div>
     </div>
 </nav>
 <div class="slideout-panel" id="panel">
-    <div class="main">
-        <div class="row">
-            <div class="columns">
-                <div class="section">
-                    <div class="section__header">
-                        <h1 class="section__title">
-                            <span class="icon icon-warning text-red"></span>
-                            Student Login
-                        </h1>
-                    </div>
-                    <div class="section__body">
-                        <% if (fail) {%>
-                        <div class="typo">
-                            <blockquote class="error">
-                                Login Failure.
-                            </blockquote>
+    <main class="tw-main">
+        <div class="tw-wrap">
+            <section class="tw-card tw-auth" aria-labelledby="authTitle">
+                <div class="tw-card__body">
+                    <span class="tw-auth__mark" aria-hidden="true">PLAYER LOGIN</span>
+                    <h1 class="tw-auth__title" id="authTitle">Sign in</h1>
+                    <p class="tw-auth__lede">Use your student ID. Signing in for the first time creates your account,
+                        and the password you enter becomes its password.</p>
+                    <% if (fail) { %>
+                        <p class="tw-alert tw-alert--error" role="alert">
+                            <strong>Wrong password for this login ID.</strong> Try again, or reset it below.
+                        </p>
+                    <% } else if (nouser) { %>
+                        <p class="tw-alert tw-alert--error" role="alert">
+                            <strong>This login ID isn't on the course list.</strong> Check the ID, or ask a TA to add you.
+                        </p>
+                    <% } %>
+                    <form method="post" action="/oauth" class="tw-form">
+                        <div class="tw-field">
+                            <label class="tw-label" for="studentId">Login ID</label>
+                            <input type="text" id="studentId" name="studentId" class="tw-input" required=""
+                                   autocomplete="username" autocapitalize="off" spellcheck="false" autofocus>
                         </div>
-                        <% } else if (nouser) {%>
-                        <div class="typo">
-                            <blockquote class="success">
-                                User doesn't exist.
-                            </blockquote>
+                        <div class="tw-field">
+                            <label class="tw-label" for="password">Password</label>
+                            <input type="password" id="password" name="password" class="tw-input" required=""
+                                   autocomplete="current-password">
                         </div>
-                        <% } %>
-                        <form method="post" action="/oauth">
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Login ID</label>
-                                    <input type="text" name="studentId" class="textbox" required="">
-                                    <p class="help-text">When you log in for the first time, we will automatically
-                                        create an account for you. For Jigang's students, directly use your student ID
-                                        and you will be logged in.</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <label>Password</label>
-                                    <input type="password" name="password" class="textbox" required="">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="medium-5 columns">
-                                    <input type="hidden" name="_csrf" value="<%= CSRF %>">
-                                    <button class="primary rounded button" type="submit">Sign In</button>
-                                    <p><a href="/forgetPassword">Forget Password</a></p>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                        <input type="hidden" name="_csrf" value="<%= CSRF %>">
+                        <button class="tw-btn tw-btn--block" type="submit">Sign in</button>
+                    </form>
+                    <p class="tw-auth__foot">Forgot your password? <a class="tw-link" href="/forgetPassword">Reset it</a></p>
                 </div>
-            </div>
+            </section>
         </div>
-    </div>
+    </main>
     <div class="footer">
     </div>
 </div>

@@ -75,15 +75,18 @@ module.exports = {
         let filterCondition = {};
         if (req.query.hasOwnProperty("filter")) {
             if (parseInt(req.query.filter) !== 1) {
-                let user = (await db.collection("user").find({dispName: req.query.filter}).toArray())[0]._id;
-                filterCondition = {$or: [{p1: user}, {p2: user}]};
+                // An unknown name matches nothing (it used to throw and take the server down).
+                let user = (await db.collection("user").find({dispName: req.query.filter}).toArray())[0];
+                let uid = user ? user._id : null;
+                filterCondition = {$or: [{p1: uid}, {p2: uid}]};
             } else if (req.session.uid) {
                 filterCondition = {$or: [{p1: ObjectID(req.session.uid)}, {p2: ObjectID(req.session.uid)}]};
             }
         }
 
         let count = await db.collection("match").find(filterCondition).count();
-        let record = await db.collection("match").find(filterCondition).sort([["_id", -1]]).skip(config.display.pager * (page - 1)).limit(config.display.pager).toArray();
+        // The list never shows replays; skip the (large) record and program output.
+        let record = await db.collection("match").find(filterCondition).project({record: 0, A: 0, B: 0}).sort([["_id", -1]]).skip(config.display.pager * (page - 1)).limit(config.display.pager).toArray();
 
         for (let i = 0; i < record.length; i++) {
             record[i].p1 = (await db.collection("user").find({_id: record[i].p1}).toArray())[0];
@@ -126,7 +129,12 @@ module.exports = {
         let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
         let db = client.db(config.db.db);
 
-        let rec = (await db.collection("match").find({_id: id}).toArray())[0];
+        let rec = (await db.collection("match").find({_id: id}).project({record: 0, A: 0, B: 0}).toArray())[0];
+        if (!rec) {
+            await client.close();
+            res.status(404).render("404");
+            return;
+        }
 
         let p1 = (await db.collection("user").find({_id: rec.p1}).toArray())[0];
         let p2 = (await db.collection("user").find({_id: rec.p2}).toArray())[0];
@@ -146,7 +154,7 @@ module.exports = {
         try {
             id = ObjectID(id);
         } catch (e) {
-            res.status(404);
+            res.status(404).end();
             return;
         }
 
@@ -154,6 +162,11 @@ module.exports = {
         let db = client.db(config.db.db);
 
         let rec = (await db.collection("match").find({_id: id}).toArray())[0];
+        if (!rec) {
+            await client.close();
+            res.status(404).end();
+            return;
+        }
         let p1 = (await db.collection("user").find({_id: rec.p1}).toArray())[0];
         let p2 = (await db.collection("user").find({_id: rec.p2}).toArray())[0];
 
