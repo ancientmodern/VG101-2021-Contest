@@ -85,7 +85,8 @@ module.exports = {
         }
 
         let count = await db.collection("match").find(filterCondition).count();
-        let record = await db.collection("match").find(filterCondition).sort([["_id", -1]]).skip(config.display.pager * (page - 1)).limit(config.display.pager).toArray();
+        // The list never shows replays; skip the (large) record and program output.
+        let record = await db.collection("match").find(filterCondition).project({record: 0, A: 0, B: 0}).sort([["_id", -1]]).skip(config.display.pager * (page - 1)).limit(config.display.pager).toArray();
 
         for (let i = 0; i < record.length; i++) {
             record[i].p1 = (await db.collection("user").find({_id: record[i].p1}).toArray())[0];
@@ -128,7 +129,7 @@ module.exports = {
         let client = await MongoClient.connect(mongoPath, {useUnifiedTopology: true});
         let db = client.db(config.db.db);
 
-        let rec = (await db.collection("match").find({_id: id}).toArray())[0];
+        let rec = (await db.collection("match").find({_id: id}).project({record: 0, A: 0, B: 0}).toArray())[0];
         if (!rec) {
             await client.close();
             res.status(404).render("404");
